@@ -55,7 +55,7 @@ log.setLevel(logging.DEBUG)
 #
 #    client = ModbusClient('localhost', retries=3, retry_on_empty=True)
 #---------------------------------------------------------------------------# 
-client = ModbusClient('localhost', port=502)
+client = ModbusClient('localhost', port=5020)
 #client = ModbusClient(method='ascii', port='/dev/pts/2', timeout=1)
 # client = ModbusClient(method='rtu', port='/dev/ttyp0', timeout=1)
 client.connect()
@@ -68,7 +68,9 @@ client.connect()
 # which defaults to `0x00`
 #---------------------------------------------------------------------------#
 log.debug("Reading Coils")
-rr = client.read_coils(1, 1, unit=0x01)
+#rr = client.read_coils(1, 1, unit=0x01)
+rr= client.read_holding_registers(1,1,unit= 1)
+
 
 #---------------------------------------------------------------------------# 
 # example requests
@@ -82,18 +84,18 @@ rr = client.read_coils(1, 1, unit=0x01)
 # Keep both of these cases in mind when testing as the following will
 # _only_ pass with the supplied async modbus server (script supplied).
 #---------------------------------------------------------------------------#
-log.debug("Write to a Coil and read back")
-rq = client.write_coil(0, True, unit=1)
-rr = client.read_coils(0, 1, unit=1)
-assert(rq.function_code < 0x80)     # test that we are not an error
-assert(rr.bits[0] == True)          # test the expected value
+# log.debug("Write to a Coil and read back")
+# rq = client.write_coil(0, True, unit=1)
+# rr = client.read_coils(0, 1, unit=1)
+# assert(rq.function_code < 0x80)     # test that we are not an error
+# assert(rr.bits[0] == True)          # test the expected value
 
-log.debug("Write to multiple coils and read back- test 1")
-rq = client.write_coils(1, [True]*8, unit=1)
-assert(rq.function_code < 0x80)     # test that we are not an error
-rr = client.read_coils(1, 21, unit=1)
-assert(rr.function_code < 0x80)     # test that we are not an error
-resp = [True]*21
+# log.debug("Write to multiple coils and read back- test 1")
+# rq = client.write_coils(1, [True]*8, unit=1)
+# assert(rq.function_code < 0x80)     # test that we are not an error
+# rr = client.read_coils(1, 21, unit=1)
+# assert(rr.function_code < 0x80)     # test that we are not an error
+# resp = [True]*21
 
 # If the returned output quantity is not a multiple of eight,
 # the remaining bits in the final data byte will be padded with zeros

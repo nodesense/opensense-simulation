@@ -6,4 +6,9 @@ export class RequestFrame  {
     data: Buffer;
     byteCount: number;
     crc: number;
+
+    //tcp
+    transactionIdentifier: number;
+    protocolIdentifier: number;
+    tcpFrameLength: number;
   };

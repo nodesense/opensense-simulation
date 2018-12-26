@@ -14,6 +14,12 @@ export class ResponseFrame {
 
     dataLength = 0;
 
+
+    //tcp
+    transactionIdentifier: number;
+    protocolIdentifier: number;
+    tcpFrameLength: number;
+
     writeInt8(value: number) {
         this.data.writeUInt8(value, this.dataLength);
         this.dataLength += 1;
@@ -128,7 +134,94 @@ export class ResponseFrame {
     
         console.log(">>", writeBuffer);
         return writeBuffer;
+    }
 
 
+    // generate a buffer with modbus response bytes
+    buildTCP() {
+        const response: Buffer = Buffer.alloc(255);
+
+          
+    response.writeUInt16BE(this.transactionIdentifier, 0)
+    response.writeUInt16BE(this.protocolIdentifier,2)
+    // Wrong here
+    response.writeUInt16BE(this.tcpFrameLength,4)
+
+        response.writeUInt8(this.id, 6);
+        response.writeUInt8(this.func, 7);
+
+        let responseLength = 8;  // device id + func code (2 bytes)
+
+        console.log('data length is ', this.dataLength);
+        if (this.func === FunctionCode.READ_COILS) {
+            response.writeUInt8(this.byteCount,8)
+            //response.writeUInt8(this.dataLength, 2);
+            responseLength += 1; // byte count 1 byte
+            this.data.copy(response, 9,0,this.byteCount);
+            responseLength+=this.byteCount;
+        }
+        if (this.func === FunctionCode.READ_DISCRETE_INPUTS) {
+            response.writeUInt8(this.byteCount,8)
+            //response.writeUInt8(this.dataLength, 2);
+            responseLength += 1; // byte count 1 byte
+            this.data.copy(response, 9,0,this.byteCount);
+            responseLength+=this.byteCount;
+        }
+        if (this.func === FunctionCode.READ_HOLDING_REGISTERS) {
+            response.writeUInt8(this.byteCount, 8)
+            //response.writeUInt8(this.dataLength, 2);
+            responseLength += 1; // byte count 1 byte
+            this.data.copy(response, 9,0,this.byteCount);
+            responseLength+=this.byteCount;
+        }
+        if (this.func === FunctionCode.READ_INPUT_REGISTERS) {
+            response.writeUInt8(this.byteCount,8)
+            //response.writeUInt8(this.dataLength, 2);
+            responseLength += 1; // byte count 1 byte
+            this.data.copy(response, 9,0,this.byteCount);
+            responseLength+=this.byteCount;
+        }
+        if (this.func === FunctionCode.WRITE_SINGLE_COIL) {
+            //response.writeUInt8(this.byteCount,2)
+            response.writeUInt16LE(this.address,8)
+            responseLength += 2; // byte count 1 byte
+            //this.data.copy(response, 3,0,1);
+            response.writeUInt16LE(this.val,10);
+            responseLength+=2;
+        }
+        if (this.func === FunctionCode.WRITE_SINGLE_REGISTER) {
+            //response.writeUInt8(this.byteCount,2)
+            response.writeUInt16LE(this.address, 8)
+            responseLength += 2; // byte count 1 byte
+            //this.data.copy(response, 3,0,1);
+            response.writeUInt16BE(this.val, 10);
+            responseLength+=2;
+        }
+        if (this.func === FunctionCode.WRITE_MULTIPLE_COILS) {
+            //response.writeUInt8(this.byteCount,2)
+            response.writeUInt16LE(this.address, 8)
+            responseLength += 2; // byte count 1 byte
+            //this.data.copy(response, 3,0,1);
+            response.writeUInt16LE(this.quantity, 10);
+            responseLength+=2;
+        }
+        if (this.func === FunctionCode.WRITE_MULTIPLE_REGISTERS) {
+            //response.writeUInt8(this.byteCount,2)
+            response.writeUInt16BE(this.address,8)
+            responseLength += 2; // byte count 1 byte
+            //this.data.copy(response, 3,0,1);
+            response.writeUInt16BE(this.quantity,10);
+            responseLength+=2;
+        }
+
+ 
+        response.writeUInt16BE(responseLength - 6, 4)
+
+        const writeBuffer = Buffer.alloc(responseLength)
+
+        response.copy(writeBuffer, 0, 0, responseLength);
+    
+        console.log(">>", writeBuffer);
+        return writeBuffer;
     }
 }
