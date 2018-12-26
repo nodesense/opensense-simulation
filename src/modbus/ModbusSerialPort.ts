@@ -212,12 +212,12 @@ export class ModbusSerialPort {
     }
     
 
-    const writeBuffer = device.processRequest(this.requestFrame);
-    if (writeBuffer) {
+    const responseFrame = device.processRequest(this.requestFrame);
+    if (responseFrame) {
+      const writeBuffer = responseFrame.build();
       this.write(writeBuffer)
     }
  }
-
 
     write(buffer: Buffer) {
       this.serialPort.write(buffer);

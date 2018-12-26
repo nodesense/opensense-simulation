@@ -263,9 +263,11 @@ export class ModbusTCP {
         return;
     }
     
-    const writeBuffer = device.processRequest(this.requestFrame);
-    if (writeBuffer) {
-      this.write(writeBuffer)
+    const  responseFrame = device.processRequest(this.requestFrame);
+
+    if (responseFrame) {
+      const writeBuffer = responseFrame.buildTCP();
+      this.write(writeBuffer);
     }
  }
 

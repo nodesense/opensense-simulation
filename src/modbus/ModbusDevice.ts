@@ -162,13 +162,14 @@ export class ModbusDevice {
     }
 
 
-    processRequest(requestFrame: RequestFrame) {
+    processRequest(requestFrame: RequestFrame): ResponseFrame {
 
         console.log("Modbus Device ", requestFrame);
 
         //FIXME: for TCP and Serial
         this.responseFrame.transactionIdentifier = requestFrame.transactionIdentifier;
         this.responseFrame.protocolIdentifier = requestFrame.protocolIdentifier;
+        this.responseFrame.dataLength = 0;
 
         this.responseFrame.id = requestFrame.id;
         this.responseFrame.func = requestFrame.func;
@@ -206,9 +207,10 @@ export class ModbusDevice {
         }
     
         // FIXME: for Serial/TCP
-        const writeBuffer = this.responseFrame.buildTCP();
-        this.responseFrame.dataLength = 0;
+        // const writeBuffer = this.responseFrame.buildTCP();
         
-        return writeBuffer;
+        // return writeBuffer;
+
+        return this.responseFrame;
     }
 }
