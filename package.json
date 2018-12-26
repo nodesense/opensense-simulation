@@ -54,6 +54,10 @@
   },
   "dependencies": {
     "crc": "^3.8.0",
+    "hex-to-binary": "^1.0.1",
+    "json": "^9.0.6",
+    "jsonfile": "^5.0.0",
+    "serial": "0.0.9",
     "serialport": "^7.1.1",
     "sha.js": "^2.4.11"
   },

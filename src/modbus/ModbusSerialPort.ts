@@ -210,6 +210,7 @@ export class ModbusSerialPort {
         console.log(`slave ${this.requestFrame.id} not found`);
         return;
     }
+    
 
     const writeBuffer = device.processRequest(this.requestFrame);
     if (writeBuffer) {

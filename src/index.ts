@@ -4,7 +4,7 @@ import { ModbusSerialPort } from './modbus/ModbusSerialPort';
 // export * from './lib/hash';
 // export * from './lib/number';
 
-const PORT = "/dev/ttys005";
+const PORT = "COM1";
 const options = {
     baudRate:9600,
     databits: 8,
