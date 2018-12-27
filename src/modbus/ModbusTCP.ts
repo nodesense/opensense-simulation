@@ -30,10 +30,14 @@ export class ModbusTCP {
         //socket.pipe(socket);
 
 
-        this.socket.on('open', () => {});
+        this.socket.on('open', () => {
+          console.log('client connected')
+        });
         this.socket.on('data', (data: any) => {});
         this.socket.on('readable', (err: any) => this.readable());
-        this.socket.on('close', (err: any) => {});
+        this.socket.on('close', (err: any) => {
+          console.log('Client disconnected')
+        });
       });
 
       this.server.listen(5020, '127.0.0.1');
@@ -250,7 +254,8 @@ export class ModbusTCP {
   }
 
   processRequest() {
-     
+    this.requestState = RequestState.TCP_TRANSACTION_ID;
+    
     if (this.requestFrame.id < 1 || this.requestFrame.id > 247) {
         console.log('error, slave id out of bound');
         return;
