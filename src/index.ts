@@ -1,9 +1,15 @@
 import { ModbusTempDevice } from './modbus/ModbusTempDevice';
 import { ModbusSerialPort } from './modbus/ModbusSerialPort';
 import {ModbusTCP} from './modbus/ModbusTcp';
+import { System } from './modbus/System';
+
+let system =new System();
+system.load('src/modbus/data/site.json');
+
+
 
 function serial() {
-    const PORT = "/dev/ttys005";
+    const PORT = "COM2";
     const options = {
         baudRate:9600,
         databits: 8,
@@ -13,7 +19,7 @@ function serial() {
         };
     
     const serialPort = new ModbusSerialPort(PORT, options);
-    const tempDevice2 = new ModbusTempDevice();
+    const tempDevice2 = new ModbusTempDevice(1);
     
     tempDevice2.init();
     
@@ -27,12 +33,6 @@ function tcp() {
 const server = new ModbusTCP("", {});
 server.connect();
 
-const tempDevice1 = new ModbusTempDevice();
-
-tempDevice1.init();
-
-server.addDevice(tempDevice1);
 }
-
 serial()
 tcp();

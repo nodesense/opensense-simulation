@@ -14,7 +14,7 @@ log.setLevel(logging.DEBUG)
 #unit= the slave unit this request is targeting
 #address= the starting address to read from
 
-PORT= "/dev/ttys006"
+PORT= "COM1"
 
 client= ModbusClient(method = "rtu", port=PORT, 
                                      stopbits = 1, 

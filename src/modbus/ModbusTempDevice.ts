@@ -4,10 +4,13 @@ import { AccessType } from './AccessType';
 import { LocationType } from './LocationType';
 import { DataType } from './DataType';
 import {default as data} from './profile'
+import { ModbusTCP } from './ModbusTcp';
 
 export class ModbusTempDevice extends ModbusDevice {
-    constructor() {
+
+    constructor(x:number) {
         super();
+        this.id=x;
     }
 
     init() {  /*

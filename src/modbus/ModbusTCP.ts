@@ -2,6 +2,7 @@ import { ModbusDevice } from './ModbusDevice';
 import { RequestState } from './RequestState';
 import { RequestFrame } from './RequestFrame';
 import {FunctionCode} from './FunctionCode';
+import { ModbusTempDevice } from './ModbusTempDevice';
 var net = require('net');
 
 export class ModbusTCP {

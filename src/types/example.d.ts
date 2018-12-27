@@ -32,7 +32,7 @@ declare module 'sha.js' {
     // tslint:enable:no-method-signature
   }
 }
-declare module "*.json" {
-  const value: any;
+declare module "*.json"
+{ const value: any;
   export default value;
 }

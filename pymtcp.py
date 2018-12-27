@@ -19,7 +19,7 @@ the guard construct that is available in python 2.5 and up::
 from pymodbus.client.sync import ModbusTcpClient as ModbusClient
 #from pymodbus.client.sync import ModbusUdpClient as ModbusClient
 # from pymodbus.client.sync import ModbusSerialClient as ModbusClient
-
+import time
 #---------------------------------------------------------------------------# 
 # configure the client logging
 #---------------------------------------------------------------------------# 
@@ -60,6 +60,25 @@ client = ModbusClient('localhost', port=5020)
 # client = ModbusClient(method='rtu', port='/dev/ttyp0', timeout=1)
 client.connect()
 
+t1 = time.perf_counter()
+for x in range(0, 1):
+    #print ("sending..")
+    #time.sleep(1)
+    result= client.read_holding_registers(1,1,unit= 4)
+    #print(result)
+    #result= client.read_coils(1,1 ,unit=5)
+    #result=client.read_discrete_inputs(1,3,unit=1)
+    #result=client.read_input_registers(3,2,unit=1)
+    #result=client.write_coil(1,1,unit=1)
+    #result=client.write_register(1,10,unit=1)
+    #result=client.write_coils(1, [1,0,1], unit= 0x01)
+    #result=client.write_registers(1, [1,2,3], unit= 0x01)
+
+t2 = time.perf_counter()
+
+print('Time %f' % (t2 - t1))
+
+
 #---------------------------------------------------------------------------# 
 # specify slave to query
 #---------------------------------------------------------------------------# 
@@ -67,9 +86,9 @@ client.connect()
 # individual request. This can be done by specifying the `unit` parameter
 # which defaults to `0x00`
 #---------------------------------------------------------------------------#
-log.debug("Reading Coils")
+# log.debug("Reading Coils")
 #rr = client.read_coils(1, 1, unit=0x01)
-rr= client.read_holding_registers(1,1,unit= 1)
+#rr= client.read_holding_registers(1,1,unit= 1)
 
 
 #---------------------------------------------------------------------------# 
