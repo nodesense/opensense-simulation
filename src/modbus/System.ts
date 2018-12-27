@@ -1,5 +1,6 @@
 import { ModbusTempDevice } from "./ModbusTempDevice";
 import { ModbusTCP } from "./ModbusTcp";
+import { ModbusSerialPort } from "./ModbusSerialPort";
 
 const json=require('jsonfile')
 
@@ -15,11 +16,14 @@ export class System {
         }
     }
 
-    createSlaveDevice(slaveid) {
-        return new ModbusTempDevice(slaveid);
+    createSlaveDevice(slave) {
+        const {slave_id} = slave;
+        const device =  new ModbusTempDevice(slave_id);
+        device.init();
+        return device;
     }
 
-    processSerial(serialConfig) {
+    processSerial2(serialConfig) {
         let simulationId=serialConfig.id;
         let simulatonName=serialConfig.name;
         let typeOf=serialConfig.type_of;
@@ -43,24 +47,47 @@ export class System {
     }
 
 
-    processTCP(tcpConfig) {
-        let simulationId=tcpConfig.id;
-        let simulatonName=tcpConfig.name;
-        let typeOf=tcpConfig.type_of;
-        let holdData=tcpConfig.data;
-        let ipaddress=holdData.ip_address;
-        let port=holdData.port;
-        let totalSlaves=holdData.slaves.length;
-        for(let i=0;i<totalSlaves;i++){
-            let device=this.createSlaveDevice(holdData.slaves[i].slave_id);
-            device.init();
+    processSerial(config) {
+        const {port, options, slaves } = config.data;
+         
+
+         const serialPort = new ModbusSerialPort(port, options);
+
+        for(const slave of slaves){
+            let device=this.createSlaveDevice(slave)
+            console.log(`Serial Device${device.id} created`);
+            serialPort.addDevice(device);
+        } 
+
+        serialPort.connect();
+    }
+
+    createModbusTcp(config) {
+        const {ip_address, port } = config.data;
+
+        const modbusTcp = new ModbusTCP(ip_address, port);
+        return modbusTcp;
+    }
+
+    processTCP(config) {
+        const {ip_address, port, slaves } = config.data;
+
+        const modbusTcpServer = this.createModbusTcp(config);
+        
+        for(const slave of slaves){
+            let device=this.createSlaveDevice(slave);
+            modbusTcpServer.addDevice(device);
             console.log(`Device ${device.id} created`);
         }
+
+
+        //fIXME: think, where to start
+        modbusTcpServer.connect();
 
         // load serial port, all the devices specific to serial port
     }
 
-    process() {
+    process2() {
         // for (let conf in this.siteConfig) {
         //     if (config.typeof == 'modbus-tru'')
         //         this.processSerial(config)
@@ -89,6 +116,23 @@ export class System {
         
         }
 
+    }
+
+
+    process() {
+        for(let config of this.siteConfig.simulation){
+            //FIXME: add strong types
+            
+            if(config.type_of=="modbus-tcp"){
+                console.log('priocessing ', config);
+                this.processTCP(config);        
+            }
+
+            if(config.type_of=="modbus-rtu"){
+                console.log('priocessing ', config);
+                this.processSerial(config);        
+            }
+        }
     }
 }
 

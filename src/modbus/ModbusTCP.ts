@@ -18,8 +18,8 @@ export class ModbusTCP {
     // map of slave id to modbus device object
     deviceMap: {[key: number]: ModbusDevice} = {};
     
-    constructor(public port:string,
-                public options: any, ) {
+    constructor(public ip_address: string = '0.0.0.0', 
+                public port: number = 502) {
         this.socket = null;
     }
 
@@ -41,7 +41,7 @@ export class ModbusTCP {
         });
       });
 
-      this.server.listen(5020, '127.0.0.1');
+      this.server.listen(this.port, this.ip_address);
 
     }
 

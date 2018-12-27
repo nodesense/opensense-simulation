@@ -8,31 +8,31 @@ system.load('src/modbus/data/site.json');
 
 
 
-function serial() {
-    const PORT = "COM2";
-    const options = {
-        baudRate:9600,
-        databits: 8,
-        parity: 'none',
-        stopBits: 1,
-        flowControl: false
-        };
+// function serial() {
+//     const PORT = "COM2";
+//     const options = {
+//         baudRate:9600,
+//         databits: 8,
+//         parity: 'none',
+//         stopBits: 1,
+//         flowControl: false
+//         };
     
-    const serialPort = new ModbusSerialPort(PORT, options);
-    const tempDevice2 = new ModbusTempDevice(1);
+//     const serialPort = new ModbusSerialPort(PORT, options);
+//     const tempDevice2 = new ModbusTempDevice(1);
     
-    tempDevice2.init();
+//     tempDevice2.init();
     
-    serialPort.addDevice(tempDevice2);
+//     serialPort.addDevice(tempDevice2);
     
-    serialPort.connect();
+//     serialPort.connect();
     
-}
+// }
 
-function tcp() {
-const server = new ModbusTCP("", {});
-server.connect();
+// function tcp() {
+// const server = new ModbusTCP("", {});
+// server.connect();
 
-}
-serial()
-tcp();
+// }
+// serial()
+// tcp();
