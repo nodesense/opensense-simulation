@@ -16,21 +16,59 @@
             "stopBits": 1,
             "flowControl": false
          },
-          "port": "/dev/ttys005",
+          "port": "COM1",
           "slaves": [
              {
                "slave_id": 1,
                "vendor_id": 12,
                "device_id": 12323,
                "profile_id": 123,
-               "type_of": "slave"
+               "type_of": "InverterDevice",
+               "configPath":"src/modbus/devices_profiles/InverterDevice.json"
              },
              {
                 "slave_id": 2,
                 "vendor_id": 12,
                 "device_id": 12323,
                 "profile_id": 123,
-                "type_of": "slave"
+                "type_of": "InverterDevice",
+               "configPath":"src/modbus/devices_profiles/InverterDevice.json"
+
+              }
+          ]
+        }
+      },
+      {
+        "id": 1235,
+        "name": "serial-port-1",
+        "type_of": "modbus-rtu",
+        "data": {
+          "options": {
+            "baudRate":9600,
+            "databits": 8,
+            "parity": "none",
+            "stopBits": 1,
+            "flowControl": false
+         },
+          "port": "COM3",
+          "slaves": [
+             {
+               "slave_id": 3,
+               "vendor_id": 12,
+               "device_id": 12323,
+               "profile_id": 123,
+               "type_of": "InverterDevice",
+               "configPath":"src/modbus/devices_profiles/InverterDevice.json"
+
+             },
+             {
+                "slave_id": 4,
+                "vendor_id": 12,
+                "device_id": 12323,
+                "profile_id": 123,
+                "type_of": "InverterDevice",
+               "configPath":"src/modbus/devices_profiles/InverterDevice.json"
+
               }
           ]
         }
@@ -49,21 +87,25 @@
              "stopBits": 1,
              "flowControl": false
           },
-          "port": "/dev/ttys016",
+          "port": "COM6",
           "slaves": [
             {
-              "slave_id": 10,
+              "slave_id": 5,
               "vendor_id": 12,
               "device_id": 12323,
               "profile_id": 123,
-              "type_of": "slave"
+              "type_of": "InverterDevice",
+              "configPath":"src/modbus/devices_profiles/InverterDevice.json"
+
             },
             {
-               "slave_id": 20,
+               "slave_id": 6,
                "vendor_id": 12,
                "device_id": 12323,
                "profile_id": 123,
-               "type_of": "slave"
+               "type_of": "InverterDevice",
+               "configPath":"src/modbus/devices_profiles/InverterDevice.json"
+
              }
          ]
         }
@@ -82,28 +124,36 @@
                "vendor_id": 12,
                "device_id": 12323,
                "profile_id": 123,
-               "type_of": "slave"
+               "type_of": "InverterDevice",
+               "configPath":"src/modbus/devices_profiles/InverterDevice.json"
+
              },
              {
                 "slave_id": 2,
                 "vendor_id": 12,
                 "device_id": 12323,
                 "profile_id": 123,
-                "type_of": "slave"
+                "type_of": "InverterDevice",
+               "configPath":"src/modbus/devices_profiles/InverterDevice.json"
+
               },
               {
                 "slave_id": 3,
                 "vendor_id": 12,
                 "device_id": 12323,
                 "profile_id": 123,
-                "type_of": "slave"
+                "type_of": "InverterDevice",
+               "configPath":"src/modbus/devices_profiles/InverterDevice.json"
+
               },
               {
                  "slave_id": 4,
                  "vendor_id": 12,
                  "device_id": 12323,
                  "profile_id": 123,
-                 "type_of": "slave"
+                 "type_of": "InverterDevice",
+               "configPath":"src/modbus/devices_profiles/InverterDevice.json"
+
                }
 
           ]
@@ -122,28 +172,36 @@
                "vendor_id": 12,
                "device_id": 12323,
                "profile_id": 123,
-               "type_of": "slave"
+               "type_of": "InverterDevice",
+               "configPath":"src/modbus/devices_profiles/InverterDevice.json"
+
              },
              {
                 "slave_id": 2,
                 "vendor_id": 12,
                 "device_id": 12323,
                 "profile_id": 123,
-                "type_of": "slave"
+                "type_of": "InverterDevice",
+               "configPath":"src/modbus/devices_profiles/InverterDevice.json"
+
               },
               {
                 "slave_id": 3,
                 "vendor_id": 12,
                 "device_id": 12323,
                 "profile_id": 123,
-                "type_of": "slave"
+                "type_of": "InverterDevice",
+                "configPath":"src/modbus/devices_profiles/InverterDevice.json"
+ 
               },
               {
                  "slave_id": 4,
                  "vendor_id": 12,
                  "device_id": 12323,
                  "profile_id": 123,
-                 "type_of": "slave"
+                 "type_of": "InverterDevice",
+               "configPath":"src/modbus/devices_profiles/InverterDevice.json"
+
                }
 
           ]

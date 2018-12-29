@@ -21,7 +21,6 @@ export class ModbusSerialPort {
 
     connect() {
         this.serialPort = new SerialPort(this.port, this.options);
-
         this.serialPort.on('open', () => {});
         this.serialPort.on('data', (data: any) => {});
         this.serialPort.on('readable', (err: any) => this.readable());
@@ -39,23 +38,19 @@ export class ModbusSerialPort {
 
 
     readBytes(bytes: number) {
-        
         return this.serialPort.read(bytes)
-    
     }
 
     
     readInt8() {
         let valBuf = this.readBytes(1);
-        
         let value = valBuf[0];
         //console.log("value is ", value);
         return value;
       }
     
       readInt16() {
-        let valBuf = this.readBytes(2);
-        
+        let valBuf = this.readBytes(2);        
         let value = valBuf[0] << 8 | valBuf[1];
        // console.log("value is ", value);
         return value;
@@ -214,7 +209,7 @@ export class ModbusSerialPort {
 
     const responseFrame = device.processRequest(this.requestFrame);
     if (responseFrame) {
-      const writeBuffer = responseFrame.build();
+      const writeBuffer = !responseFrame.error? responseFrame.build(): responseFrame.buildError();
       this.write(writeBuffer)
     }
  }

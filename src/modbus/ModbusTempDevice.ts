@@ -105,7 +105,7 @@ export class ModbusTempDevice extends ModbusDevice {
         const boxTemp = new DataItem();
         boxTemp.name = "BoxTemp";
         boxTemp.dataType=DataType.INT16;
-        boxTemp.address = 3;
+        boxTemp.address = 2;
         boxTemp.quantity = 1;
         boxTemp.value = 50;
         boxTemp.accessType = AccessType.READWRITE;
@@ -114,7 +114,7 @@ export class ModbusTempDevice extends ModbusDevice {
         const airTemp = new DataItem();
         airTemp.name = "AirTemp";
         airTemp.dataType=DataType.INT16;
-        airTemp.address = 5;
+        airTemp.address = 3;
         airTemp.quantity = 1;
         airTemp.value = 60;
         airTemp.accessType = AccessType.READWRITE;
@@ -123,30 +123,51 @@ export class ModbusTempDevice extends ModbusDevice {
 
         const ambientTemp1 = new DataItem();
         ambientTemp1.name = "ambientTemp1";
-        ambientTemp1.dataType=DataType.INT16;
-        ambientTemp1.address = 7;
-        ambientTemp1.quantity = 1;
-        ambientTemp1.value = 70;
+        ambientTemp1.dataType=DataType.FLOAT;
+        ambientTemp1.address = 4;
+        ambientTemp1.quantity = 2;
+        ambientTemp1.value = 34645.66;
         ambientTemp1.accessType = AccessType.READWRITE;
         ambientTemp1.locationType = LocationType.HOLDING_REGISTER;
 
         const BoxTemp1 = new DataItem();
         BoxTemp1.name = "BoxTemp1";
         BoxTemp1.dataType=DataType.INT16;
-        BoxTemp1.address = 9;
+        BoxTemp1.address = 6;
         BoxTemp1.quantity = 1;
-        BoxTemp1.value = 80;
+        BoxTemp1.value = 8999;
         BoxTemp1.accessType = AccessType.READWRITE;
         BoxTemp1.locationType = LocationType.HOLDING_REGISTER;
 
         const airTemp1 = new DataItem();
         airTemp1.name = "airTemp1";
-        airTemp1.dataType=DataType.INT16;
-        airTemp1.address = 11;
-        airTemp1.quantity = 1;
-        airTemp1.value = 90;
+        airTemp1.dataType=DataType.INT32;
+        airTemp1.address = 7;
+        airTemp1.quantity = 2;
+        airTemp1.value = 100000;
         airTemp1.accessType = AccessType.READWRITE;
         airTemp1.locationType = LocationType.HOLDING_REGISTER;
+
+
+        
+        const serialNumber = new DataItem();
+        serialNumber.name = "serialNumber";
+        serialNumber.dataType=DataType.STRING;
+        serialNumber.address = 9;
+        serialNumber.quantity = 4;
+        serialNumber.value = "Hello123";
+        serialNumber.accessType = AccessType.READWRITE;
+        serialNumber.locationType = LocationType.HOLDING_REGISTER;
+
+
+        const serialNumber2 = new DataItem();
+        serialNumber2.name = "serialNumber2";
+        serialNumber2.dataType=DataType.STRING;
+        serialNumber2.address = 13;
+        serialNumber2.quantity = 4;
+        serialNumber2.value = "ItsWorld";
+        serialNumber2.accessType = AccessType.READWRITE;
+        serialNumber2.locationType = LocationType.HOLDING_REGISTER;
 
         const Temp1 = new DataItem();
         Temp1.name = "Temp1";
@@ -161,7 +182,7 @@ export class ModbusTempDevice extends ModbusDevice {
        const Temp2 = new DataItem();
        Temp2.name = "Temp2";
        Temp2.dataType=DataType.INT16;
-       Temp2.address = 3;
+       Temp2.address = 2;
        Temp2.quantity = 1;
        Temp2.value = 20;
        Temp2.accessType = AccessType.READWRITE;
@@ -171,7 +192,7 @@ export class ModbusTempDevice extends ModbusDevice {
       const Temp3 = new DataItem();
       Temp3.name = "Temp3";
       Temp3.dataType=DataType.INT16;
-      Temp3.address = 5;
+      Temp3.address = 3;
       Temp3.quantity = 1;
       Temp3.value = 30;
       Temp3.accessType = AccessType.READWRITE;
@@ -190,6 +211,8 @@ export class ModbusTempDevice extends ModbusDevice {
         this.dataItemMap[ambientTemp1.name] = ambientTemp1;
         this.dataItemMap[BoxTemp1.name] = BoxTemp1;
         this.dataItemMap[airTemp1.name]=airTemp1;
+        this.dataItemMap[serialNumber.name]=serialNumber;
+        this.dataItemMap[serialNumber2.name]=serialNumber2;
         this.dataItemMap[Temp1.name]=Temp1;
         this.dataItemMap[Temp2.name]=Temp2;
         this.dataItemMap[Temp3.name]=Temp3;
@@ -206,6 +229,8 @@ export class ModbusTempDevice extends ModbusDevice {
         this.holdingRegistersMap[ambientTemp1.address] =ambientTemp1;
         this.holdingRegistersMap[BoxTemp1.address] = BoxTemp1;
         this.holdingRegistersMap[airTemp1.address]=airTemp1;
+        this.holdingRegistersMap[serialNumber.address]=serialNumber;
+        this.holdingRegistersMap[serialNumber2.address]=serialNumber2;
         this.inputRegistersMap[Temp1.address]=Temp1;
         this.inputRegistersMap[Temp2.address]=Temp2;
         this.inputRegistersMap[Temp3.address]=Temp3;

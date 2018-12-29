@@ -1,6 +1,7 @@
 import { ModbusTempDevice } from "./ModbusTempDevice";
 import { ModbusTCP } from "./ModbusTcp";
 import { ModbusSerialPort } from "./ModbusSerialPort";
+import { InverterDevice } from "./InverterDevice";
 
 const json=require('jsonfile')
 
@@ -8,6 +9,11 @@ export class System {
      siteConfig;
     load(filepath:string) {
         try {
+            // console.log("...............................................")
+            // let y=new InverterDevice(1);
+            // y.loadfile();
+            // y.init()
+            // //console.log(y.inverterProfile)
             this.siteConfig=json.readFileSync(filepath);
             this.process();
         }
@@ -16,9 +22,9 @@ export class System {
         }
     }
 
-    createSlaveDevice(slave) {
-        const {slave_id} = slave;
-        const device =  new ModbusTempDevice(slave_id);
+    createSlaveDevice(slaveConfig) {
+        const {slave_id} = slaveConfig;
+        const device =  new InverterDevice(slave_id,slaveConfig);
         device.init();
         return device;
     }

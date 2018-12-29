@@ -1,10 +1,19 @@
+const json=require('jsonfile')
 import { DataItem } from './DataItem';
 import { FunctionCode } from './FunctionCode';
 import { RequestFrame } from "./RequestFrame";
 import { ResponseFrame } from "./ResponseFrame";
+import { AccessType } from './AccessType';
+import { LocationType } from './LocationType';
+import { DataType } from './DataType';
 
 
 export class ModbusDevice {
+    constructor(public slaveConfig?:any){
+
+    }
+    modbusProfile;
+   
     id: number = 1;
     responseFrame: ResponseFrame = new ResponseFrame();
 
@@ -16,8 +25,47 @@ export class ModbusDevice {
     holdingRegistersMap: {[key: number]: DataItem} = {};
     inputRegistersMap: {[key: number]: DataItem} = {};
 
-    readCoils(requestFrame: RequestFrame) {
 
+    loadConfig() {
+        try {
+            //console.log(this.slaveConfig);
+            this.modbusProfile=json.readFileSync(this.slaveConfig.configPath);
+        }
+        catch (err) {
+            console.log('absent.json error', err.message);
+        }
+    }
+
+    init() {
+        this.loadConfig();
+        //console.log(this.modbusProfile)
+        for(let profile of this.modbusProfile){
+            const Profileobj = new DataItem();
+            Profileobj.name =profile.name;
+            Profileobj.dataType=profile.data_type;
+            Profileobj.address = profile.address;
+            Profileobj.quantity =profile.quantity;
+            Profileobj.value = profile.value;
+            Profileobj.accessType =profile.access_type;
+            Profileobj.locationType = profile.location_type;  
+            this.dataItemMap[Profileobj.name]=Profileobj;
+            if(Profileobj.locationType==LocationType.COIL){
+                this.coilsMap[Profileobj.address]=Profileobj;
+            }            
+            else if(Profileobj.locationType==LocationType.DISCRETE_INPUT){
+                this.discreteInputsMap[Profileobj.address]=Profileobj;
+            }
+            else if(Profileobj.locationType==LocationType.HOLDING_REGISTER){
+                this.holdingRegistersMap[Profileobj.address]=Profileobj;
+            }
+            else if(Profileobj.locationType==LocationType.INPUT_REGISTER){
+                this.inputRegistersMap[Profileobj.address]=Profileobj;
+            }        
+        }
+    }
+
+
+    readCoils(requestFrame: RequestFrame) {
         const totalBytes = Math.floor(requestFrame.quantity / 8) +requestFrame.quantity % 8 > 0? 1 : 0; 
         this.responseFrame.byteCount=totalBytes;
         this.responseFrame.address=requestFrame.address;
@@ -76,22 +124,69 @@ export class ModbusDevice {
         }
     }
 
+  
+    
+    
     readHoldingRegisters(requestFrame: RequestFrame) {
-        console.log('read holding register');
-        this.responseFrame.address=requestFrame.address;
-        this.responseFrame.byteCount=requestFrame.quantity*2;
-        for (let i = 0; i < requestFrame.quantity; i++) {
-            const address = (requestFrame.address) + (i * 2);
+        console.log('read holding register'+JSON.stringify(requestFrame));
+        this.responseFrame.address=requestFrame.address;  
+        for (let registerIndex = 0; registerIndex < requestFrame.quantity; ) {           
+            const address = (requestFrame.address) + (registerIndex);
             console.log('reading address ', address);
             const dataItem = this.holdingRegistersMap[address];
-            console.log('data item is ', dataItem);            
-            const value = dataItem.value;
-            console.log("Value is "+value)
-            this.responseFrame.writeUInt16(value);
+            console.log('data item is ', dataItem);
+
+            if (!dataItem) {
+                this.responseFrame.error = true;
+                this.responseFrame.exceptionCode = 0x02;
+                break;
+            }
+
+            registerIndex += dataItem.quantity;
+
+            switch(dataItem.dataType) {
+
+                case DataType.INT16: {
+                    const value = dataItem.value;
+                    console.log("Value 16 is "+value)
+                    this.responseFrame.writeUInt16(value);
+                } break;
+
+                case DataType.INT32:{
+                    const value = dataItem.value;
+                    console.log("Value is "+value)
+                    this.responseFrame.writeUInt32(value);
+                }
+                break;
+
+                case DataType.FLOAT:{
+                    const value = dataItem.value;
+                    console.log("Value is "+value)
+                    this.responseFrame.writeFloat(value);
+                }
+                break;
+
+                case DataType.STRING:{
+                    let value = dataItem.value;
+                    let bytes=dataItem.quantity*2;
+                    console.log("Value is "+value)
+                    this.responseFrame.writeString(value,bytes);
+                    
+                }
+                break;
+
+            } 
+        }
+
+        if (requestFrame.quantity * 2 != this.responseFrame.byteCount) {
+            //FIXME: error
+            this.responseFrame.error = true;
+            this.responseFrame.exceptionCode = 0x02;
         }
         
 
     }
+
 
     readInputRegisters(requestFrame: RequestFrame) {
         console.log('read holding register');
@@ -169,7 +264,9 @@ export class ModbusDevice {
         //FIXME: for TCP and Serial
         this.responseFrame.transactionIdentifier = requestFrame.transactionIdentifier;
         this.responseFrame.protocolIdentifier = requestFrame.protocolIdentifier;
-        this.responseFrame.dataLength = 0;
+       
+
+        this.responseFrame.reset();
 
         this.responseFrame.id = requestFrame.id;
         this.responseFrame.func = requestFrame.func;

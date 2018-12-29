@@ -59,7 +59,7 @@
     "jsonfile": "^5.0.0",
     "net": "^1.0.2",
     "serial": "0.0.9",
-    "serialport": "^7.1.1",
+    "serialport": "^6.2.2",
     "sha.js": "^2.4.11"
   },
   "devDependencies": {

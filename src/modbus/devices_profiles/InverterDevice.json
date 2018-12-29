@@ -1,0 +1,103 @@
+[
+    {
+        "name": "Version",
+        "address": 40100,
+        "location_type":2,
+        "access_type": 2,
+        "quantity": 1,
+        "data_type": 2,
+        "type_of": "",
+        "value": 123
+    },
+    {
+         "name": "InverterSerial",
+        "address": 40101,
+        "location_type":2,
+        "access_type": 0,
+        "quantity": 8,
+        "type_of": "",
+        "data_type": 6,
+        "value": "MIBBB12324"
+    },
+    {
+        "name": "Reserved",
+        "address": 40109,
+        "location_type":2,
+        "access_type": 0,
+        "quantity": 3,
+        "data_type": 6,
+        "type_of": "",
+        "value": "Notde"
+    },
+    {
+         "name": "Max_number_of_strings",
+        "address": 40112,
+        "access_type": 0,
+        "location_type":2,
+        "quantity": 1,
+        "type_of": "",
+        "data_type": 2,
+        "value": 123
+    },
+    {
+        "name": "plc_signal",
+        "address": 40113,
+        "location_type":2,
+        "access_type": 2,
+        "quantity": 1,
+        "data_type": 2,
+        "type_of": "",
+        "value": 156
+    },
+    {
+         "name": "plc_noise",
+        "address": 40114,
+        "location_type":2,
+        "access_type": 0,
+        "quantity": 1,
+        "type_of": "",
+        "data_type": 2,
+        "value": 456
+    },
+    {
+        "name": "active_faults0",
+        "address": 40115,
+        "location_type":2,
+        "access_type": 0,
+        "quantity": 2,
+        "data_type": 3,
+        "type_of": "",
+        "value": 1345
+    },
+    {
+         "name": "active_faults1",
+        "address": 40117,
+        "location_type":2,
+        "access_type": 0,
+        "quantity": 2,
+        "type_of": "",
+        "data_type": 3,
+        "value": 234324
+    },
+    {
+        "name": "Temperature1",
+        "address": 40119,
+        "location_type":2,
+        "access_type": 0,
+        "quantity": 1,
+        "data_type": 2,
+        "type_of": "",
+        "value": 1432
+    },
+    {
+         "name": "Temperature2",
+        "address": 40120,
+        "location_type":2,
+        "access_type": 0,
+        "quantity": 1,
+        "type_of": "",
+        "data_type": 2,
+        "value": 4875
+    }
+
+]
