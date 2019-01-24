@@ -6,8 +6,6 @@ export enum DataType {
     FLOAT = 4,
     DOUBLE = 5,
     STRING = 6,
-    
-
     NOT_USED = 100,
     RESERVED = 100
 }

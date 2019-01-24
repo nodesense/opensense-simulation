@@ -7,23 +7,23 @@
         "quantity": 1,
         "data_type": 2,
         "type_of": "",
-        "value": 123
+        "value": 12387
     },
     {
          "name": "InverterSerial",
         "address": 40101,
         "location_type":2,
-        "access_type": 0,
+        "access_type": 2,
         "quantity": 8,
         "type_of": "",
         "data_type": 6,
-        "value": "MIBBB12324"
+        "value": "AKSHAYA"
     },
     {
         "name": "Reserved",
         "address": 40109,
         "location_type":2,
-        "access_type": 0,
+        "access_type": 2,
         "quantity": 3,
         "data_type": 6,
         "type_of": "",
@@ -32,7 +32,7 @@
     {
          "name": "Max_number_of_strings",
         "address": 40112,
-        "access_type": 0,
+        "access_type": 2,
         "location_type":2,
         "quantity": 1,
         "type_of": "",
@@ -53,7 +53,7 @@
          "name": "plc_noise",
         "address": 40114,
         "location_type":2,
-        "access_type": 0,
+        "access_type": 2,
         "quantity": 1,
         "type_of": "",
         "data_type": 2,
@@ -63,7 +63,7 @@
         "name": "active_faults0",
         "address": 40115,
         "location_type":2,
-        "access_type": 0,
+        "access_type": 2,
         "quantity": 2,
         "data_type": 3,
         "type_of": "",
@@ -73,17 +73,17 @@
          "name": "active_faults1",
         "address": 40117,
         "location_type":2,
-        "access_type": 0,
+        "access_type": 2,
         "quantity": 2,
         "type_of": "",
-        "data_type": 3,
-        "value": 234324
+        "data_type": 4,
+        "value": 234.34
     },
     {
         "name": "Temperature1",
         "address": 40119,
         "location_type":2,
-        "access_type": 0,
+        "access_type": 2,
         "quantity": 1,
         "data_type": 2,
         "type_of": "",
@@ -93,11 +93,236 @@
          "name": "Temperature2",
         "address": 40120,
         "location_type":2,
-        "access_type": 0,
+        "access_type": 2,
         "quantity": 1,
         "type_of": "",
         "data_type": 2,
         "value": 4875
-    }
+    },
+    {
+        "name": "Light1",
+       "address": 40121,
+       "location_type":0,
+       "access_type": 2,
+       "quantity": 1,
+       "type_of": "",
+       "data_type": 0,
+       "value":1
+   }
+   ,
+    {
+        "name": "Light2",
+       "address": 40122,
+       "location_type":0,
+       "access_type": 2,
+       "quantity": 1,
+       "type_of": "",
+       "data_type": 0,
+       "value":0
+   }
+   ,
+   {
+       "name": "Light3",
+      "address": 40123,
+      "location_type":0,
+      "access_type": 2,
+      "quantity": 1,
+      "type_of": "",
+      "data_type": 0,
+      "value":1
+  }
+  ,
+  {
+      "name": "Light4",
+     "address": 40124,
+     "location_type":0,
+     "access_type": 2,
+     "quantity": 1,
+     "type_of": "",
+     "data_type": 0,
+     "value":1
+ }
+ ,
+ {
+     "name": "Light5",
+    "address": 40125,
+    "location_type":0,
+    "access_type": 2,
+    "quantity": 1,
+    "type_of": "",
+    "data_type": 0,
+    "value":0
+}
+,
+    {
+        "name": "Light6",
+       "address": 40126,
+       "location_type":0,
+       "access_type": 2,
+       "quantity": 1,
+       "type_of": "",
+       "data_type": 0,
+       "value":0
+   },
+   {
+       "name": "Light7",
+      "address": 40127,
+      "location_type":0,
+      "access_type": 2,
+      "quantity": 1,
+      "type_of": "",
+      "data_type": 0,
+      "value":1
+  },
+  {
+      "name": "Light8",
+     "address": 40128,
+     "location_type":0,
+     "access_type": 2,
+     "quantity": 1,
+     "type_of": "",
+     "data_type": 0,
+     "value":0
+ },
+ {
+     "name": "Light9",
+    "address": 40129,
+    "location_type":0,
+    "access_type": 2,
+    "quantity": 1,
+    "type_of": "",
+    "data_type": 0,
+    "value":1
+},
+{
+    "name": "Light10",
+   "address": 40130,
+   "location_type":0,
+   "access_type": 2,
+   "quantity": 1,
+   "type_of": "",
+   "data_type": 0,
+   "value":0
+},
+{
+    "name": "Light11",
+   "address": 40131,
+   "location_type":0,
+   "access_type": 2,
+   "quantity": 1,
+   "type_of": "",
+   "data_type": 0,
+   "value":1
+} ,
+ {
+     "name": "cloudy",
+    "address": 40132,
+    "location_type":1,
+    "access_type": 0,
+    "quantity": 1,
+    "type_of": "",
+    "data_type": 0,
+    "value":1
+},
+{
+    "name": "sunny",
+   "address": 40133,
+   "location_type":1,
+   "access_type": 0,
+   "quantity": 1,
+   "type_of": "",
+   "data_type": 0,
+   "value":0
+},
+{
+    "name": "rainy",
+   "address": 40134,
+   "location_type":1,
+   "access_type": 0,
+   "quantity": 1,
+   "type_of": "",
+   "data_type": 0,
+   "value":1
+},
+{
+    "name": "hot",
+   "address": 40135,
+   "location_type":1,
+   "access_type": 0,
+   "quantity": 1,
+   "type_of": "",
+   "data_type": 0,
+   "value":0
+},
+{
+    "name": "cold",
+   "address": 40136,
+   "location_type":1,
+   "access_type": 0,
+   "quantity": 1,
+   "type_of": "",
+   "data_type": 0,
+   "value":1
+},
+{
+    "name": "moisture",
+   "address": 40137,
+   "location_type":1,
+   "access_type": 0,
+   "quantity": 1,
+   "type_of": "",
+   "data_type": 0,
+   "value":1
+},
+{
+    "name": "air_quality_dry",
+   "address": 40138,
+   "location_type":1,
+   "access_type": 0,
+   "quantity": 1,
+   "type_of": "",
+   "data_type": 0,
+   "value":0
+},
+{
+    "name": "Outside_Temp",
+    "address": 40139,
+    "location_type":3,
+    "access_type": 0,
+    "quantity": 1,
+    "data_type": 2,
+    "type_of": "",
+    "value": 125
+},
+{
+    "name": "Inside_Temp",
+    "address": 40140,
+    "location_type":3,
+    "access_type": 0,
+    "quantity": 1,
+    "data_type": 2,
+    "type_of": "",
+    "value": 10
+},
+{
+    "name": "SoilTemp",
+    "address": 40141,
+    "location_type":3,
+    "access_type": 0,
+    "quantity": 1,
+    "data_type": 2,
+    "type_of": "",
+    "value": 220
+},
+{
+    "name": "Liquid_Temp",
+    "address": 40142,
+    "location_type":3,
+    "access_type": 0,
+    "quantity": 1,
+    "data_type": 2,
+    "type_of": "",
+    "value": 75
+}
 
 ]

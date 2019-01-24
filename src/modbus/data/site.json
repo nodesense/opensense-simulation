@@ -16,7 +16,7 @@
             "stopBits": 1,
             "flowControl": false
          },
-          "port": "COM1",
+          "port": "COM16",
           "slaves": [
              {
                "slave_id": 1,
@@ -50,7 +50,7 @@
             "stopBits": 1,
             "flowControl": false
          },
-          "port": "COM3",
+          "port": "COM18",
           "slaves": [
              {
                "slave_id": 3,
@@ -87,7 +87,7 @@
              "stopBits": 1,
              "flowControl": false
           },
-          "port": "COM6",
+          "port": "COM20",
           "slaves": [
             {
               "slave_id": 5,

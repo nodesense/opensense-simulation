@@ -13,10 +13,8 @@ export class ModbusDevice {
 
     }
     modbusProfile;
-   
     id: number = 1;
     responseFrame: ResponseFrame = new ResponseFrame();
-
     dataItemMap: {[key: string]: DataItem} = {};
 
     // coil address to data item
@@ -59,70 +57,148 @@ export class ModbusDevice {
                 this.holdingRegistersMap[Profileobj.address]=Profileobj;
             }
             else if(Profileobj.locationType==LocationType.INPUT_REGISTER){
-                this.inputRegistersMap[Profileobj.address]=Profileobj;
-            }        
+                this.inputRegistersMap[Profileobj.address]=Profileobj;            }        
         }
     }
 
 
     readCoils(requestFrame: RequestFrame) {
-        const totalBytes = Math.floor(requestFrame.quantity / 8) +requestFrame.quantity % 8 > 0? 1 : 0; 
+        const totalBytes = Math.floor(requestFrame.quantity / 8) +(requestFrame.quantity % 8 > 0? 1 : 0); 
         this.responseFrame.byteCount=totalBytes;
         this.responseFrame.address=requestFrame.address;
         console.log("Total bytes to respond", totalBytes);
         let bitMerge = 0;
         let offset = 0;
+        let index_count=0;
         for (let i = 0; i < requestFrame.quantity; i++) {
+            console.log("Control is coming");
             const address = requestFrame.address + i;
             const dataItem = this.coilsMap[address];
             let value = dataItem.value;
             bitMerge = bitMerge | (value & 0x01);
-            bitMerge = bitMerge << 1;
-            if (i !== 0 && i % 8 === 0) {
-                this.responseFrame.writeUInt8(bitMerge);
+            if (i !== 0 && (i+1)%8 === 0) {
+                console.log("Written to buffer "+bitMerge+" loop is "+(i+1));
+                this.responseFrame.writeUInt8(bitMerge,index_count);
+                index_count++;
                 bitMerge = 0;
                 offset = offset + 1;
             }
+            if(i<requestFrame.quantity-1){
+                bitMerge = bitMerge << 1;
+             }
         }
+        console.log("out of control")
         if ( (requestFrame.quantity > 0  && 
               requestFrame.quantity % 8 === 0) ||
               requestFrame.quantity % 8 > 0) {
-
-                this.responseFrame.writeUInt8(bitMerge);  
+                this.responseFrame.writeUInt8(bitMerge,index_count);  
                 bitMerge = 0;
                 offset = offset + 1;
         }
     }
 
+
+
+
+    // readCoils(requestFrame: RequestFrame) {
+    //     const totalBytes = Math.floor(requestFrame.quantity / 8) +requestFrame.quantity % 8 > 0? 1 : 0; 
+    //     this.responseFrame.byteCount=totalBytes;
+    //     this.responseFrame.address=requestFrame.address;
+    //     console.log("Total bytes to respond", totalBytes);
+    //     let bitMerge = 0;
+    //     let offset = 0;
+    //     for (let i = 0; i < requestFrame.quantity; i++) {
+    //         const address = requestFrame.address + i;
+    //         const dataItem = this.coilsMap[address];
+    //         let value = dataItem.value;
+    //         bitMerge = bitMerge | (value & 0x01);
+    //         bitMerge = bitMerge << 1;
+    //         if (i !== 0 && i % 8 === 0) {
+    //             this.responseFrame.writeUInt8(bitMerge);
+    //             bitMerge = 0;
+    //             offset = offset + 1;
+    //         }
+    //     }
+    //     if ( (requestFrame.quantity > 0  && 
+    //           requestFrame.quantity % 8 === 0) ||
+    //           requestFrame.quantity % 8 > 0) {
+
+    //             this.responseFrame.writeUInt8(bitMerge);  
+    //             bitMerge = 0;
+    //             offset = offset + 1;
+    //     }
+    // }
+
+
+
+
     readDiscreteInputs(requestFrame: RequestFrame) {
-       
-        const totalBytes = Math.floor(requestFrame.quantity / 8) +requestFrame.quantity % 8 > 0? 1 : 0; 
+        const totalBytes = Math.floor(requestFrame.quantity / 8) +(requestFrame.quantity % 8 > 0? 1 : 0); 
         this.responseFrame.byteCount=totalBytes;
         this.responseFrame.address=requestFrame.address;
         console.log("Total bytes to respond", totalBytes);
         let bitMerge = 0;
         let offset = 0;
+        let index_count=0;
         for (let i = 0; i < requestFrame.quantity; i++) {
+            console.log("Control is coming");
             const address = requestFrame.address + i;
             const dataItem = this.discreteInputsMap[address];
             let value = dataItem.value;
             bitMerge = bitMerge | (value & 0x01);
-            bitMerge = bitMerge << 1;
-            if (i !== 0 && i % 8 === 0) {
-                this.responseFrame.writeUInt8(bitMerge);
+            if (i !== 0 && (i+1)%8 === 0) {
+                console.log("Written to buffer "+bitMerge+" loop is "+(i+1));
+                this.responseFrame.writeUInt8(bitMerge,index_count);
+                index_count++;
                 bitMerge = 0;
                 offset = offset + 1;
             }
+            if(i<requestFrame.quantity-1){
+                bitMerge = bitMerge << 1;
+             }
         }
         if ( (requestFrame.quantity > 0  && 
               requestFrame.quantity % 8 === 0) ||
               requestFrame.quantity % 8 > 0) {
-
-                this.responseFrame.writeUInt8(bitMerge);  
+                this.responseFrame.writeUInt8(bitMerge,index_count);  
                 bitMerge = 0;
                 offset = offset + 1;
         }
     }
+
+
+
+
+
+    // readDiscreteInputs(requestFrame: RequestFrame) {
+       
+    //     const totalBytes = Math.floor(requestFrame.quantity / 8) +requestFrame.quantity % 8 > 0? 1 : 0; 
+    //     this.responseFrame.byteCount=totalBytes;
+    //     this.responseFrame.address=requestFrame.address;
+    //     console.log("Total bytes to respond", totalBytes);
+    //     let bitMerge = 0;
+    //     let offset = 0;
+    //     for (let i = 0; i < requestFrame.quantity; i++) {
+    //         const address = requestFrame.address + i;
+    //         const dataItem = this.discreteInputsMap[address];
+    //         let value = dataItem.value;
+    //         bitMerge = bitMerge | (value & 0x01);
+    //         bitMerge = bitMerge << 1;
+    //         if (i !== 0 && i % 8 === 0) {
+    //             this.responseFrame.writeUInt8(bitMerge);
+    //             bitMerge = 0;
+    //             offset = offset + 1;
+    //         }
+    //     }
+    //     if ( (requestFrame.quantity > 0  && 
+    //           requestFrame.quantity % 8 === 0) ||
+    //           requestFrame.quantity % 8 > 0) {
+
+    //             this.responseFrame.writeUInt8(bitMerge);  
+    //             bitMerge = 0;
+    //             offset = offset + 1;
+    //     }
+    // }
 
   
     
@@ -188,21 +264,68 @@ export class ModbusDevice {
     }
 
 
+    
     readInputRegisters(requestFrame: RequestFrame) {
-        console.log('read holding register');
-        this.responseFrame.address=requestFrame.address;
-        this.responseFrame.byteCount=requestFrame.quantity*2;
-        for (let i = 0; i < requestFrame.quantity; i++) {
-            const address = (requestFrame.address) + (i * 2);
+        console.log('read Input register'+JSON.stringify(requestFrame));
+        this.responseFrame.address=requestFrame.address;  
+        for (let registerIndex = 0; registerIndex < requestFrame.quantity; ) {           
+            const address = (requestFrame.address) + (registerIndex);
             console.log('reading address ', address);
             const dataItem = this.inputRegistersMap[address];
-            console.log('data item is ', dataItem);            
-            const value = dataItem.value;
-            console.log("Value is "+value)
-            this.responseFrame.writeUInt16(value);
+            console.log('data item is ', dataItem);
+
+            if (!dataItem) {
+                this.responseFrame.error = true;
+                this.responseFrame.exceptionCode = 0x02;
+                break;
+            }
+
+            registerIndex += dataItem.quantity;
+
+            switch(dataItem.dataType) {
+
+                case DataType.INT16: {
+                    const value = dataItem.value;
+                    console.log("Value 16 is "+value)
+                    this.responseFrame.writeUInt16(value);
+                } break;
+
+                case DataType.INT32:{
+                    const value = dataItem.value;
+                    console.log("Value is "+value)
+                    this.responseFrame.writeUInt32(value);
+                }
+                break;
+
+                case DataType.FLOAT:{
+                    const value = dataItem.value;
+                    console.log("Value is "+value)
+                    this.responseFrame.writeFloat(value);
+                }
+                break;
+
+                case DataType.STRING:{
+                    let value = dataItem.value;
+                    let bytes=dataItem.quantity*2;
+                    console.log("Value is "+value)
+                    this.responseFrame.writeString(value,bytes);
+                    
+                }
+                break;
+
+            } 
         }
+
+        if (requestFrame.quantity * 2 != this.responseFrame.byteCount) {
+            //FIXME: error
+            this.responseFrame.error = true;
+            this.responseFrame.exceptionCode = 0x02;
+        }
+        
+
       
     }
+
 
     writeSingleCoil(requestFrame: RequestFrame) {
         this.responseFrame.address = requestFrame.address;

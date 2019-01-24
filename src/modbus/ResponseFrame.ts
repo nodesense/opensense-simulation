@@ -26,14 +26,23 @@ export class ResponseFrame {
     protocolIdentifier: number;
     tcpFrameLength: number;
 
+    // writeInt8(value: number) {
+    //     this.data.writeUInt8(value, this.byteCount);
+    //     this.byteCount += 1;
+    // }
+    
     writeInt8(value: number) {
         this.data.writeUInt8(value, this.byteCount);
         this.byteCount += 1;
     }
 
-    writeUInt8(value: number) {
-        this.data.writeUInt8(value, this.byteCount);
-        this.byteCount += 1;
+    // writeUInt8(value: number) {
+    //     this.data.writeUInt8(value, this.byteCount);
+    //     this.byteCount += 1;
+    // }
+    
+    writeUInt8(value: number,index:number) {
+        this.data.writeUInt8(value,index);
     }
 
     writeInt16(value: number) {
@@ -104,6 +113,7 @@ export class ResponseFrame {
         console.log('data length is ', this.byteCount);
         if (this.func === FunctionCode.READ_COILS) {
             response.writeUInt8(this.byteCount,2)
+            console.log("Total res len "+this.byteCount)
             //response.writeUInt8(this.byteCount, 2);
             responseLength += 1; // byte count 1 byte
             this.data.copy(response, 3,0,this.byteCount);
