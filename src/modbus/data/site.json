@@ -34,7 +34,17 @@
                 "type_of": "InverterDevice",
                "configPath":"src/modbus/devices_profiles/InverterDevice.json"
 
+              },
+              {
+                "slave_id": 3,
+                "vendor_id": 12,
+                "device_id": 12323,
+                "profile_id": 123,
+                "type_of": "InverterDevice",
+               "configPath":"src/modbus/devices_profiles/gdm.json"
+
               }
+
           ]
         }
       },

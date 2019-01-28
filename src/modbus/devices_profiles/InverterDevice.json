@@ -107,7 +107,7 @@
        "quantity": 1,
        "type_of": "",
        "data_type": 0,
-       "value":1
+       "value":0
    }
    ,
     {
@@ -262,7 +262,7 @@
    "quantity": 1,
    "type_of": "",
    "data_type": 0,
-   "value":1
+   "value":0
 },
 {
     "name": "moisture",
