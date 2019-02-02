@@ -36,7 +36,7 @@ t1 = time.perf_counter()
 for x in range(0, 1):
     #print ("sending..")
     #time.sleep(1)
-    result= client.read_holding_registers(2576,1,unit= 3)
+    result= client.read_holding_registers(2576,,unit= 3)
     #print(result)
     #result= client.read_coils(40121,1,unit=1)
     #result=client.read_discrete_inputs(40132,3,unit=1)
