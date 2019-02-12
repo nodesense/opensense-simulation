@@ -5,23 +5,119 @@
     "data": {},
     "simulation": [
       {
-        "id": 3,
-        "name": "tcp-serial-modbus-1",
-        "type_of": "modbus-tcp-serial",
+        "id": 1234,
+        "name": "serial-port-1",
+        "type_of": "modbus-rtu",
         "data": {
-          "ip_address": "0.0.0.0",
-          "port": 502,
+          "options": {
+            "baudRate":9600,
+            "databits": 8,
+            "parity": "none",
+            "stopBits": 1,
+            "flowControl": false
+         },
+          "port": "COM16",
           "slaves": [
+             {
+               "slave_id": 1,
+               "vendor_id": 12,
+               "device_id": 12323,
+               "profile_id": 123,
+               "type_of": "InverterDevice",
+               "configPath":"src/modbus/devices_profiles/InverterDevice.json"
+             },
+             {
+                "slave_id": 2,
+                "vendor_id": 12,
+                "device_id": 12323,
+                "profile_id": 123,
+                "type_of": "InverterDevice",
+               "configPath":"src/modbus/devices_profiles/InverterDevice.json"
+
+              }
           ]
         }
-      },  
+      },
+      {
+        "id": 1235,
+        "name": "serial-port-1",
+        "type_of": "modbus-rtu",
+        "data": {
+          "options": {
+            "baudRate":9600,
+            "databits": 8,
+            "parity": "none",
+            "stopBits": 1,
+            "flowControl": false
+         },
+          "port": "COM18",
+          "slaves": [
+             {
+               "slave_id": 3,
+               "vendor_id": 12,
+               "device_id": 12323,
+               "profile_id": 123,
+               "type_of": "InverterDevice",
+               "configPath":"src/modbus/devices_profiles/InverterDevice.json"
+
+             },
+             {
+                "slave_id": 4,
+                "vendor_id": 12,
+                "device_id": 12323,
+                "profile_id": 123,
+                "type_of": "InverterDevice",
+               "configPath":"src/modbus/devices_profiles/InverterDevice.json"
+
+              }
+          ]
+        }
+      },
+   
+
+      {
+        "id": 2,
+        "name": "serial-port-2",
+        "type_of": "modbus-rtu",
+        "data": {
+          "options": {
+             "baudRate":9600,
+             "databits": 8,
+             "parity": "none",
+             "stopBits": 1,
+             "flowControl": false
+          },
+          "port": "COM20",
+          "slaves": [
+            {
+              "slave_id": 5,
+              "vendor_id": 12,
+              "device_id": 12323,
+              "profile_id": 123,
+              "type_of": "InverterDevice",
+              "configPath":"src/modbus/devices_profiles/InverterDevice.json"
+
+            },
+            {
+               "slave_id": 6,
+               "vendor_id": 12,
+               "device_id": 12323,
+               "profile_id": 123,
+               "type_of": "InverterDevice",
+               "configPath":"src/modbus/devices_profiles/InverterDevice.json"
+
+             }
+         ]
+        }
+      },
+  
       {
         "id": 3,
         "name": "tcp-modbus-1",
         "type_of": "modbus-tcp",
         "data": {
           "ip_address": "0.0.0.0",
-          "port": 5020,
+          "port": 502,
           "slaves": [
              {
                "slave_id": 1,
@@ -69,7 +165,7 @@
         "type_of": "modbus-tcp",
         "data": {
           "ip_address": "0.0.0.0",
-          "port": 5040,
+          "port": 5020,
           "slaves": [
              {
                "slave_id": 1,

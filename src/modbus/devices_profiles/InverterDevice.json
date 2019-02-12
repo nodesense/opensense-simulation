@@ -70,14 +70,14 @@
         "value": 1345
     },
     {
-         "name": "active_faults1",
+         "name": "Flow",
         "address": 40117,
         "location_type":2,
         "access_type": 2,
         "quantity": 2,
         "type_of": "",
         "data_type": 4,
-        "value": 234.34
+        "value": 2344.34
     },
     {
         "name": "Temperature1",
@@ -107,7 +107,7 @@
        "quantity": 1,
        "type_of": "",
        "data_type": 0,
-       "value":1
+       "value":0
    }
    ,
     {
@@ -262,7 +262,7 @@
    "quantity": 1,
    "type_of": "",
    "data_type": 0,
-   "value":1
+   "value":0
 },
 {
     "name": "moisture",

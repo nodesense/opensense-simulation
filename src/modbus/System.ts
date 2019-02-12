@@ -2,6 +2,7 @@ import { ModbusTempDevice } from "./ModbusTempDevice";
 import { ModbusTCP } from "./ModbusTcp";
 import { ModbusSerialPort } from "./ModbusSerialPort";
 import { InverterDevice } from "./InverterDevice";
+import { ModbusTCPSerialBridge } from "./ModbusTCPSerialBridge";
 
 const json=require('jsonfile')
 
@@ -62,6 +63,34 @@ export class System {
         // load serial port, all the devices specific to serial port
     }
 
+
+    
+    createModbusTcpSerialBridge(config) {
+        const {ip_address, port } = config.data;
+
+        const modbusTcp = new ModbusTCPSerialBridge(ip_address, port);
+        return modbusTcp;
+    }
+
+    processTCPSerialBridge(config) {
+        const {ip_address, port, slaves } = config.data;
+
+        const modbusTcpServer = this.createModbusTcpSerialBridge(config);
+        
+        for(const slave of slaves){
+            let device=this.createSlaveDevice(slave);
+            modbusTcpServer.addDevice(device);
+            console.log(`Device ${device.id} created`);
+        }
+
+
+        //fIXME: think, where to start
+        modbusTcpServer.connect();
+
+        // load serial port, all the devices specific to serial port
+    }
+
+
     process() {
         for(let config of this.siteConfig.simulation){
             //FIXME: add strong types
@@ -75,6 +104,13 @@ export class System {
                 console.log('priocessing ', config);
                 this.processSerial(config);        
             }
+
+            if(config.type_of == 'modbus-tcp-serial'){
+                console.log('priocessing ', config);
+                this.processTCPSerialBridge(config);        
+            }
+
+
         }
     }
 }
