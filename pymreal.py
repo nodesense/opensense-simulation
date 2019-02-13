@@ -14,18 +14,18 @@ log.setLevel(logging.DEBUG)
 #unit= the slave unit this request is targeting
 #address= the starting address to read from
 
-PORT= "COM17"
+PORT= "COM8"
 
 client= ModbusClient(method = "rtu", port=PORT, 
                                      stopbits = 1, 
                                      bytesize = 8, 
                                      parity = 'N',
-                                     baudrate= 9600,
+                                     baudrate= 38400,
                                      timeout = 10)
 
 #Connect to the serial modbus server
 connection = client.connect()
-print(connection)
+print( connection)
 
 #Starting add, num of reg to read, slave unit.
 # result= client.read_holding_registers(0x00, 5 ,unit= 0x01)
@@ -36,11 +36,11 @@ t1 = time.perf_counter()
 for x in range(0, 1):
     #print ("sending..")
     #time.sleep(1)
-    result= client.read_holding_registers(2576,,unit= 3)
+    result= client.read_holding_registers(1122,1,unit= 1)
     #print(result)
     #result= client.read_coils(40121,1,unit=1)
     #result=client.read_discrete_inputs(40132,3,unit=1)
-    #result=client.read_input_registers(423,1,unit=3)
+    #result=client.read_input_registers(40141,1,unit=1)
     #result=client.write_coil(3,1,unit=1)
     #result=client.write_register(11,70000,unit=1)
     #result=client.write_coils(1, [1,0,1], unit= 0x01)

@@ -245,7 +245,7 @@ export class ModbusDevice {
                 case DataType.STRING:{
                     let value = dataItem.value;
                     let bytes=dataItem.quantity*2;
-                    console.log("Value is "+value)
+                    console.log("String Value is "+value)
                     this.responseFrame.writeString(value,bytes);
                     
                 }
@@ -368,17 +368,52 @@ export class ModbusDevice {
 
     
 
+    // writeMultipleRegisters(requestFrame: RequestFrame) {
+    //     this.responseFrame.address=requestFrame.address;
+    //     this.responseFrame.quantity=requestFrame.quantity;
+
+    //     for(let i=0;i<requestFrame.quantity;i++){
+    //         let val=requestFrame.data.readUInt16BE(i*2);
+    //         console.log("Going to replace "+this.holdingRegistersMap[this.responseFrame.address+(i*2)].value+" as "+val);
+    //     this.holdingRegistersMap[this.responseFrame.address+(i*2)].value=val;
+    //     }
+
+    // }
+
     writeMultipleRegisters(requestFrame: RequestFrame) {
+
+        let address=requestFrame.address;
+        const dataItem = this.holdingRegistersMap[requestFrame.address];
         this.responseFrame.address=requestFrame.address;
         this.responseFrame.quantity=requestFrame.quantity;
-        for(let i=0;i<requestFrame.quantity;i++){
-            let val=requestFrame.data.readUInt16BE(i*2);
-            console.log("Going to replace "+this.holdingRegistersMap[this.responseFrame.address+(i*2)].value+" as "+val);
-        this.holdingRegistersMap[this.responseFrame.address+(i*2)].value=val;
-        }        
+        if(dataItem.dataType==DataType.INT16){
+            let val=requestFrame.data.readUInt16BE(0);
+            this.holdingRegistersMap[this.responseFrame.address].value=val;
+            this.responseFrame.val=this.holdingRegistersMap[this.responseFrame.address].value;
+                }
+        else  if(dataItem.dataType==DataType.INT32){
+            let val=requestFrame.data.readUInt32BE(0);
+            this.holdingRegistersMap[this.responseFrame.address].value=val;
+            this.responseFrame.val=this.holdingRegistersMap[this.responseFrame.address].value;
+                }
 
+        else if(dataItem.dataType==DataType.FLOAT){
+            let val=requestFrame.data.readFloatLE(0);
+            this.holdingRegistersMap[this.responseFrame.address].value=val;
+            console.log("Going to replace "+this.holdingRegistersMap[this.responseFrame.address].value+" as "+val);
+            this.responseFrame.val=this.holdingRegistersMap[this.responseFrame.address].value;
+
+        }
+        else if(dataItem.dataType==DataType.STRING){
+               let stringbuf=Buffer.alloc(dataItem.quantity);
+               for(let i=0;i<requestFrame.quantity;i++){
+                let val=requestFrame.data.readUInt16LE(i*2);
+                stringbuf.writeInt16BE(val,i*2);
+               }
+             console.log("Going to replace "+this.holdingRegistersMap[this.responseFrame.address].value+" as "+stringbuf);
+        this.holdingRegistersMap[this.responseFrame.address].value=stringbuf;
+        }
     }
-
 
     processRequest(requestFrame: RequestFrame): ResponseFrame {
 

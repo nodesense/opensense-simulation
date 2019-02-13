@@ -12,6 +12,36 @@
           "ip_address": "0.0.0.0",
           "port": 502,
           "slaves": [
+<<<<<<< HEAD
+=======
+             {
+               "slave_id": 1,
+               "vendor_id": 12,
+               "device_id": 12323,
+               "profile_id": 123,
+               "type_of": "InverterDevice",
+               "configPath":"src/modbus/devices_profiles/InverterDevice.json"
+             },
+             {
+                "slave_id": 2,
+                "vendor_id": 12,
+                "device_id": 12323,
+                "profile_id": 123,
+                "type_of": "InverterDevice",
+               "configPath":"src/modbus/devices_profiles/InverterDevice.json"
+
+              },
+              {
+                "slave_id": 3,
+                "vendor_id": 12,
+                "device_id": 12323,
+                "profile_id": 123,
+                "type_of": "InverterDevice",
+               "configPath":"src/modbus/devices_profiles/gdm.json"
+
+              }
+
+>>>>>>> 1ae776e998402303e5dd3b19e2217a7ec518c62f
           ]
         }
       },  
