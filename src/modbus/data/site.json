@@ -5,6 +5,30 @@
     "data": {},
     "simulation": [
       {
+        "id": 30,
+        "name": "bacnet-ip-device",
+        "type_of": "bacnet-ip",
+        "device_id": 443,
+        "vendor_id": 7,
+        "port": 47808
+      },
+      {
+        "id": 31,
+        "name": "bacnet-ip-device",
+        "type_of": "bacnet-ip",
+        "device_id": 444,
+        "vendor_id": 7,
+        "port": 47809
+      },
+      {
+        "id": 32,
+        "name": "bacnet-ip-device",
+        "type_of": "bacnet-ip",
+        "device_id": 445,
+        "vendor_id": 7,
+        "port": 47810
+      },
+      {
         "id": 3,
         "name": "tcp-serial-modbus-1",
         "type_of": "modbus-tcp-serial",
@@ -12,8 +36,6 @@
           "ip_address": "0.0.0.0",
           "port": 502,
           "slaves": [
-<<<<<<< HEAD
-=======
              {
                "slave_id": 1,
                "vendor_id": 12,
@@ -41,7 +63,6 @@
 
               }
 
->>>>>>> 1ae776e998402303e5dd3b19e2217a7ec518c62f
           ]
         }
       },  

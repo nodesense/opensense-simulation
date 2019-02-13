@@ -9,11 +9,11 @@ import { DataType } from './DataType';
 
 
 export class ModbusDevice {
-    constructor(public slaveConfig?:any){
+    constructor(public id:number = 1, public slaveConfig?:any){
 
     }
     modbusProfile;
-    id: number = 1;
+     
     responseFrame: ResponseFrame = new ResponseFrame();
     dataItemMap: {[key: string]: DataItem} = {};
 

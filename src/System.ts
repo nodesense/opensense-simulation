@@ -1,8 +1,10 @@
-import { ModbusTempDevice } from "./ModbusTempDevice";
-import { ModbusTCP } from "./ModbusTcp";
-import { ModbusSerialPort } from "./ModbusSerialPort";
-import { InverterDevice } from "./InverterDevice";
-import { ModbusTCPSerialBridge } from "./ModbusTCPSerialBridge";
+import { BacnetDevice } from './bacnet/BacnetDevice';
+import { ModbusTCP } from "./modbus/ModbusTcp";
+import { ModbusSerialPort } from "./modbus/ModbusSerialPort";
+import { ModbusTCPSerialBridge } from "./modbus/ModbusTCPSerialBridge";
+import { ModbusDevice } from "./modbus/ModbusDevice";
+
+ 
 
 const json=require('jsonfile')
 
@@ -20,7 +22,7 @@ export class System {
 
     createSlaveDevice(slaveConfig) {
         const {slave_id} = slaveConfig;
-        const device =  new InverterDevice(slave_id,slaveConfig);
+        const device =  new ModbusDevice(slave_id,slaveConfig);
         device.init();
         return device;
     }
@@ -91,6 +93,29 @@ export class System {
     }
 
 
+
+    createBacnetIP(config) {
+        // const {ip_address, port } = config.data;
+
+        // const modbusTcp = new ModbusTCP(ip_address, port);
+        // return modbusTcp;
+    }
+
+    processBacnetIP(config) {
+        //const {ip_address, port, slaves } = config.data;
+
+        const modbusTcpServer = this.createBacnetIP(config);
+        
+        const device = new BacnetDevice(config);
+
+
+        //fIXME: think, where to start
+        device.connect();
+
+        // load serial port, all the devices specific to serial port
+    }
+
+
     process() {
         for(let config of this.siteConfig.simulation){
             //FIXME: add strong types
@@ -108,6 +133,12 @@ export class System {
             if(config.type_of == 'modbus-tcp-serial'){
                 console.log('priocessing ', config);
                 this.processTCPSerialBridge(config);        
+            }
+
+
+            if(config.type_of == 'bacnet-ip'){
+                console.log('processing bacnet ip ', config);
+                this.processBacnetIP(config);        
             }
 
 

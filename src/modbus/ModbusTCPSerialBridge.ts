@@ -2,7 +2,6 @@ import { ModbusDevice } from './ModbusDevice';
 import { RequestState } from './RequestState';
 import { RequestFrame } from './RequestFrame';
 import {FunctionCode} from './FunctionCode';
-import { ModbusTempDevice } from './ModbusTempDevice';
 import { ResponseFrame } from './ResponseFrame';
 
 var ModbusRTU = require("modbus-serial");
