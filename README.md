@@ -24,3 +24,15 @@ IoT Simultion
     
 socat -d -d pty,raw,echo=0 pty,raw,echo=0
 
+
+<!-- For compiling serialport on Raspberry PI -->
+
+ 
+
+>npm install -g node-gyp
+>npm install -g node-pre-gyp
+>npm install serialport --unsafe-perm
+>cd node_modules/@serialport/bindings
+>node-gyp configure build
+
+ 
