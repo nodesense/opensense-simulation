@@ -3,7 +3,7 @@ import { AccessType } from './modbus/AccessType';
 import { NodeType } from './core/NodeType';
 import { SiteProfile } from './core/SiteProfile';
 import { BacnetDevice } from './bacnet/BacnetDevice';
-import { ModbusTCP } from "./modbus/ModbusTcp";
+import { ModbusTCP } from "./modbus/ModbusTCP";
 import { ModbusSerialPort } from "./modbus/ModbusSerialPort";
 import { ModbusTCPSerialBridge } from "./modbus/ModbusTCPSerialBridge";
 import { ModbusDevice } from "./modbus/ModbusDevice";
