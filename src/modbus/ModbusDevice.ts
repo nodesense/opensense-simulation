@@ -1,3 +1,5 @@
+import { ModbusDeviceProfile } from './ModbusDeviceProfile';
+import { BaseActor } from './../core/BaseActor';
 const json=require('jsonfile')
 import { DataItem } from './DataItem';
 import { FunctionCode } from './FunctionCode';
@@ -6,13 +8,27 @@ import { ResponseFrame } from "./ResponseFrame";
 import { AccessType } from './AccessType';
 import { LocationType } from './LocationType';
 import { DataType } from './DataType';
+import { SystemContext } from '../core/SystemContext';
+import { Node } from '../core/Node';
+import { BaseThingActor } from '../core/BaseThingActor';
 
 
-export class ModbusDevice {
-    constructor(public id:number = 1, public slaveConfig?:any){
+export class ModbusDevice extends BaseThingActor {
+    public id:number = 1;
+    public slaveConfig?:any;
 
+        constructor(context: SystemContext, node: Node) {
+                  super(context, node);
+
+        console.log('**ModbusDevice created')
+        this.slaveConfig = {
+            "configPath":"src/modbus/devices_profiles/InverterDevice.json"
+        }
+         
     }
     modbusProfile;
+
+    modbusDeviceProfile: ModbusDeviceProfile;
      
     responseFrame: ResponseFrame = new ResponseFrame();
     dataItemMap: {[key: string]: DataItem} = {};
@@ -25,28 +41,82 @@ export class ModbusDevice {
 
 
     loadConfig() {
-        try {
-            //console.log(this.slaveConfig);
-            this.modbusProfile=json.readFileSync(this.slaveConfig.configPath);
-        }
-        catch (err) {
-            console.log('absent.json error', err.message);
-        }
+        // try {
+        //     //console.log(this.slaveConfig);
+        //     this.modbusProfile=json.readFileSync(this.slaveConfig.configPath);
+        // }
+        // catch (err) {
+        //     console.log('absent.json error', err.message);
+        // }
+
+        this.modbusDeviceProfile = this.context.configurationManager
+                    .loadModbusDeviceProfile(this.thing.site_id, this.thing.profile_id);
+
+        //console.log("modbus Device profile is ", this.modbusDeviceProfile)
+
+       
     }
 
     init() {
+        super.init();
+        console.log("Modbus Device Init ");
+
+
+        this.id = this.node.properties['slaveId'];
+        
+        
         this.loadConfig();
         //console.log(this.modbusProfile)
-        for(let profile of this.modbusProfile){
+        // for(let profile of this.modbusProfile){
+        //     const Profileobj = new DataItem();
+
+
+
+        //     Profileobj.name =profile.name;
+        //     Profileobj.dataType=profile.data_type;
+        //     Profileobj.address = profile.address;
+        //     Profileobj.quantity =profile.quantity;
+        //     Profileobj.value = profile.value;
+        //     Profileobj.accessType =profile.access_type;
+        //     Profileobj.locationType = profile.location_type;  
+
+        //     this.dataItemMap[Profileobj.name]=Profileobj;
+
+        //     if(Profileobj.locationType==LocationType.COIL){
+        //         this.coilsMap[Profileobj.address]=Profileobj;
+        //     }            
+        //     else if(Profileobj.locationType==LocationType.DISCRETE_INPUT){
+        //         this.discreteInputsMap[Profileobj.address]=Profileobj;
+        //     }
+        //     else if(Profileobj.locationType==LocationType.HOLDING_REGISTER){
+        //         this.holdingRegistersMap[Profileobj.address]=Profileobj;
+        //     }
+        //     else if(Profileobj.locationType==LocationType.INPUT_REGISTER){
+        //         this.inputRegistersMap[Profileobj.address]=Profileobj;            
+        //     }        
+        // }
+
+        for (const modbusRegister of this.modbusDeviceProfile.registers) {
+            console.log("register is ", modbusRegister);
             const Profileobj = new DataItem();
-            Profileobj.name =profile.name;
-            Profileobj.dataType=profile.data_type;
-            Profileobj.address = profile.address;
-            Profileobj.quantity =profile.quantity;
-            Profileobj.value = profile.value;
-            Profileobj.accessType =profile.access_type;
-            Profileobj.locationType = profile.location_type;  
+
+
+
+            Profileobj.name =modbusRegister.name;
+            Profileobj.dataType=modbusRegister.data_type;
+            Profileobj.address = modbusRegister.address;
+            Profileobj.quantity =modbusRegister.quantity;
+            
+            Profileobj.accessType =modbusRegister.access_type;
+            Profileobj.locationType = modbusRegister.location;  
+
+            // FIXME: get from simulation
+            //Profileobj.value = modbusRegister.value;    
+            Profileobj.value = 11;
+
+
             this.dataItemMap[Profileobj.name]=Profileobj;
+
             if(Profileobj.locationType==LocationType.COIL){
                 this.coilsMap[Profileobj.address]=Profileobj;
             }            
@@ -57,8 +127,10 @@ export class ModbusDevice {
                 this.holdingRegistersMap[Profileobj.address]=Profileobj;
             }
             else if(Profileobj.locationType==LocationType.INPUT_REGISTER){
-                this.inputRegistersMap[Profileobj.address]=Profileobj;            }        
+                this.inputRegistersMap[Profileobj.address]=Profileobj;            
+            }   
         }
+
     }
 
 

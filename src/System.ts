@@ -1,14 +1,23 @@
+import { BaseActor } from './core/BaseActor';
+import { AccessType } from './modbus/AccessType';
+import { NodeType } from './core/NodeType';
+import { SiteProfile } from './core/SiteProfile';
 import { BacnetDevice } from './bacnet/BacnetDevice';
 import { ModbusTCP } from "./modbus/ModbusTcp";
 import { ModbusSerialPort } from "./modbus/ModbusSerialPort";
 import { ModbusTCPSerialBridge } from "./modbus/ModbusTCPSerialBridge";
 import { ModbusDevice } from "./modbus/ModbusDevice";
+import { ConfigurationManager } from './core/ConfigurationManager';
+import actorRegistry from './core/ActorRegistry';
+import { Node } from './core/Node';
+import { SystemContext } from './core/SystemContext';
 
- 
+actorRegistry.registerActor("ModbusTCPActor", ModbusTCP);
+actorRegistry.registerActor("ModbusDeviceActor", ModbusDevice);
 
 const json=require('jsonfile')
 
-export class System {
+export class System extends BaseActor {
      siteConfig;
     load(filepath:string) {
         try {
@@ -142,6 +151,28 @@ export class System {
             }
 
 
+        }
+    }
+
+
+    // new implementation
+
+   
+
+    configurationManager: ConfigurationManager;
+    siteProfile: SiteProfile;
+    context: SystemContext;
+
+    async loadNew() {
+        this.configurationManager = new ConfigurationManager();
+        this.configurationManager.init();
+        this.siteProfile = await this.configurationManager.loadSiteProfile("site");
+
+        this.context = new SystemContext(this.configurationManager, this.siteProfile);
+        for (const nodeRef of this.siteProfile.configuration) {
+            //console.log('processing noderef', nodeRef);
+            const node = this.siteProfile.getNode(nodeRef.id);
+            this.launchActor(node);
         }
     }
 }

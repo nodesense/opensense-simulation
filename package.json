@@ -12,7 +12,7 @@
     "describe": "npm-scripts-info",
     "build": "run-s clean && run-p build:*",
     "build:main": "tsc -p tsconfig.json",
-    "mon": "nodemon build/index.js",
+    "mon": "nodemon  build/index.js ",
     "build:module": "tsc -p tsconfig.module.json",
     "fix": "run-s fix:*",
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
@@ -53,13 +53,17 @@
     "node": ">=8.9"
   },
   "dependencies": {
+    "@types/jsonfile": "^5.0.0",
+    "@types/node-fetch": "^2.1.6",
     "bacstack": "0.0.1-beta.13",
+    "bluebird": "^3.5.3",
     "crc": "^3.8.0",
     "hex-to-binary": "^1.0.1",
     "json": "^9.0.6",
     "jsonfile": "^5.0.0",
     "modbus-serial": "^7.5.1",
     "net": "^1.0.2",
+    "node-fetch": "^2.3.0",
     "serial": "0.0.9",
     "serialport": "^6.2.2",
     "sha.js": "^2.4.11"

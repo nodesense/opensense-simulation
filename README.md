@@ -24,3 +24,11 @@ IoT Simultion
     
 socat -d -d pty,raw,echo=0 pty,raw,echo=0
 
+
+
+modbus-tcp
+
+modbus-rtu
+modbus-tcp-serial
+
+InverterDevice

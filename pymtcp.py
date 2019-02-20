@@ -55,7 +55,7 @@ log.setLevel(logging.DEBUG)
 #
 #    client = ModbusClient('localhost', retries=3, retry_on_empty=True)
 #---------------------------------------------------------------------------# 
-client = ModbusClient('localhost', port=502)
+client = ModbusClient('localhost', port=5020)
 #client = ModbusClient(method='ascii', port='/dev/pts/2', timeout=1)
 # client = ModbusClient(method='rtu', port='/dev/ttyp0', timeout=1)
 client.connect()
@@ -64,7 +64,7 @@ t1 = time.perf_counter()
 for x in range(0, 1):
     #print ("sending..")
     #time.sleep(1)
-    result= client.read_holding_registers(40119,1,unit= 3)
+    result= client.read_holding_registers(41, 1,unit= 111)
     #print(result)
     #result= client.read_coils(1,1 ,unit=5)
     #result=client.read_discrete_inputs(1,3,unit=1)

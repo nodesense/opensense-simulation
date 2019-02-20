@@ -1,7 +1,10 @@
+import { BaseActor } from './../core/BaseActor';
 import { ModbusDevice } from './ModbusDevice';
 import { RequestState } from './RequestState';
 import { RequestFrame } from './RequestFrame';
 import {FunctionCode} from './FunctionCode';
+import { Node } from '../core/Node';
+import { SystemContext } from '../core/SystemContext';
 var net = require('net');
 
 class ConnectedClient {
@@ -13,7 +16,7 @@ class ConnectedClient {
   
 }
 
-export class ModbusTCP {
+export class ModbusTCP extends BaseActor {
     
     server;
     socket;
@@ -25,14 +28,33 @@ export class ModbusTCP {
 
     // map of slave id to modbus device object
     deviceMap: {[key: number]: ModbusDevice} = {};
-    
-    constructor(public ip_address: string = '0.0.0.0', 
-                public port: number = 502) {
+    public ip_address: string = '0.0.0.0';
+    public port: number = 502;
+    constructor(context: SystemContext, node: Node) {
+                  super(context, node);
+
+                  console.log("**ModbusTCP Created", node);
         this.socket = null;
+    }
+
+    init() {
+      console.log("Modbus TCP Init");
+      super.init();
+
+      if (this.node.properties) {
+        this.port = this.node.properties['port']
+      }
+
+      for(const childActor of this.childActors) {
+        this.addDevice(childActor);
+      }
+
+      this.connect();
     }
 
     connect() {
 
+      console.log('Creating TCP Server');
       this.server = net.createServer((socket) => {
         this.socket = socket;
         //socket.write('Echo server\r\n');
@@ -49,6 +71,7 @@ export class ModbusTCP {
         });
       });
 
+      console.log('Binding to port ', this.port);
       this.server.listen(this.port, this.ip_address);
 
     }
@@ -297,6 +320,7 @@ export class ModbusTCP {
 
 
     addDevice(device: ModbusDevice) {
+      console.log("Adding Modbus Device " + device.id);
         this.deviceMap[device.id] = device;
     }
 
