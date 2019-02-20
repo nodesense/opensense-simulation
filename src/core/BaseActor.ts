@@ -17,7 +17,7 @@ export class BaseActor {
 
         if (this.node && this.node.children) {
             for (const nodeRef of this.node.children) {
-                //console.log('processing noderef', nodeRef);
+                console.log('processing noderef', nodeRef);
                 const node = this.context.siteProfile.getNode(nodeRef.id);
                 this.launchActor(node);
             }

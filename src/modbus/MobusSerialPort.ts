@@ -3,9 +3,13 @@ import { ModbusDevice } from './ModbusDevice';
 import { RequestState } from './RequestState';
 import { RequestFrame } from './RequestFrame';
 import {FunctionCode} from './FunctionCode';
+import { BaseActor } from '../core/BaseActor';
+import { SystemContext } from '../core/SystemContext';
+import { Node } from '../core/Node';
 
-export class ModbusSerialPort {
+export class ModbusSerialPort  extends BaseActor {
     serialPort: SerialPort;
+    node:any;
     requestState: RequestState = RequestState.DEVICE_ID;
 
     requestFrame: RequestFrame = new RequestFrame();
@@ -14,18 +18,51 @@ export class ModbusSerialPort {
     // map of slave id to modbus device object
     deviceMap: {[key: number]: ModbusDevice} = {};
     
-    constructor(public port:string,
-                public options: any, ) {
-        this.serialPort = null;
-    }
+    options: any = {};
+
+    constructor(context: SystemContext, node: Node) {
+      super(context, node);
+      this.node=node;
+      console.log("**Modbus Serial/RTU Created", this.node);
+}
+
+        // "flowControlIn": 0,
+        // "flowControlOut": 0
+
+        init() {
+          console.log("Modbus Serial/RTU Init");
+          super.init();
+    
+          for(const childActor of this.childActors) {
+                      this.addDevice(childActor);
+          }
+
+          // "baudRate":9600,
+          //    "databits": 8,
+          //    "parity": "none",
+          //    "stopBits": 1,
+          //    "flowControl": false
+
+          this.options.baudRate = this.node.properties.baudRate;
+          this.options.databits=this.node.properties.databits;
+          this.options.parity=this.node.properties.parity;
+          this.options.stopbits=this.node.properties.stopBits;
+          this.options.flowControl=this.node.properties.flowControl;
+          console.log("Checked");
+
+          this.connect();
+        }
 
     connect() {
-        this.serialPort = new SerialPort(this.port, this.options);
+        console.log("PORT ", this.node.properties)
+        this.serialPort = new SerialPort(this.node.properties.portName, this.options);
         this.serialPort.on('open', () => {});
         this.serialPort.on('data', (data: any) => {});
         this.serialPort.on('readable', (err: any) => this.readable());
         this.serialPort.on('close', (err: any) => {});
     }
+    
+
 
     
     readable()  {

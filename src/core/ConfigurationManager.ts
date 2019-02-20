@@ -28,9 +28,7 @@ export class ConfigurationManager {
         try {
            const siteProfileJson = await Restful.getJson(`${this.gatewayConfig.siteProfileApiEndPoint}/${siteId}`)
            //console.log(siteProfileJson);
-
            const paths = [this.getSitePath(), siteId];
-
            const siteDirPath = path.join(...paths);
            console.log("Site config path 4", siteDirPath);
            fs.mkdirSync(siteDirPath, {recursive: true});
@@ -49,7 +47,7 @@ export class ConfigurationManager {
         try {
             const deviceProfileJson = await Restful.getJson(`${this.gatewayConfig.deviceProfileApiEndPoint}/${profileId}`)
             //console.log(siteProfileJson);
- 
+
             const paths = [this.getSitePath(), siteId, 'device-profiles', `${profileId}.json`];
  
             const deviceProfilePath = path.join(...paths);
@@ -126,7 +124,7 @@ export class ConfigurationManager {
 
     async downloadThingConfiguration(siteProfile: SiteProfile) {
         for(const thing of siteProfile.things) {
-             console.log("Thing is ", thing);
+         //    console.log("Thing is ", thing);
             // FIXME: This download same profile multiple times
                 this.downloadDeviceProfile(thing.site_id, thing.profile_id);
                 this.downloadModbusDeviceProfile(thing.site_id, thing.profile_id);
@@ -160,10 +158,9 @@ export class ConfigurationManager {
 
     init() {
         const currentPath = process.cwd();
-        console.log("Current pat his ", this.getGatewayConfigPath());
-
+        console.log("Current path is ", this.getGatewayConfigPath());
         this.loadGatewayConfig();
-        console.log("Gateway config", this.gatewayConfig);
+        // console.log("Gateway config", this.gatewayConfig);
     }
 
     sync() {

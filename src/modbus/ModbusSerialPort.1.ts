@@ -1,81 +1,36 @@
-import { BaseActor } from './../core/BaseActor';
+import SerialPort from 'serialport';
 import { ModbusDevice } from './ModbusDevice';
 import { RequestState } from './RequestState';
 import { RequestFrame } from './RequestFrame';
 import {FunctionCode} from './FunctionCode';
-import { Node } from '../core/Node';
-import { SystemContext } from '../core/SystemContext';
-var net = require('net');
-class ConnectedClient {
-  socket;
-  constructor(socket) {
-    this.socket = socket;
-  }
-}
 
-export class ModbusTCP extends BaseActor {
-    
-    server;
-    socket;
-    requestState: RequestState = RequestState.TCP_TRANSACTION_ID;
+export class ModbusSerialPortBak {
+    serialPort: SerialPort;
+    requestState: RequestState = RequestState.DEVICE_ID;
 
     requestFrame: RequestFrame = new RequestFrame();
     expected: number = 1;
 
     // map of slave id to modbus device object
     deviceMap: {[key: number]: ModbusDevice} = {};
-    public ip_address: string = '0.0.0.0';
-    public port: number = 502;
-    constructor(context: SystemContext, node: Node) {
-                  super(context, node);
-
-                  console.log("**ModbusTCP Created", node);
-        this.socket = null;
-    }
-
-    init() {
-      console.log("Modbus TCP Init");
-      super.init();
-
-      if (this.node.properties) {
-        this.port = this.node.properties['port']
-      }
-
-      for(const childActor of this.childActors) {
-        this.addDevice(childActor);
-      }
-
-      this.connect();
+    
+    constructor(public port:string,
+                public options: any, ) {
+        this.serialPort = null;
     }
 
     connect() {
-
-      console.log('Creating TCP Server');
-      this.server = net.createServer((socket) => {
-        this.socket = socket;
-        //socket.write('Echo server\r\n');
-        //socket.pipe(socket);
-
-
-        this.socket.on('open', () => {
-          console.log('client connected')
-        });
-        this.socket.on('data', (data: any) => {});
-        this.socket.on('readable', (err: any) => this.readable());
-        this.socket.on('close', (err: any) => {
-          console.log('Client disconnected')
-        });
-      });
-
-      console.log('Binding to port ', this.port);
-      this.server.listen(this.port, this.ip_address);
-
+        this.serialPort = new SerialPort(this.port, this.options);
+        this.serialPort.on('open', () => {});
+        this.serialPort.on('data', (data: any) => {});
+        this.serialPort.on('readable', (err: any) => this.readable());
+        this.serialPort.on('close', (err: any) => {});
     }
 
     
     readable()  {
-        console.log("readable length ", this.socket.readableLength);
-        while (this.socket.readableLength > 0) {
+        console.log("readable length ", this.serialPort.readableLength);
+        while (this.serialPort.readableLength > 0) {
             //console.log('Data:', this.serialPort.read(1))
             this.read();
         }
@@ -83,23 +38,19 @@ export class ModbusTCP extends BaseActor {
 
 
     readBytes(bytes: number) {
-        
-        return this.socket.read(bytes)
-    
+        return this.serialPort.read(bytes)
     }
 
     
     readInt8() {
         let valBuf = this.readBytes(1);
-        
         let value = valBuf[0];
         //console.log("value is ", value);
         return value;
       }
     
       readInt16() {
-        let valBuf = this.readBytes(2);
-        
+        let valBuf = this.readBytes(2);        
         let value = valBuf[0] << 8 | valBuf[1];
        // console.log("value is ", value);
         return value;
@@ -152,9 +103,8 @@ export class ModbusTCP extends BaseActor {
         this.requestState = RequestState.BYTE_COUNT;
         this.expected = 1;
     } else {
-      this.processRequest();
-      // this.requestState = RequestState.CRC;
-      // this.expected = 2;
+      this.requestState = RequestState.CRC;
+      this.expected = 2;
     }
   }
 
@@ -184,9 +134,9 @@ export class ModbusTCP extends BaseActor {
 
     console.log("DX",     this.requestFrame.data);
  
-    this.processRequest();
-    // this.expected = 2;
-    // this.requestState = RequestState.CRC;
+ 
+    this.expected = 2;
+    this.requestState = RequestState.CRC;
   }
 
 
@@ -200,32 +150,6 @@ export class ModbusTCP extends BaseActor {
     this.checkCrc();
   }
 
-  readTransactionIdentifier() {
-    this.requestFrame.transactionIdentifier = this.readInt16();
-    console.log("transactionIdentifier", this.requestFrame.transactionIdentifier);
-
-    this.requestState = RequestState.TCP_PROTOCOL_IDENTIFIER;
-    this.expected = 2;
-  }
-
-
-  readProtocolIdentifier() {
-    this.requestFrame.protocolIdentifier = this.readInt16();
-    console.log("protocolIdentifier", this.requestFrame.protocolIdentifier);
-
-    this.requestState = RequestState.TCP_FRAME_LENGTH;
-    this.expected = 2;
-  }
-
-  readFrameLength() {
-    this.requestFrame.tcpFrameLength = this.readInt16();
-    console.log("tcpFrameLength", this.requestFrame.tcpFrameLength);
-
-    this.requestState = RequestState.DEVICE_ID;
-    this.expected = 1;
-  }
-
-
   checkCrc() {
     //TODO: check CRC valid or not
     //console.log("checking crc ..");
@@ -236,21 +160,6 @@ export class ModbusTCP extends BaseActor {
 
 
   read() {
-
-    if (this.requestState === RequestState.TCP_TRANSACTION_ID) {
-      return this.readTransactionIdentifier();
-    }
-
-
-    if (this.requestState === RequestState.TCP_PROTOCOL_IDENTIFIER) {
-      return this.readProtocolIdentifier();
-    }
-
-
-    if (this.requestState === RequestState.TCP_FRAME_LENGTH) {
-      return this.readFrameLength();
-    }
-
     if (this.requestState === RequestState.DEVICE_ID) {
       return this.readID();
     }
@@ -281,9 +190,10 @@ export class ModbusTCP extends BaseActor {
    
   }
 
+
+
   processRequest() {
-    this.requestState = RequestState.TCP_TRANSACTION_ID;
-    
+     
     if (this.requestFrame.id < 1 || this.requestFrame.id > 247) {
         console.log('error, slave id out of bound');
         return;
@@ -296,26 +206,24 @@ export class ModbusTCP extends BaseActor {
         return;
     }
     
-    const  responseFrame = device.processRequest(this.requestFrame);
 
+    const responseFrame = device.processRequest(this.requestFrame);
     if (responseFrame) {
-      const writeBuffer = !responseFrame.error?responseFrame.buildTCP():responseFrame.buildErrorTcp();
-      this.write(writeBuffer);
+      const writeBuffer = !responseFrame.error? responseFrame.build(): responseFrame.buildError();
+      this.write(writeBuffer)
     }
  }
 
-
     write(buffer: Buffer) {
-     // this.serialPort.write(buffer);
-     this.socket.write(buffer);
+      this.serialPort.write(buffer);
     }
 
     disconnect() {
+
     }
 
 
     addDevice(device: ModbusDevice) {
-      console.log("Adding Modbus Device " + device.id);
         this.deviceMap[device.id] = device;
     }
 

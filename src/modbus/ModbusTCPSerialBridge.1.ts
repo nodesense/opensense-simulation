@@ -1,56 +1,37 @@
-import { BaseActor } from './../core/BaseActor';
 import { ModbusDevice } from './ModbusDevice';
 import { RequestState } from './RequestState';
 import { RequestFrame } from './RequestFrame';
 import {FunctionCode} from './FunctionCode';
-import { Node } from '../core/Node';
-import { SystemContext } from '../core/SystemContext';
+import { ResponseFrame } from './ResponseFrame';
+var ModbusRTU = require("modbus-serial");
+
 var net = require('net');
 class ConnectedClient {
   socket;
+
   constructor(socket) {
     this.socket = socket;
-  }
+  }  
 }
 
-export class ModbusTCP extends BaseActor {
-    
+export class ModbusTCPSerialBridge1 { 
     server;
     socket;
+    client;
     requestState: RequestState = RequestState.TCP_TRANSACTION_ID;
-
     requestFrame: RequestFrame = new RequestFrame();
     expected: number = 1;
 
     // map of slave id to modbus device object
     deviceMap: {[key: number]: ModbusDevice} = {};
-    public ip_address: string = '0.0.0.0';
-    public port: number = 502;
-    constructor(context: SystemContext, node: Node) {
-                  super(context, node);
-
-                  console.log("**ModbusTCP Created", node);
+  
+    constructor(public ip_address: string = '0.0.0.0', 
+                public port: number = 502) {
         this.socket = null;
-    }
-
-    init() {
-      console.log("Modbus TCP Init");
-      super.init();
-
-      if (this.node.properties) {
-        this.port = this.node.properties['port']
-      }
-
-      for(const childActor of this.childActors) {
-        this.addDevice(childActor);
-      }
-
-      this.connect();
     }
 
     connect() {
 
-      console.log('Creating TCP Server');
       this.server = net.createServer((socket) => {
         this.socket = socket;
         //socket.write('Echo server\r\n');
@@ -67,9 +48,15 @@ export class ModbusTCP extends BaseActor {
         });
       });
 
-      console.log('Binding to port ', this.port);
       this.server.listen(this.port, this.ip_address);
 
+
+      this.client = new ModbusRTU();
+
+// open connection to a serial port
+      this.client.connectRTU("COM8", { baudRate: 9600 }, () => {
+        console.log("COM 8 connnected");
+      });
     }
 
     
@@ -281,27 +268,70 @@ export class ModbusTCP extends BaseActor {
    
   }
 
+  respond(requestFrame: RequestFrame, result: any) {
+    const responseFrame  = new ResponseFrame();
+    console.log('Got Result ', result);
+    //FIXME: for TCP and Serial
+    responseFrame.reset();
+    responseFrame.transactionIdentifier = requestFrame.transactionIdentifier;
+    responseFrame.protocolIdentifier = requestFrame.protocolIdentifier;
+    responseFrame.id = requestFrame.id;
+    responseFrame.func = requestFrame.func;
+    responseFrame.address=requestFrame.address;  
+    responseFrame.data = result.buffer;
+    responseFrame.byteCount = result.buffer ? result.buffer.length : 0;
+       const writeBuffer = !responseFrame.error?responseFrame.buildTCP():responseFrame.buildErrorTcp();
+       console.log("Response frame ", responseFrame)
+       console.log("Bufffer is ", writeBuffer);
+       this.write(writeBuffer);
+  }
+
   processRequest() {
     this.requestState = RequestState.TCP_TRANSACTION_ID;
-    
-    if (this.requestFrame.id < 1 || this.requestFrame.id > 247) {
-        console.log('error, slave id out of bound');
-        return;
-    }
+    console.log('got a request from tcp client ', this.requestFrame);    
+    const requestFrame = this.requestFrame;
+    this.client.setID(requestFrame.id);
+    console.log("Modbus Device ", requestFrame);
+    if(requestFrame.func==FunctionCode.READ_COILS){
+      this.client.readCoils(requestFrame.address, requestFrame.quantity)
+          .then(result => {
+            this.respond(this.requestFrame, result);
+          });
+        }
+    else if(requestFrame.func==FunctionCode.READ_HOLDING_REGISTERS){
+    this.client.readHoldingRegisters(requestFrame.address, requestFrame.quantity)
+        .then(result => {
+          this.respond(this.requestFrame, result);
+        });
+      }
+      else if(requestFrame.func==FunctionCode.WRITE_MULTIPLE_COILS){
+        this.client.writeCoils(requestFrame.address,requestFrame.data)
+            .then(result => {
+              this.respond(this.requestFrame, result);
+            });
+          }
+    else if(requestFrame.func==FunctionCode.WRITE_MULTIPLE_REGISTERS){
+        let data = [];
+        let source = requestFrame.data;
+        for(let i=0;i<requestFrame.byteCount; i += 2){
+          let regValue =  ((source[i] << 8) & 0xff00) | (source[i+1] & 0xff);
+          data.push(regValue) 
+        }
 
-    const device = this.deviceMap[this.requestFrame.id];
+        console.log('data to write is ', data)
 
-    if (!device) {
-        console.log(`slave ${this.requestFrame.id} not found`);
-        return;
-    }
-    
-    const  responseFrame = device.processRequest(this.requestFrame);
+        this.client.writeRegisters(requestFrame.address, data)
+            .then(result => {
+              this.respond(this.requestFrame, result);
+            });
+          }
+    // const  responseFrame = device.processRequest(this.requestFrame);
 
-    if (responseFrame) {
-      const writeBuffer = !responseFrame.error?responseFrame.buildTCP():responseFrame.buildErrorTcp();
-      this.write(writeBuffer);
-    }
+    // if (responseFrame) {
+    //   const writeBuffer = !responseFrame.error?responseFrame.buildTCP():responseFrame.buildErrorTcp();
+    //   this.write(writeBuffer);
+    // }
+
  }
 
 
@@ -311,11 +341,11 @@ export class ModbusTCP extends BaseActor {
     }
 
     disconnect() {
+
     }
 
 
     addDevice(device: ModbusDevice) {
-      console.log("Adding Modbus Device " + device.id);
         this.deviceMap[device.id] = device;
     }
 

@@ -1,44 +1,62 @@
+import { BaseActor } from './../core/BaseActor';
 import { ModbusDevice } from './ModbusDevice';
 import { RequestState } from './RequestState';
 import { RequestFrame } from './RequestFrame';
 import {FunctionCode} from './FunctionCode';
+import { Node } from '../core/Node';
+import { SystemContext } from '../core/SystemContext';
 import { ResponseFrame } from './ResponseFrame';
-
 var ModbusRTU = require("modbus-serial");
-
-
 var net = require('net');
-
 class ConnectedClient {
   socket;
-
   constructor(socket) {
     this.socket = socket;
   }
-  
 }
 
-export class ModbusTCPSerialBridge {
-    
+export class ModbusTCPSerialBridge extends BaseActor {
+    client;
     server;
     socket;
-    client;
-
+    portName;
+    baudRate;
     requestState: RequestState = RequestState.TCP_TRANSACTION_ID;
 
     requestFrame: RequestFrame = new RequestFrame();
     expected: number = 1;
-
     // map of slave id to modbus device object
     deviceMap: {[key: number]: ModbusDevice} = {};
-    
-    constructor(public ip_address: string = '0.0.0.0', 
-                public port: number = 502) {
+    public ip_address: string = '0.0.0.0';
+    public port: number = 502;
+    constructor(context: SystemContext, node: Node) {
+                  super(context, node);
+
+                  console.log("**ModbusTCP Serial Bridge Created", node);
         this.socket = null;
+    }
+
+    init() {
+      console.log("Modbus TCP Serial Bridge Init");
+      super.init();
+
+      if (this.node.properties) {
+        this.port = this.node.properties['port']        
+        this.portName=this.node.properties['portName']
+        this.baudRate=this.node.properties['baudRate']
+        console.log("Port details",this.port,this.portName,this.baudRate);
+      }
+
+      for(const childActor of this.childActors) {
+        this.addDevice(childActor);
+      }
+
+      this.connect();
     }
 
     connect() {
 
+      console.log('Creating TCP Server');
       this.server = net.createServer((socket) => {
         this.socket = socket;
         //socket.write('Echo server\r\n');
@@ -55,15 +73,14 @@ export class ModbusTCPSerialBridge {
         });
       });
 
+      console.log('Binding to port ', this.port);
       this.server.listen(this.port, this.ip_address);
+      this.client=new ModbusRTU();
 
-
-      this.client = new ModbusRTU();
-
-// open connection to a serial port
-      this.client.connectRTU("COM8", { baudRate: 9600 }, () => {
-        console.log("COM 8 connnected");
+      this.client.connectRTU(this.portName, { baudRate: this.baudRate }, () => {
+        console.log(this.portName," connnected");
       });
+
     }
 
     
@@ -342,13 +359,36 @@ export class ModbusTCPSerialBridge {
  }
 
 
+//   processRequest() {
+//     this.requestState = RequestState.TCP_TRANSACTION_ID;
+    
+//     if (this.requestFrame.id < 1 || this.requestFrame.id > 247) {
+//         console.log('error, slave id out of bound');
+//         return;
+//     }
+
+//     const device = this.deviceMap[this.requestFrame.id];
+//     if (!device) {
+//         console.log(`slave ${this.requestFrame.id} not found`);
+//         return;
+//     }
+    
+    
+//     const  responseFrame = device.processRequest(this.requestFrame);
+
+//     if (responseFrame) {
+//       const writeBuffer = !responseFrame.error?responseFrame.buildTCP():responseFrame.buildErrorTcp();
+//       this.write(writeBuffer);
+//     }
+//  }
+
+
     write(buffer: Buffer) {
      // this.serialPort.write(buffer);
      this.socket.write(buffer);
     }
 
     disconnect() {
-
     }
 
 

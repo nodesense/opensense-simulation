@@ -21,7 +21,7 @@ export class BaseThingActor extends BaseActor {
 
         if (this.node.thing_id) {
             this.thing = this.context.siteProfile.getThing(this.node.thing_id);
-            console.log("Thing is ", this.thing);
+           // console.log("Thing is ", this.thing);
         }
     }
 }

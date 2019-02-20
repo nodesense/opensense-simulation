@@ -97,7 +97,7 @@ export class ModbusDevice extends BaseThingActor {
         // }
 
         for (const modbusRegister of this.modbusDeviceProfile.registers) {
-            console.log("register is ", modbusRegister);
+          //  console.log("register is ", modbusRegister);
             const Profileobj = new DataItem();
 
 
@@ -112,7 +112,7 @@ export class ModbusDevice extends BaseThingActor {
 
             // FIXME: get from simulation
             //Profileobj.value = modbusRegister.value;    
-            Profileobj.value = 11;
+            Profileobj.value = 10;
 
 
             this.dataItemMap[Profileobj.name]=Profileobj;
