@@ -42,13 +42,27 @@ export class ModbusSerialPort  extends BaseActor {
           //    "parity": "none",
           //    "stopBits": 1,
           //    "flowControl": false
+          const numParity = +this.node.properties.parity;
 
-          this.options.baudRate = this.node.properties.baudRate;
-          this.options.databits=this.node.properties.databits;
-          this.options.parity=this.node.properties.parity;
-          this.options.stopbits=this.node.properties.stopBits;
-          this.options.flowControl=this.node.properties.flowControl;
-          console.log("Checked");
+          let parity = 'none';
+          if (numParity == 0) {
+            parity = 'none'
+          } else if (numParity == 1) {
+            parity = 'even'
+          } else if (numParity == 0) {
+            parity = 'odd'
+          }
+
+
+          this.options.baudRate = +this.node.properties.baudRate;
+          this.options.databits= +this.node.properties.dataBits;
+          this.options.parity= parity;
+          this.options.stopbits= +this.node.properties.stopBits;
+          
+          this.options.flowControl= +this.node.properties.flowControl;
+          // FIXME: Look into this, some issues with backend properties with nodeType
+          this.options.flowControl = false;
+          console.log("serial port options  ", this.options);
 
           this.connect();
         }

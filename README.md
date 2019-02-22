@@ -25,7 +25,6 @@ IoT Simultion
 socat -d -d pty,raw,echo=0 pty,raw,echo=0
 
 
-<<<<<<< HEAD
 
 modbus-tcp
 
@@ -33,7 +32,6 @@ modbus-rtu
 modbus-tcp-serial
 
 InverterDevice
-=======
 <!-- For compiling serialport on Raspberry PI -->
 
  
@@ -45,4 +43,3 @@ InverterDevice
 >node-gyp configure build
 
  
->>>>>>> 39656df4ee39cb803e4955f4b2d36d036e02b21c

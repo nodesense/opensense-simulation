@@ -2,15 +2,19 @@ const fetch = require('node-fetch');
 const Bluebird = require('bluebird');
 fetch.Promise = Bluebird;
 
-import { ConfigurationManager } from './core/ConfigurationManager';
+import configurationManager from './core/ConfigurationManager';
 import { System } from './System';
+import server from './server';
+
 
 let system =new System();
 // system.load('src/modbus/data/site.json');
 
 system.loadNew();
 
-// let manager = new ConfigurationManager();
-// manager.init();
-// manager.loadSiteProfile("site");
-// manager.sync();
+
+server.listen(3000, () => console.log('Example app2 listening on port 3000!'))
+
+
+configurationManager.init();
+// configurationManager.sync();

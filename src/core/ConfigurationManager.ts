@@ -21,7 +21,7 @@ export class ConfigurationManager {
     }
 
     getSitePath() {
-        return path.join(this.getAppPath(), '..', 'configuration');
+        return path.join(this.getAppPath(),  'configuration');
     }
 
     async downloadSiteProfile(siteId: string) {
@@ -82,7 +82,7 @@ export class ConfigurationManager {
     }
 
     loadSiteProfile(siteId: string): SiteProfile {
-        const paths = [this.getSitePath(), siteId, `${siteId}-core.json`];
+        const paths = [this.getSitePath(), siteId, `${siteId}.json`];
 
         const siteConfigPath = path.join(...paths);
         console.log("Site config path 4", siteConfigPath);
@@ -147,9 +147,10 @@ export class ConfigurationManager {
     getAppPath() {
         return process.cwd();
     }
+    
 
     getGatewayConfigPath() {
-        return path.join(this.getAppPath(), "conf", "gateway-config.json")
+        return path.join(this.getAppPath(),  "settings.json")
     }
 
     loadGatewayConfig() {
@@ -169,3 +170,6 @@ export class ConfigurationManager {
         }
     }
 }
+
+const configurationManager = new ConfigurationManager();
+export default configurationManager;

@@ -90,6 +90,7 @@
   "site": {
     "id": "site",
     "name": "site",
+    "account_id": "account-1",
     "type_of": "Site",
     "properties": {
       "icon": "site",
@@ -105,6 +106,7 @@
     {
       "id": "bacnet1",
       "name": "bacnet1",
+      "account_id": "account-1",
       "site_id": "site",
       "tag_id": "floor1",
       "nodetype_id": "bacnetdeviceactor",
@@ -121,6 +123,7 @@
     {
       "id": "com1",
       "name": "com1",
+      "account_id": "account-1",
       "site_id": "site",
       "tag_id": "floor1",
       "nodetype_id": "modbusRTUactor",
@@ -133,7 +136,7 @@
       "properties": {
         "parity": 0,
         "baudRate": 9600,
-        "portName": "COM8",
+        "portName": "/dev/ttys007",
         "stopBits": 1,
         "dataBites": 8,
         "flowControlIn": 0,
@@ -145,6 +148,7 @@
     {
       "id": "esp-edge",
       "name": "esp-edge",
+      "account_id": "account-1",
       "site_id": "site",
       "tag_id": "floor1",
       "nodetype_id": "modbusMQTTedgeactor",
@@ -156,8 +160,8 @@
       ],
       "properties": {
         "server": "tcp://mqtt.nodesense.ai:1883",
-        "publishTopic": "source-test/topic2",
-        "subscribeTopic": "source-test/topic1"
+        "publishTopic": "edge/30AEA47B2AD8/modbus/request",
+        "subscribeTopic": "edge/30AEA47B2AD8/modbus/response"
       },
       "definition": {},
       "data": {}
@@ -165,6 +169,7 @@
     {
       "id": "modbus-tcp",
       "name": "modbus-tcp",
+      "account_id": "account-1",
       "site_id": "site",
       "tag_id": "floor1",
       "nodetype_id": "modbusTCPactor",
@@ -174,13 +179,17 @@
       "children": [
         {}
       ],
-      "properties": {},
+      "properties": {
+        "port": "502",
+        "ipAddress": "192.168.43.120"
+      },
       "definition": {},
       "data": {}
     },
     {
       "id": "mqtt",
       "name": "mqtt",
+      "account_id": "account-1",
       "site_id": "site",
       "tag_id": "floor1",
       "nodetype_id": "mqttactor",
@@ -201,6 +210,7 @@
     {
       "id": "site1",
       "name": "site1",
+      "account_id": "account-1",
       "site_id": "site",
       "tag_id": "floor1",
       "nodetype_id": "siteactor",
@@ -217,6 +227,7 @@
     {
       "id": "slave1",
       "name": "slave1",
+      "account_id": "account-1",
       "site_id": "site",
       "tag_id": "floor1",
       "nodetype_id": "modbusdeviceactor",
@@ -235,6 +246,7 @@
     {
       "id": "slave11",
       "name": "slave11",
+      "account_id": "account-1",
       "site_id": "site",
       "tag_id": "floor1",
       "nodetype_id": "modbusdeviceactor",
@@ -253,6 +265,7 @@
     {
       "id": "slave111",
       "name": "slave111",
+      "account_id": "account-1",
       "site_id": "site",
       "tag_id": "floor1",
       "nodetype_id": "modbusdeviceactor",
@@ -271,6 +284,7 @@
     {
       "id": "slave211",
       "name": "slave211",
+      "account_id": "account-1",
       "site_id": "site",
       "tag_id": "floor1",
       "nodetype_id": "modbusdeviceactor",
@@ -289,6 +303,7 @@
     {
       "id": "slave221",
       "name": "slave221",
+      "account_id": "account-1",
       "site_id": "site",
       "tag_id": "floor1",
       "nodetype_id": "modbusdeviceactor",
@@ -307,6 +322,7 @@
     {
       "id": "slave31",
       "name": "slave31",
+      "account_id": "account-1",
       "site_id": "site",
       "tag_id": "floor1",
       "nodetype_id": "modbusdeviceactor",
@@ -327,6 +343,7 @@
     {
       "id": "bacnetdeviceactor",
       "name": "BacnetDeviceActor",
+      "account_id": "account-1",
       "type_of": "OS::BacnetDeviceActor",
       "icon": "bacnet",
       "actor": {},
@@ -338,6 +355,7 @@
     {
       "id": "modbusMQTTedgeactor",
       "name": "ModbusMQTTEdgeActor",
+      "account_id": "account-1",
       "type_of": "OS::ModbusMQTTEdgeActor",
       "icon": "Mqtt",
       "actor": {},
@@ -377,10 +395,11 @@
     {
       "id": "modbusRTUactor",
       "name": "ModbusRTUActor",
-      "type_of": "OS::ModbusRTUActor",
+      "account_id": "account-1",
+      "type_of": "ModbusRTUActor",
       "icon": "mqtt",
       "actor": {},
-      "data": null,
+      "data": {},
       "config": {
         "properties": [
           {
@@ -452,21 +471,45 @@
     {
       "id": "modbusTCPactor",
       "name": "ModbusTCPActor",
+      "account_id": "account-1",
       "type_of": "OS::ModbusTCPActor",
       "icon": "modbus",
       "actor": {},
-      "data": null,
+      "data": {},
       "config": {
-        "properties": []
+        "properties": [
+          {
+            "name": "port",
+            "type": "number",
+            "label": {},
+            "options": [],
+            "type_of": "Port",
+            "controlType": "text",
+            "description": {},
+            "is_required": true,
+            "default_value": "502"
+          },
+          {
+            "name": "ipAddress",
+            "type": "text",
+            "label": {},
+            "options": [],
+            "type_of": "IPAddress",
+            "controlType": "text",
+            "description": {},
+            "default_value": "127.0.0.1"
+          }
+        ]
       }
     },
     {
       "id": "modbusdeviceactor",
       "name": "ModbusDeviceActor",
-      "type_of": "OS::ModbusDeviceActor",
+      "account_id": "account-1",
+      "type_of": "ModbusDeviceActor",
       "icon": "slave1",
       "actor": {},
-      "data": null,
+      "data": {},
       "config": {
         "properties": [
           {
@@ -484,6 +527,7 @@
     {
       "id": "mqttactor",
       "name": "MqttActor",
+      "account_id": "account-1",
       "type_of": "OS::MqttActor",
       "icon": "Mqtt",
       "actor": {},
@@ -523,6 +567,7 @@
     {
       "id": "siteactor",
       "name": "SiteActor",
+      "account_id": "account-1",
       "type_of": "OS::SiteActor",
       "icon": "site",
       "actor": {},
@@ -540,6 +585,7 @@
       "site_id": "site",
       "serial_number": "001",
       "profile_id": "gdm-device-profile-v1",
+      "account_id": "account-1",
       "device_id": "gdm-device",
       "devicegroup_id": "flow",
       "type_of": "Things",
@@ -560,6 +606,7 @@
       "site_id": "site",
       "serial_number": "002",
       "profile_id": "gdm-device-profile-v1",
+      "account_id": "account-1",
       "device_id": "gdm-device",
       "devicegroup_id": "flow",
       "type_of": "Things",
@@ -580,6 +627,7 @@
       "site_id": "site",
       "serial_number": "00",
       "profile_id": "gdm-device-profile-v1",
+      "account_id": "account-1",
       "device_id": "gdm-device",
       "devicegroup_id": "flow",
       "type_of": "Things",
@@ -598,6 +646,7 @@
     {
       "id": "floor1",
       "name": "Floor1",
+      "account_id": "account-1",
       "site_id": "site",
       "properties": {},
       "definition": {},
@@ -606,6 +655,7 @@
     {
       "id": "floor2",
       "name": "Floor2",
+      "account_id": "account-1",
       "site_id": "site",
       "properties": {},
       "definition": {},
@@ -614,6 +664,7 @@
     {
       "id": "floor3",
       "name": "Floor3",
+      "account_id": "account-1",
       "site_id": "site",
       "properties": {},
       "definition": {},
@@ -624,6 +675,7 @@
     {
       "id": "density",
       "name": "Density",
+      "account_id": "account-1",
       "site_id": "site",
       "type_of": "DeviceGroup",
       "properties": {},
@@ -633,6 +685,7 @@
     {
       "id": "energymeter",
       "name": "EnergyMeter",
+      "account_id": "account-1",
       "site_id": "site",
       "type_of": "DeviceGroup",
       "properties": {},
@@ -642,6 +695,7 @@
     {
       "id": "flow",
       "name": "Flow",
+      "account_id": "account-1",
       "site_id": "site",
       "type_of": "DeviceGroup",
       "properties": {},
@@ -651,6 +705,7 @@
     {
       "id": "temperature",
       "name": "Temperature",
+      "account_id": "account-1",
       "site_id": "site",
       "type_of": "DeviceGroup",
       "properties": {},

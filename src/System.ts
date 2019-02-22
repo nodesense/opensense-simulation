@@ -167,13 +167,21 @@ export class System extends BaseActor {
     async loadNew() {
         this.configurationManager = new ConfigurationManager();
         this.configurationManager.init();
-        this.siteProfile = await this.configurationManager.loadSiteProfile("site");
-        this.context = new SystemContext(this.configurationManager, this.siteProfile);
-        for (const nodeRef of this.siteProfile.configuration) {
-            console.log('***processing noderef', nodeRef);
-            const node = this.siteProfile.getNode(nodeRef.id);
-            this.launchActor(node);
+
+        for(const siteRef of this.configurationManager.gatewayConfig.sites) {
+            console.log("Loading site ", siteRef);
+
+            this.siteProfile = await this.configurationManager.loadSiteProfile(siteRef.id);
+            this.context = new SystemContext(this.configurationManager, this.siteProfile);
+            for (const nodeRef of this.siteProfile.configuration) {
+                console.log('***processing noderef', nodeRef);
+                const node = this.siteProfile.getNode(nodeRef.id);
+                this.launchActor(node);
+            }
+
         }
+
+        
     }
 }
 

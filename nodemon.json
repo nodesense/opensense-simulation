@@ -1,0 +1,5 @@
+{
+    "watch": ["build/", "settings.json"],
+    "ext": "js, css, json",
+    "delay": "2000"
+}
