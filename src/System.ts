@@ -178,10 +178,7 @@ export class System extends BaseActor {
                 const node = this.siteProfile.getNode(nodeRef.id);
                 this.launchActor(node);
             }
-
         }
-
-        
     }
 }
 

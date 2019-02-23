@@ -34,7 +34,7 @@ export class BaseActor {
             return;
         }
         const ActorType = actorRegistry.getActorType(nodeType.type_of);
-        console.log("ActorType is ", AccessType);
+        // console.log("ActorType is ", ActorType);
 
         const actor:BaseActor  = new ActorType(this.context, node);
         actor.init();

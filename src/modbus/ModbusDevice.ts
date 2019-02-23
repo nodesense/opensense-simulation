@@ -16,15 +16,15 @@ import { BaseThingActor } from '../core/BaseThingActor';
 
 export class ModbusDevice extends SimulationDevice {
     public id:number = 1;
-    public slaveConfig?:any;
+    // public slaveConfig?:any;
 
         constructor(context: SystemContext, node: Node) {
                   super(context, node);
 
         console.log('**ModbusDevice created')
-        this.slaveConfig = {
-            "configPath":"src/modbus/devices_profiles/InverterDevice.json"
-        }
+        // this.slaveConfig = {
+        //     "configPath":"src/modbus/devices_profiles/InverterDevice.json"
+        // }
          
     }
     modbusProfile;
@@ -42,18 +42,11 @@ export class ModbusDevice extends SimulationDevice {
 
 
     loadConfig() {
-        // try {
-        //     //console.log(this.slaveConfig);
-        //     this.modbusProfile=json.readFileSync(this.slaveConfig.configPath);
-        // }
-        // catch (err) {
-        //     console.log('absent.json error', err.message);
-        // }
-
+ 
         this.modbusDeviceProfile = this.context.configurationManager
                     .loadModbusDeviceProfile(this.thing.site_id, this.thing.profile_id);
 
-        //console.log("modbus Device profile is ", this.modbusDeviceProfile)
+        // console.log("modbus Device profile is ", this.modbusDeviceProfile.registers)
 
        
     }
@@ -61,11 +54,7 @@ export class ModbusDevice extends SimulationDevice {
     init() {
         super.init();
         console.log("Modbus Device Init ");
-
-
         this.id = this.node.properties['slaveId'];
-        
-        
         this.loadConfig();
         //console.log(this.modbusProfile)
         // for(let profile of this.modbusProfile){
@@ -100,24 +89,17 @@ export class ModbusDevice extends SimulationDevice {
         for (const modbusRegister of this.modbusDeviceProfile.registers) {
           //  console.log("register is ", modbusRegister);
             const Profileobj = new DataItem();
-
-
-
             Profileobj.name =modbusRegister.name;
             Profileobj.dataType=modbusRegister.data_type;
             Profileobj.address = modbusRegister.address;
             Profileobj.quantity =modbusRegister.quantity;
-            
             Profileobj.accessType =modbusRegister.access_type;
             Profileobj.locationType = modbusRegister.location;  
-
             // FIXME: get from simulation
-            //Profileobj.value = modbusRegister.value;    
-            Profileobj.value = 10;
-
-
+            // Profileobj.value = modbusRegister.value;    
+            //  Profileobj.value=10;
+            Profileobj.value= this.getValue(Profileobj.name);
             this.dataItemMap[Profileobj.name]=Profileobj;
-
             if(Profileobj.locationType==LocationType.COIL){
                 this.coilsMap[Profileobj.address]=Profileobj;
             }            
@@ -147,7 +129,8 @@ export class ModbusDevice extends SimulationDevice {
             console.log("Control is coming");
             const address = requestFrame.address + i;
             const dataItem = this.coilsMap[address];
-            let value = dataItem.value;
+            const value = this.getValue(dataItem.name);
+            // let value = dataItem.value;
             bitMerge = bitMerge | (value & 0x01);
             if (i !== 0 && (i+1)%8 === 0) {
                 console.log("Written to buffer "+bitMerge+" loop is "+(i+1));
@@ -217,7 +200,8 @@ export class ModbusDevice extends SimulationDevice {
             console.log("Control is coming");
             const address = requestFrame.address + i;
             const dataItem = this.discreteInputsMap[address];
-            let value = dataItem.value;
+            const value = this.getValue(dataItem.name);
+            // let value = dataItem.value;
             bitMerge = bitMerge | (value & 0x01);
             if (i !== 0 && (i+1)%8 === 0) {
                 console.log("Written to buffer "+bitMerge+" loop is "+(i+1));
@@ -307,21 +291,24 @@ export class ModbusDevice extends SimulationDevice {
                 } break;
 
                 case DataType.INT32:{
-                    const value = dataItem.value;
+                    const value = this.getValue(dataItem.name);
+                    // const value = dataItem.value;
                     console.log("Value is "+value)
                     this.responseFrame.writeUInt32(value);
                 }
                 break;
 
                 case DataType.FLOAT:{
-                    const value = dataItem.value;
+                    const value = this.getValue(dataItem.name);
+                    // const value = dataItem.value;
                     console.log("Value is "+value)
                     this.responseFrame.writeFloat(value);
                 }
                 break;
 
                 case DataType.STRING:{
-                    let value = dataItem.value;
+                    const value = this.getValue(dataItem.name);
+                    // let value = dataItem.value;
                     let bytes=dataItem.quantity*2;
                     console.log("String Value is "+value)
                     this.responseFrame.writeString(value,bytes);
@@ -363,13 +350,15 @@ export class ModbusDevice extends SimulationDevice {
             switch(dataItem.dataType) {
 
                 case DataType.INT16: {
-                    const value = dataItem.value;
+                    const value = this.getValue(dataItem.name);
+                    // const value = dataItem.value;
                     console.log("Value 16 is "+value)
                     this.responseFrame.writeUInt16(value);
                 } break;
 
                 case DataType.INT32:{
-                    const value = dataItem.value;
+                    const value = this.getValue(dataItem.name);
+                    // const value = dataItem.value;
                     console.log("Value is "+value)
                     this.responseFrame.writeUInt32(value);
                 }
@@ -380,12 +369,13 @@ export class ModbusDevice extends SimulationDevice {
                     // const value = dataItem.value;
 
                     const value = this.getValue(dataItem.name);
-                    console.log("Value is "+value)
+                    console.log("Float Value is "+value)
                     this.responseFrame.writeFloat(value);
                 }
                 break;
 
                 case DataType.STRING:{
+                    // const value = this.getValue(dataItem.name);
                     let value = dataItem.value;
                     let bytes=dataItem.quantity*2;
                     console.log("Value is "+value)
@@ -402,9 +392,6 @@ export class ModbusDevice extends SimulationDevice {
             this.responseFrame.error = true;
             this.responseFrame.exceptionCode = 0x02;
         }
-        
-
-      
     }
 
 

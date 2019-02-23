@@ -84,7 +84,6 @@ export class ConfigurationManager {
 
     loadSiteProfile(siteId: string): SiteProfile {
         const paths = [this.getSitePath(), siteId, `${siteId}.json`];
-
         const siteConfigPath = path.join(...paths);
         console.log("Site config path 4", siteConfigPath);
        

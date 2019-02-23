@@ -4,7 +4,6 @@ export  interface Simulation {
     min: number;
     max: number;
     formula: string; 
-
     interval?: number;
     is_scheduled?: boolean; // enable timer
     monitored_variable?: VariableRef;
