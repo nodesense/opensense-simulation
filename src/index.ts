@@ -12,7 +12,7 @@ import server from './server';
 let system =new System();
 // system.load('src/modbus/data/site.json');
 
-// system.loadNew();
+system.loadNew();
 
 
 server.listen(3000, () => console.log('Example app2 listening on port 3000!'))
