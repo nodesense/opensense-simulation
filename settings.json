@@ -1,9 +1,9 @@
 {
     "name": "gateway2",
   
-     "deviceProfileApiEndPoint": "http://192.168.43.223:7777/device-profiles",
-     "siteProfileApiEndPoint": "http://192.168.43.223:9999/site-profiles",
-     "modbusProfileApiEndPoint": "http://192.168.43.223:7777/modbus-profiles",
+     "deviceProfileApiEndPoint": "http://localhost:7777/device-profiles",
+     "siteProfileApiEndPoint": "http://localhost:9999/site-profiles",
+     "modbusProfileApiEndPoint": "http://localhost:7777/modbus-profiles",
   
     "sites": [
       {

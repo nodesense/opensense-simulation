@@ -51,7 +51,7 @@
         "parity": "0",
         "baudRate": "9600",
         "dataBits": "8",
-        "portName": "/dev/ttys007",
+        "portName": "/dev/ttys005",
         "stopBits": "1",
         "dataBites": "8",
         "flowControlIn": "0",

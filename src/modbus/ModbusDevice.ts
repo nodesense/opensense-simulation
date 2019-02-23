@@ -1,3 +1,4 @@
+import { SimulationDevice } from './../core/SimulationDevice';
 import { ModbusDeviceProfile } from './ModbusDeviceProfile';
 import { BaseActor } from './../core/BaseActor';
 const json=require('jsonfile')
@@ -13,7 +14,7 @@ import { Node } from '../core/Node';
 import { BaseThingActor } from '../core/BaseThingActor';
 
 
-export class ModbusDevice extends BaseThingActor {
+export class ModbusDevice extends SimulationDevice {
     public id:number = 1;
     public slaveConfig?:any;
 
@@ -277,7 +278,8 @@ export class ModbusDevice extends BaseThingActor {
     
     readHoldingRegisters(requestFrame: RequestFrame) {
         console.log('read holding register'+JSON.stringify(requestFrame));
-        this.responseFrame.address=requestFrame.address;  
+        this.responseFrame.address=requestFrame.address; 
+
         for (let registerIndex = 0; registerIndex < requestFrame.quantity; ) {           
             const address = (requestFrame.address) + (registerIndex);
             console.log('reading address ', address);
@@ -295,8 +297,12 @@ export class ModbusDevice extends BaseThingActor {
             switch(dataItem.dataType) {
 
                 case DataType.INT16: {
-                    const value = dataItem.value;
-                    console.log("Value 16 is "+value)
+                    //FIXME: take value from dataValue
+                    const value = this.getValue(dataItem.name);
+
+                    // const value = dataItem.value;
+                     
+                    console.log("Value Int16 is " +value)
                     this.responseFrame.writeUInt16(value);
                 } break;
 
@@ -370,7 +376,10 @@ export class ModbusDevice extends BaseThingActor {
                 break;
 
                 case DataType.FLOAT:{
-                    const value = dataItem.value;
+
+                    // const value = dataItem.value;
+
+                    const value = this.getValue(dataItem.name);
                     console.log("Value is "+value)
                     this.responseFrame.writeFloat(value);
                 }

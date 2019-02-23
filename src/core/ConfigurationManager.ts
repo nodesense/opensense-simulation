@@ -25,6 +25,7 @@ export class ConfigurationManager {
     }
 
     async downloadSiteProfile(siteId: string) {
+        console.log("Downloading site id", siteId);
         try {
            const siteProfileJson = await Restful.getJson(`${this.gatewayConfig.siteProfileApiEndPoint}/${siteId}`)
            //console.log(siteProfileJson);
@@ -165,6 +166,7 @@ export class ConfigurationManager {
     }
 
     sync() {
+        console.log("Syning gateway config", this.gatewayConfig);
         for (let siteRef of this.gatewayConfig.sites) {
             this.syncSite(siteRef.id);
         }
