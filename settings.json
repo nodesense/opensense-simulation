@@ -1,14 +1,14 @@
 {
     "name": "gateway2",
   
-     "deviceProfileApiEndPoint": "http://192.168.1.130:7777/device-profiles",
-     "siteProfileApiEndPoint": "http://192.168.1.130:9999/site-profiles",
-     "modbusProfileApiEndPoint": "http://192.168.1.130:7777/modbus-profiles",
+     "deviceProfileApiEndPoint": "http://localhost:7777/device-profiles",
+     "siteProfileApiEndPoint": "http://localhost:9999/site-profiles",
+     "modbusProfileApiEndPoint": "http://localhost:7777/modbus-profiles",
   
     "sites": [
       {
-        "id": "1984932989137585156",
-        "name": "1984932989137585156"
+        "id": "1985766572815287304",
+        "name": "1985766572815287304"
       }
     ]
   }
