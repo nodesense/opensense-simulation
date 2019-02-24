@@ -11,7 +11,11 @@ server.get('/', function (req, res) {
 server.get('/sync', function (req, res) {
     res.send('sync world')
     console.log("Syncing  the configuration");
+<<<<<<< HEAD
     configurationManager.sync();
+=======
+     configurationManager.sync();
+>>>>>>> 114e298e716b9be82b08e2336098bd9c5bb1b972
   })
   
 
