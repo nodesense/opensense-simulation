@@ -1,0 +1,385 @@
+{
+  "id": "gdm-device-profile-v1",
+  "name": "GDM Device Profile v1",
+  "type_of": "Profile",
+  "device_id": "gdm-device",
+  "manufacturer_id": "flow-inc",
+  "profile_id": "gdm-device-profile-v1",
+  "parent_id": null,
+  "properties": {},
+  "definition": {},
+  "data": {},
+  "manufacturer": {
+    "id": "flow-inc",
+    "name": "Flow Inc",
+    "account_id": "account-1",
+    "type_of": "Manufacturer",
+    "company_name": "Flow Inc",
+    "properties": {
+      "email": "flow@gmail.com",
+      "website": "www.flow.com",
+      "phone_number": "09876543221"
+    },
+    "address": {
+      "city": "bangalore",
+      "state": "karnataka",
+      "street": "jayanagar",
+      "country": "India",
+      "zipcode": "6658798"
+    },
+    "definition": {},
+    "data": {}
+  },
+  "device": {
+    "id": "gdm-device",
+    "name": "GDM Flow",
+    "account_id": "account-1",
+    "type_of": "Device",
+    "manufacturer_id": "flow-inc",
+    "description": {
+      "en": "GDM Device"
+    },
+    "label": {
+      "en": "GDM Device"
+    },
+    "category_id": "flow",
+    "properties": {
+      "icon": "device"
+    },
+    "definition": {},
+    "data": {}
+  },
+  "profile": {
+    "id": "gdm-device-profile-v1",
+    "name": "GDM Device Profile v1",
+    "description": {
+      "en": "GDM Device Profile v1"
+    },
+    "label": {
+      "en": "GDM Device Profile v1"
+    },
+    "type_of": "Profile",
+    "version": {
+      "build": 100,
+      "major": 1,
+      "minor": 2,
+      "patch": 3,
+      "strVersion": "1.2.3"
+    },
+    "account_id": "account-1",
+    "hardware_version": {},
+    "device_id": "gdm-device",
+    "manufacturer_id": "flow-inc",
+    "parent_id": null,
+    "data": {},
+    "definition": {},
+    "properties": {}
+  },
+  "variables": [
+    {
+      "id": "density-unit-code",
+      "name": "DensityUnitCode",
+      "account_id": "account-1",
+      "access_type": "Read",
+      "data_type": "UInt16",
+      "variable_type": "Variable",
+      "origin_type": "Device",
+      "classification": "Process",
+      "type_of": "Variable",
+      "device_id": "gdm-device",
+      "manufacturer_id": "flow-inc",
+      "profile_id": "gdm-device-profile-v1",
+      "description": {
+        "en": "DensityUnitCode"
+      },
+      "simulation": {},
+      "label": {
+        "en": "DensityUnitCode"
+      },
+      "data": {},
+      "unit": {
+        "has_unit": false
+      },
+      "metric": {
+        "has_metric": false
+      },
+      "enumeration": {
+        "has_enumeration": false
+      },
+      "definition": {},
+      "properties": {}
+    },
+    {
+      "id": "line-temperature",
+      "name": "LineTemperature",
+      "account_id": "account-1",
+      "access_type": "Read",
+      "data_type": "Float",
+      "variable_type": "Variable",
+      "origin_type": "Device",
+      "classification": "Status",
+      "type_of": "Variable",
+      "device_id": "gdm-device",
+      "manufacturer_id": "flow-inc",
+      "profile_id": "gdm-device-profile-v1",
+      "description": {
+        "en": "Line Temperature"
+      },
+      "simulation": {},
+      "label": {
+        "en": "Line Temperature"
+      },
+      "data": {},
+      "unit": {
+        "has_unit": false
+      },
+      "metric": {
+        "has_metric": false
+      },
+      "enumeration": {
+        "has_enumeration": false
+      },
+      "definition": {},
+      "properties": {}
+    },
+    {
+      "id": "tag_str8",
+      "name": "Tag_Str8",
+      "account_id": "account-1",
+      "access_type": "ReadWrite",
+      "data_type": "String",
+      "variable_type": "Variable",
+      "origin_type": "Device",
+      "classification": "Status",
+      "type_of": "Variable",
+      "device_id": "gdm-device",
+      "manufacturer_id": "flow-inc",
+      "profile_id": "gdm-device-profile-v1",
+      "description": {
+        "en": "Tag_Str8"
+      },
+      "simulation": {},
+      "label": {
+        "en": "Tag_Str8"
+      },
+      "data": {},
+      "unit": {
+        "has_unit": false
+      },
+      "metric": {
+        "has_metric": false
+      },
+      "enumeration": {
+        "has_enumeration": false
+      },
+      "definition": {},
+      "properties": {}
+    },
+    {
+      "id": "temperature",
+      "name": "Temperature",
+      "account_id": "account-1",
+      "access_type": "Read",
+      "data_type": "Float",
+      "variable_type": "Variable",
+      "origin_type": "Device",
+      "classification": "Process",
+      "type_of": "Variable",
+      "device_id": "gdm-device",
+      "manufacturer_id": "flow-inc",
+      "profile_id": "gdm-device-profile-v1",
+      "description": {
+        "en": "Temperature"
+      },
+      "simulation": {},
+      "label": {
+        "en": "Temperature"
+      },
+      "data": {},
+      "unit": {
+        "id": "temperature-unit-code",
+        "has_unit": false,
+        "name": "TemperatureUnitCode"
+      },
+      "metric": {
+        "id": "temperature-unit-code",
+        "has_metric": false,
+        "name": "TemperatureUnitCode"
+      },
+      "enumeration": {
+        "id": "temperature-unit-code-enumeration",
+        "has_enumeration": true,
+        "name": "TemperatureUnitCodeEnumeration"
+      },
+      "definition": {},
+      "properties": {}
+    },
+    {
+      "id": "temperature-unit-code",
+      "name": "TemperatureUnitCode",
+      "account_id": "account-1",
+      "access_type": "Read",
+      "data_type": "UInt16",
+      "variable_type": "Variable",
+      "origin_type": "Device",
+      "classification": "Process",
+      "type_of": "Variable",
+      "device_id": "gdm-device",
+      "manufacturer_id": "flow-inc",
+      "profile_id": "gdm-device-profile-v1",
+      "description": {
+        "en": "TemperatureUnitCode"
+      },
+      "simulation": {},
+      "label": {
+        "en": "TemperatureUnitCode"
+      },
+      "data": {},
+      "unit": {
+        "has_unit": false
+      },
+      "metric": {
+        "has_metric": false
+      },
+      "enumeration": {
+        "id": "temperature-unit-code-enumeration",
+        "has_enumeration": true,
+        "name": "TemperatureUnitCodeEnumeration"
+      },
+      "definition": {},
+      "properties": {}
+    }
+  ],
+  "enumerations": [
+    {
+      "id": "density-unit-code-enumeration",
+      "name": "DensityUnitCodeEnumeration",
+      "description": {
+        "en": "DensityUnitCodeEnumeration"
+      },
+      "label": {
+        "en": "DensityUnitCodeEnumeration"
+      },
+      "type_of": "Enumeration",
+      "data_type": "number",
+      "account_id": "account-1",
+      "manufacturer_id": "flow-inc",
+      "device_id": "gdm-device",
+      "profile_id": "gdm-device-profile-v1",
+      "definition": {},
+      "items": [
+        {
+          "name": "g/cm3",
+          "value": "91"
+        },
+        {
+          "name": "kg/m3",
+          "value": "92"
+        },
+        {
+          "name": "g_ml",
+          "value": "95"
+        }
+      ],
+      "data": {},
+      "properties": {}
+    },
+    {
+      "id": "temperature-unit-code-enumeration",
+      "name": "TemperatureUnitCodeEnumeration",
+      "description": {
+        "en": "TemperatureUnitCodeEnumeration"
+      },
+      "label": {
+        "en": "TemperatureUnitCodeEnumeration"
+      },
+      "type_of": "Enumeration",
+      "data_type": "number",
+      "account_id": "account-1",
+      "manufacturer_id": "flow-inc",
+      "device_id": "gdm-device",
+      "profile_id": "gdm-device-profile-v1",
+      "definition": {},
+      "items": [
+        {
+          "name": "DegreeC",
+          "value": "32"
+        },
+        {
+          "name": "DegreeF",
+          "value": "33"
+        },
+        {
+          "name": "DegreeR",
+          "value": "34"
+        },
+        {
+          "name": "DegreeK",
+          "value": "35"
+        }
+      ],
+      "data": {},
+      "properties": {}
+    }
+  ],
+  "metrics": [
+    {
+      "id": "density-unit-code",
+      "name": "DensityUnitCode",
+      "data_type": "number",
+      "account_id": "account-1",
+      "description": {
+        "en": "DensityUnitCode"
+      },
+      "label": {
+        "en": "DensityUnitCode"
+      },
+      "manufacturer_id": "flow-inc",
+      "device_id": "gdm-device",
+      "profile_id": "gdm-device-profile-v1",
+      "data": {},
+      "definition": {},
+      "items": [
+        {
+          "name": "DegreeC",
+          "value": "32"
+        },
+        {
+          "name": "DegreeF",
+          "value": "33"
+        }
+      ],
+      "properties": {},
+      "type_of": "Metric"
+    },
+    {
+      "id": "temperature-unit-code",
+      "name": "TemperatureUnitCode",
+      "data_type": "number",
+      "account_id": "account-1",
+      "description": {
+        "en": "TemperatureUnitCode"
+      },
+      "label": {
+        "en": "TemperatureUnitCode"
+      },
+      "manufacturer_id": "flow-inc",
+      "device_id": "gdm-device",
+      "profile_id": "gdm-device-profile-v1",
+      "data": {},
+      "definition": {},
+      "items": [
+        {
+          "name": "DegreeC",
+          "value": "32"
+        },
+        {
+          "name": "DegreeF",
+          "value": "33"
+        }
+      ],
+      "properties": {},
+      "type_of": "Metric"
+    }
+  ]
+}

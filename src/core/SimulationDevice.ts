@@ -37,12 +37,12 @@ export class SimulationDevice  extends BaseThingActor implements ISimulationDevi
             console.log('----Variable', variable.name);
             // FIXME: should be coming from backend/db
             let simulation: Simulation;
-            if (variable.name == 'Tag_Str8') {
+            if (variable.name == 'TemperatureUnitCode') {
                simulation = {
                     value: "Hello",
                     min: 1,
                     max: 10,
-                    formula: 'Fixed',
+                    formula: 'Random',
                     interval: 2000,
                     is_scheduled: true
                 };
@@ -52,7 +52,7 @@ export class SimulationDevice  extends BaseThingActor implements ISimulationDevi
                     value: 1,
                     min: 1,
                     max: 10,
-                    formula: 'Fixed',
+                    formula: 'Random',
                     interval: 2000,
                     is_scheduled: true
                 }

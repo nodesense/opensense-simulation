@@ -1,0 +1,444 @@
+{
+  "id": "1986379010615018514",
+  "name": "thenSimulationSite1",
+  "type_of": "Site",
+  "site_id": "1986379010615018514",
+  "properties": {},
+  "definition": {},
+  "configuration": [
+    {
+      "id": "1986382220356486166",
+      "parent_id": null,
+      "name": "thenSimulationSite1",
+      "nodetype_id": "siteactor",
+      "children": [
+        {
+          "id": "1986382776462476311",
+          "parent_id": "1986382220356486166",
+          "name": "thensimulationTCP",
+          "nodetype_id": "modbusTCPactor",
+          "children": [
+            {
+              "id": "1986383296396788760",
+              "parent_id": "1986382776462476311",
+              "name": "flowmeter",
+              "nodetype_id": "modbusdeviceactor"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "site": {
+    "id": "1986379010615018514",
+    "name": "thenSimulationSite1",
+    "account_id": "account-1",
+    "type_of": "Site",
+    "properties": {
+      "icon": "site",
+      "location": {
+        "latitude": 4,
+        "longitude": 5
+      }
+    },
+    "definition": {},
+    "data": {}
+  },
+  "nodes": [
+    {
+      "id": "1986382220356486166",
+      "name": "thenSimulationSite1",
+      "account_id": "account-1",
+      "site_id": "1986379010615018514",
+      "tag_id": "1986379635482428436",
+      "nodetype_id": "siteactor",
+      "parent_id": null,
+      "is_thing": false,
+      "thing_id": null,
+      "children": [],
+      "properties": {},
+      "definition": {},
+      "data": {}
+    },
+    {
+      "id": "1986382776462476311",
+      "name": "thensimulationTCP",
+      "account_id": "account-1",
+      "site_id": "1986379010615018514",
+      "tag_id": "1986379635482428436",
+      "nodetype_id": "modbusTCPactor",
+      "parent_id": "1986382220356486166",
+      "is_thing": false,
+      "thing_id": null,
+      "children": [],
+      "properties": {
+        "port": "502",
+        "ipAddress": "192.168.1.207"
+      },
+      "definition": {},
+      "data": {}
+    },
+    {
+      "id": "1986383296396788760",
+      "name": "flowmeter",
+      "account_id": "account-1",
+      "site_id": "1986379010615018514",
+      "tag_id": "1986379635482428436",
+      "nodetype_id": "modbusdeviceactor",
+      "parent_id": "1986382776462476311",
+      "is_thing": true,
+      "thing_id": "1986381406032364565",
+      "children": [],
+      "properties": {
+        "slaveId": "1"
+      },
+      "definition": {},
+      "data": {}
+    }
+  ],
+  "node_types": [
+    {
+      "id": "bacnetdeviceactor",
+      "name": "BacnetDeviceActor",
+      "account_id": "account-1",
+      "type_of": "OS::BacnetDeviceActor",
+      "icon": "bacnet",
+      "actor": {},
+      "data": null,
+      "config": {
+        "properties": []
+      }
+    },
+    {
+      "id": "modbusdeviceactor",
+      "name": "ModbusDeviceActor",
+      "account_id": "account-1",
+      "type_of": "OS::ModbusDeviceActor",
+      "icon": "slave1",
+      "actor": {},
+      "data": null,
+      "config": {
+        "properties": [
+          {
+            "name": "slaveId",
+            "type": "number",
+            "label": {},
+            "options": [],
+            "type_of": "number",
+            "controlType": "text",
+            "description": {}
+          }
+        ]
+      }
+    },
+    {
+      "id": "modbusMQTTedgeactor",
+      "name": "ModbusMQTTEdgeActor",
+      "account_id": "account-1",
+      "type_of": "OS::ModbusMQTTEdgeActor",
+      "icon": "Mqtt",
+      "actor": {},
+      "data": null,
+      "config": {
+        "properties": [
+          {
+            "name": "server",
+            "type": "text",
+            "label": {},
+            "options": [],
+            "type_of": "string",
+            "controlType": "text",
+            "description": {}
+          },
+          {
+            "name": "subscribeTopic",
+            "type": "text",
+            "label": {},
+            "options": [],
+            "type_of": "string",
+            "controlType": "text",
+            "description": {}
+          },
+          {
+            "name": "publishTopic",
+            "type": "text",
+            "label": {},
+            "options": [],
+            "type_of": "string",
+            "controlType": "text",
+            "description": {}
+          }
+        ]
+      }
+    },
+    {
+      "id": "modbusRTUactor",
+      "name": "ModbusRTUActor",
+      "account_id": "account-1",
+      "type_of": "OS::ModbusRTUActor",
+      "icon": "mqtt",
+      "actor": {},
+      "data": {},
+      "config": {
+        "properties": [
+          {
+            "name": "portName",
+            "type": "text",
+            "label": {},
+            "options": [],
+            "type_of": "string",
+            "controlType": "text",
+            "description": {},
+            "default_value": "9600"
+          },
+          {
+            "name": "baudRate",
+            "type": "number",
+            "label": {},
+            "options": [],
+            "type_of": "number",
+            "controlType": "text",
+            "description": {}
+          },
+          {
+            "name": "dataBits",
+            "type": "number",
+            "label": {},
+            "options": [],
+            "type_of": "number",
+            "controlType": "text",
+            "description": {}
+          },
+          {
+            "name": "parity",
+            "type": "number",
+            "label": {},
+            "options": [],
+            "type_of": "number",
+            "controlType": "text",
+            "description": {}
+          },
+          {
+            "name": "stopBits",
+            "type": "number",
+            "label": {},
+            "options": [],
+            "type_of": "number",
+            "controlType": "text",
+            "description": {}
+          },
+          {
+            "name": "flowControlIn",
+            "type": "number",
+            "label": {},
+            "options": [],
+            "type_of": "number",
+            "controlType": "text",
+            "description": {}
+          },
+          {
+            "name": "flowControlOut",
+            "type": "number",
+            "label": {},
+            "options": [],
+            "type_of": "number",
+            "controlType": "text",
+            "description": {}
+          }
+        ]
+      }
+    },
+    {
+      "id": "modbusTCPactor",
+      "name": "ModbusTCPActor",
+      "account_id": "account-1",
+      "type_of": "OS::ModbusTCPActor",
+      "icon": "modbus",
+      "actor": {},
+      "data": {},
+      "config": {
+        "properties": [
+          {
+            "name": "port",
+            "type": "number",
+            "label": {},
+            "options": [],
+            "controlType": "text",
+            "description": {},
+            "is_required": true,
+            "default_value": ""
+          },
+          {
+            "name": "ipAddress",
+            "type": "text",
+            "label": {},
+            "options": [],
+            "controlType": "text",
+            "description": {},
+            "is_required": true,
+            "default_value": ""
+          }
+        ]
+      }
+    },
+    {
+      "id": "mqttactor",
+      "name": "MqttActor",
+      "account_id": "account-1",
+      "type_of": "OS::MqttActor",
+      "icon": "Mqtt",
+      "actor": {},
+      "data": null,
+      "config": {
+        "properties": [
+          {
+            "name": "server",
+            "type": "text",
+            "label": {},
+            "options": [],
+            "type_of": "string",
+            "controlType": "text",
+            "description": {}
+          },
+          {
+            "name": "subscribeTopic",
+            "type": "text",
+            "label": {},
+            "options": [],
+            "type_of": "string",
+            "controlType": "text",
+            "description": {}
+          },
+          {
+            "name": "publishTopic",
+            "type": "text",
+            "label": {},
+            "options": [],
+            "type_of": "string",
+            "controlType": "text",
+            "description": {}
+          }
+        ]
+      }
+    },
+    {
+      "id": "siteactor",
+      "name": "SiteActor",
+      "account_id": "account-1",
+      "type_of": "OS::SiteActor",
+      "icon": "site",
+      "actor": {},
+      "data": null,
+      "config": {
+        "properties": []
+      }
+    }
+  ],
+  "things": [
+    {
+      "id": "1986381406032364565",
+      "manufacturer_id": "flow-inc",
+      "name": "thenSimulationDevice1",
+      "site_id": "1986379010615018514",
+      "serial_number": "1234",
+      "profile_id": "gdm-device-profile-v1",
+      "account_id": "account-1",
+      "device_id": "gdm-device",
+      "devicegroup_id": "1986379339976934419",
+      "type_of": "Things",
+      "properties": {
+        "icon": "GDM",
+        "location": {
+          "latitude": 1,
+          "longitude": 2
+        }
+      },
+      "definition": {},
+      "data": {}
+    }
+  ],
+  "tags": [
+    {
+      "id": "1986379635482428436",
+      "name": "thensimulationTag1",
+      "account_id": "account-1",
+      "site_id": "1986379010615018514",
+      "properties": {},
+      "definition": {},
+      "data": {}
+    }
+  ],
+  "device_groups": [
+    {
+      "id": "1986311081831695362",
+      "name": "devicegroups",
+      "account_id": "account-1",
+      "site_id": "1986309498322551809",
+      "type_of": "DeviceGroup",
+      "properties": {},
+      "definition": {},
+      "data": {}
+    },
+    {
+      "id": "1986327320280957961",
+      "name": "thendevicegroup",
+      "account_id": "account-1",
+      "site_id": "1986326923952784392",
+      "type_of": "DeviceGroup",
+      "properties": {},
+      "definition": {},
+      "data": {}
+    },
+    {
+      "id": "1986379339976934419",
+      "name": "thensimulationDG1",
+      "account_id": "account-1",
+      "site_id": "1986379010615018514",
+      "type_of": "DeviceGroup",
+      "properties": {},
+      "definition": {},
+      "data": {}
+    },
+    {
+      "id": "density",
+      "name": "Density",
+      "account_id": "account-1",
+      "site_id": "site",
+      "type_of": "DeviceGroup",
+      "properties": {},
+      "definition": {},
+      "data": {}
+    },
+    {
+      "id": "energymeter",
+      "name": "EnergyMeter",
+      "account_id": "account-1",
+      "site_id": "site",
+      "type_of": "DeviceGroup",
+      "properties": {},
+      "definition": {},
+      "data": {}
+    },
+    {
+      "id": "flow",
+      "name": "Flow",
+      "account_id": "account-1",
+      "site_id": "site",
+      "type_of": "DeviceGroup",
+      "properties": {},
+      "definition": {},
+      "data": {}
+    },
+    {
+      "id": "temperature",
+      "name": "Temperature",
+      "account_id": "account-1",
+      "site_id": "site",
+      "type_of": "DeviceGroup",
+      "properties": {},
+      "definition": {},
+      "data": {}
+    }
+  ],
+  "data": {}
+}

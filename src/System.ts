@@ -11,10 +11,13 @@ import actorRegistry from './core/ActorRegistry';
 import { Node } from './core/Node';
 import { SystemContext } from './core/SystemContext';
 import { ModbusSerialPort } from './modbus/MobusSerialPort';
+import { PlaceHolderActor } from './core/PlaceHolderActor';
 actorRegistry.registerActor("ModbusRTUActor", ModbusSerialPort);
-actorRegistry.registerActor("ModbusTCPActor", ModbusTCP);
+actorRegistry.registerActor("OS::ModbusTCPActor", ModbusTCP);
 actorRegistry.registerActor("ModbusTCPSerialActor", ModbusTCPSerialBridge);
-actorRegistry.registerActor("ModbusDeviceActor", ModbusDevice);
+actorRegistry.registerActor("OS::ModbusDeviceActor", ModbusDevice);
+actorRegistry.registerActor("PlaceHolderActor", PlaceHolderActor);
+
 
 const json=require('jsonfile')
 
@@ -114,13 +117,13 @@ export class System extends BaseActor {
     processBacnetIP(config) {
         //const {ip_address, port, slaves } = config.data;
 
-        const modbusTcpServer = this.createBacnetIP(config);
+        // const modbusTcpServer = this.createBacnetIP(config);
         
-        const device = new BacnetDevice(config);
+        // const device = new BacnetDevice(config);
 
 
         //fIXME: think, where to start
-        device.connect();
+        // device.connect();
 
         // load serial port, all the devices specific to serial port
     }

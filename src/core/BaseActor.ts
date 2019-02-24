@@ -33,8 +33,13 @@ export class BaseActor {
             console.log('could not find node type');
             return;
         }
-        const ActorType = actorRegistry.getActorType(nodeType.type_of);
+        let  ActorType = actorRegistry.getActorType(nodeType.type_of);
         // console.log("ActorType is ", ActorType);
+
+        if (!ActorType) {
+            console.log("ACount not find actor type class for ", nodeType.type_of);
+            ActorType = actorRegistry.getActorType('PlaceHolderActor')
+        }
 
         const actor:BaseActor  = new ActorType(this.context, node);
         actor.init();
