@@ -12,10 +12,10 @@ import { Node } from './core/Node';
 import { SystemContext } from './core/SystemContext';
 import { ModbusSerialPort } from './modbus/MobusSerialPort';
 import { PlaceHolderActor } from './core/PlaceHolderActor';
-actorRegistry.registerActor("ModbusRTUActor", ModbusSerialPort);
-actorRegistry.registerActor("OS::ModbusTCPActor", ModbusTCP);
-actorRegistry.registerActor("ModbusTCPSerialActor", ModbusTCPSerialBridge);
-actorRegistry.registerActor("OS::ModbusDeviceActor", ModbusDevice);
+actorRegistry.registerActor("SimulationModbusRTUActor", ModbusSerialPort);
+actorRegistry.registerActor("SimulationModbusTCPActor", ModbusTCP);
+actorRegistry.registerActor("SimulationModbusTCPSerialActor", ModbusTCPSerialBridge);
+actorRegistry.registerActor("SimulationModbusDeviceActor", ModbusDevice);
 actorRegistry.registerActor("PlaceHolderActor", PlaceHolderActor);
 
 
