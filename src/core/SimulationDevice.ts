@@ -37,26 +37,28 @@ export class SimulationDevice  extends BaseThingActor implements ISimulationDevi
             console.log('----Variable', variable.name);
             // FIXME: should be coming from backend/db
             let simulation: Simulation;
-            if (variable.name == 'TemperatureUnitCode') {
-               simulation = {
-                    value: "Hello",
-                    min: 1,
-                    max: 10,
-                    formula: 'Random',
-                    interval: 2000,
-                    is_scheduled: true
-                };
-            } else{
-
-                simulation = {
-                    value: 1,
-                    min: 1,
-                    max: 10,
-                    formula: 'Random',
-                    interval: 2000,
-                    is_scheduled: true
-                }
-            }
+            // if (variable.name == 'LineTemperature') {
+            //    simulation = {
+            //         value: "Hello",
+            //         min: 1,
+            //         max: 10,
+            //         formula: 'Random',
+            //         interval: 2000,
+            //         is_scheduled: true
+                // };
+                
+                simulation=variable.simulation;
+            // } else{
+        
+                // simulation = {
+                //     value: 1,
+                //     min: 1,
+                //     max: 10,
+                //     formula: 'Fixed',
+                //     interval: 2000,
+                //     is_scheduled: true
+                // }
+            // }
 
             variable.simulation = simulation;
              this.variables[variable.name] = variable;

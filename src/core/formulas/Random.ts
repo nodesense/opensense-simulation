@@ -28,7 +28,7 @@ export class Random extends Formula {
         console.log("Random simulator running");
         // check min, max range
         const dataValue = this.device.getDataValue(this.variable.name);
-        dataValue.value = Math.ceil(Math.random() * 10);
+        dataValue.value = Math.ceil(Math.random() * 100);
         console.log("Value for " + this.variable.name, " is ", dataValue.value);
     }
 }
