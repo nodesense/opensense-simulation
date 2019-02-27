@@ -9,6 +9,11 @@ import { Random } from './formulas/Random';
 import { ISimulationDevice } from './ISimulationDevice';
 import { Simulation } from './Simulation';
 import { Fixed } from './formulas/Fixed';
+import { Counter } from './formulas/Counter';
+import { Totalizer } from './formulas/Totalizer';
+import { Average } from './formulas/Average';
+import { Minimum } from './formulas/Minimum';
+import { Maximum } from './formulas/Maximum';
 
 export class SimulationDevice  extends BaseThingActor implements ISimulationDevice {
     variables: { [name: string]: Variable} = {};
@@ -22,6 +27,12 @@ export class SimulationDevice  extends BaseThingActor implements ISimulationDevi
             console.log('**SimulationDeviceDevice created')
             this.formulaRegistry['Random'] = Random;
             this.formulaRegistry['Fixed'] = Fixed;
+            this.formulaRegistry['Counter']=Counter;
+            this.formulaRegistry['Totalizer']=Totalizer;
+            this.formulaRegistry['Average']=Average;
+            this.formulaRegistry['Minimum']=Minimum;
+            this.formulaRegistry['Maximum']=Maximum;
+
     }
 
     init() {
