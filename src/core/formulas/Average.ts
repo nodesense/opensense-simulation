@@ -29,7 +29,8 @@ count=-1;
                 this.count++;
                 const totalvalue=mdv.value;    
                  this.averagevalue=totalvalue/this.count;
-                  this.dataValue.value = this.averagevalue;
+                 console.log("Before Average ",totalvalue/this.count);
+                  this.dataValue.value =Math.round(this.averagevalue*100)/100;
 
             });
         }
