@@ -24,7 +24,7 @@ export class ModbusTCP extends BaseActor {
 
     // map of slave id to modbus device object
     deviceMap: {[key: number]: ModbusDevice} = {};
-    public ip_address: string = '0.0.0.0';
+    public ipAddress: string = '0.0.0.0';
     public port: number = 502;
     constructor(context: SystemContext, node: Node) {
                   super(context, node);
@@ -39,6 +39,7 @@ export class ModbusTCP extends BaseActor {
 
       if (this.node.properties) {
         this.port = this.node.properties['port']
+        this.ipAddress=this.node.properties['ipAddress']
       }
 
       for(const childActor of this.childActors) {
@@ -68,7 +69,7 @@ export class ModbusTCP extends BaseActor {
       });
 
       console.log('Binding to port ', this.port);
-      this.server.listen(this.port, this.ip_address);
+      this.server.listen(this.port, this.ipAddress);
 
     }
 

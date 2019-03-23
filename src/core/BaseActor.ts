@@ -27,7 +27,8 @@ export class BaseActor {
 
     
     launchActor(node: Node) {
-//        console.log("Loading node", node);
+        // console.log("Total context is ",this.context.siteProfile)
+    //    console.log("Loading node", node);
         const nodeType: NodeType = this.context.siteProfile.getNodeType(node.nodetype_id);
         if (!nodeType) {
             console.log('could not find node type');
@@ -41,9 +42,10 @@ export class BaseActor {
             ActorType = actorRegistry.getActorType('PlaceHolderActor')
         }
 
+        console.log("Child Actors...",this.node);
         const actor:BaseActor  = new ActorType(this.context, node);
         actor.init();
-
+       
         this.childActors.push(actor);
     }
 }

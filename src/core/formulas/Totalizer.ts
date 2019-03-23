@@ -37,24 +37,6 @@ reminderval=0.0;
       }
 
     run = () => {
-
-        // console.log("Totalizer simulator running");
-        // // check min, max range
-        // const dataValue = this.device.getDataValue(this.variable.name);
-        // let value= Math.ceil(Math.random() * this.variable.simulation.max)
-        // if(value>=this.variable.simulation.min&&value<=this.variable.simulation.max){
-        // dataValue.value = value;
-        // console.log("Value for " + this.variable.name, " is ", dataValue.value);
-        // }
-        // console.log("Totalizer Simulator running");
-        // const dataValue=this.device.getDataValue(this.variable.name);
-        // let value=(Math.random() * this.variable.simulation.max);
-        // this.reminderval=this.reminderval+value;
-        // if(this.reminderval>this.variable.simulation.max){
-        //     this.reminderval=this.variable.simulation.min;
-        // }
-
-        // dataValue.value=this.reminderval;
         console.log(" Total "+this.variable.name+" is ",this.dataValue.value);
 
     }

@@ -14,6 +14,13 @@ import { Totalizer } from './formulas/Totalizer';
 import { Average } from './formulas/Average';
 import { Minimum } from './formulas/Minimum';
 import { Maximum } from './formulas/Maximum';
+import { SuccessFailure } from './formulas/SuccessFailure';
+import { Rolling } from './formulas/Rolling';
+import { Subscription } from 'rxjs';
+import { Subscriptions } from './formulas/Subscriptions';
+import { Success } from './formulas/Success';
+import { Failure } from './formulas/Failure';
+import { Status } from './formulas/Status';
 
 export class SimulationDevice  extends BaseThingActor implements ISimulationDevice {
     variables: { [name: string]: Variable} = {};
@@ -32,7 +39,13 @@ export class SimulationDevice  extends BaseThingActor implements ISimulationDevi
             this.formulaRegistry['Average']=Average;
             this.formulaRegistry['Minimum']=Minimum;
             this.formulaRegistry['Maximum']=Maximum;
-
+            this.formulaRegistry['SuccessFailure']=SuccessFailure;
+            this.formulaRegistry['Rolling']=Rolling;
+            this.formulaRegistry['Subscriptions']=Subscriptions;
+            this.formulaRegistry['Success']=Success;
+            this.formulaRegistry['Failure']=Failure;
+            this.formulaRegistry['Status']=Status;
+            
     }
 
     init() {

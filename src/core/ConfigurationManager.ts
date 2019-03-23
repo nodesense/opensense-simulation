@@ -90,11 +90,8 @@ export class ConfigurationManager {
         const siteProfileJson: any = jsonfile.readFileSync(siteConfigPath);
 
         const siteProfile: SiteProfile = new SiteProfile(siteProfileJson);
-
-         siteProfile.initialize();
-
+        siteProfile.initialize();
         siteProfile.show();
-
         return siteProfile;
     }
 

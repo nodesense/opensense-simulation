@@ -1,13 +1,13 @@
 {
     "name": "gateway2",
-     "deviceProfileApiEndPoint": "http://192.168.15.222:7777/live-device-profiles",
-     "siteProfileApiEndPoint": "http://192.168.15.222:7777/live-site-profiles",
-     "modbusProfileApiEndPoint": "http://192.168.15.222:7777/live-modbus-profiles",
+     "deviceProfileApiEndPoint": "http://cloud.nodesense.ai:7777/live-device-profiles",
+     "siteProfileApiEndPoint": "http://cloud.nodesense.ai:7777/live-site-profiles",
+     "modbusProfileApiEndPoint": "http://cloud.nodesense.ai:7777/live-modbus-profiles",
   
     "sites": [
       {
-        "id": "1986888642458551334",
-        "name": "1986888642458551334"
+        "id": "1994441089389429767",
+        "name": "1994441089389429767"
         }
     ]
   }

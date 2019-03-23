@@ -12,6 +12,10 @@ import { Node } from './core/Node';
 import { SystemContext } from './core/SystemContext';
 import { ModbusSerialPort } from './modbus/MobusSerialPort';
 import { PlaceHolderActor } from './core/PlaceHolderActor';
+import { MqttDevice } from './modbus/MqttDevice';
+import { MqttNetwork } from './modbus/MqttNetwork';
+actorRegistry.registerActor("SimulationMqttNetworkActor",MqttNetwork);
+actorRegistry.registerActor("SimulationMqttDeviceActor",MqttDevice);
 actorRegistry.registerActor("SimulationModbusRTUActor", ModbusSerialPort);
 actorRegistry.registerActor("SimulationModbusTCPActor", ModbusTCP);
 actorRegistry.registerActor("SimulationModbusTCPSerialActor", ModbusTCPSerialBridge);
@@ -179,6 +183,7 @@ export class System extends BaseActor {
             for (const nodeRef of this.siteProfile.configuration) {
                 console.log('***processing noderef', nodeRef);
                 const node = this.siteProfile.getNode(nodeRef.id);
+                console.log("**launch Node ",node);
                 this.launchActor(node);
             }
         }

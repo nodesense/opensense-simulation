@@ -94,12 +94,13 @@ export class SiteProfile {
     }
 
      initialize() {
+         console.log("Site iitializing");
         for (const node of this.nodes) {
             this.nodeMap[node.id] = node;
         }
 
         for (const nodeType of this.node_types) {
-            this.nodeTypeMap[nodeType.id] = nodeType;
+            this.nodeTypeMap[nodeType.id] = nodeType; 
         }
 
         for (const thing of this.things) {
