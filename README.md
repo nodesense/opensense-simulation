@@ -26,6 +26,30 @@ socat -d -d pty,raw,echo=0 pty,raw,echo=0
 
 
 
+
+
+sudo mkdir /ports
+
+sudo chmod 777 /ports
+
+## Specific names
+
+ 
+```
+
+socat pty,raw,echo=0,link=/ports/tty01 pty,raw,echo=0,link=/ports/tty02
+    
+socat pty,raw,echo=0,link=/ports/tty03 pty,raw,echo=0,link=/ports/tty04
+
+socat pty,raw,echo=0,link=/ports/tty05 pty,raw,echo=0,link=/ports/tty06
+
+ 
+
+ls /ports
+
+```
+
+
 modbus-tcp
 
 modbus-rtu

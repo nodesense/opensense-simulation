@@ -14,8 +14,8 @@ let system =new System();
 
 system.loadNew();
 
-
-server.listen(3000, () => console.log('Example app2 listening on port 3000!'))
+const PORT = 3001;
+server.listen(PORT, () => console.log('Example app2 listening on port 3000!'))
 
 
 configurationManager.init();

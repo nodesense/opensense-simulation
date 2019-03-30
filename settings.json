@@ -1,13 +1,13 @@
 {
     "name": "gateway2",
-     "deviceProfileApiEndPoint": "http://cloud.nodesense.ai:7777/live-device-profiles",
-     "siteProfileApiEndPoint": "http://cloud.nodesense.ai:7777/live-site-profiles",
-     "modbusProfileApiEndPoint": "http://cloud.nodesense.ai:7777/live-modbus-profiles",
+     "deviceProfileApiEndPoint": "http://localhost:7777/live-device-profiles",
+     "siteProfileApiEndPoint": "http://localhost:7777/live-site-profiles",
+     "modbusProfileApiEndPoint": "http://localhost:7777/live-modbus-profiles",
   
     "sites": [
       {
-        "id": "1994441089389429767",
-        "name": "1994441089389429767"
+        "id": "2011012435275679005",
+        "name": "2011012435275679005"
         }
     ]
   }
