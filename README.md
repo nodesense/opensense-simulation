@@ -34,6 +34,13 @@ sudo chmod 777 /ports
 
 ## Specific names
 
+Pairing Idea
+
+Odd to Akka, 
+Evens to Simulation
+
+start from 01
+
  
 ```
 
