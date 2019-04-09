@@ -1,8 +1,8 @@
 {
     "name": "gateway2",
-     "deviceProfileApiEndPoint": "http://localhost:7777/live-device-profiles",
-     "siteProfileApiEndPoint": "http://localhost:7777/live-site-profiles",
-     "modbusProfileApiEndPoint": "http://localhost:7777/live-modbus-profiles",
+     "deviceProfileApiEndPoint": "http://192.168.1.130:7777/live-device-profiles",
+     "siteProfileApiEndPoint": "http://192.168.1.130:7777/live-site-profiles",
+     "modbusProfileApiEndPoint": "http://192.168.1.130:7777/live-modbus-profiles",
   
     "sites": [
       {

@@ -29,7 +29,7 @@ export class Random extends Formula {
         let value= Math.ceil(Math.random() * this.variable.simulation.max)
         if(value>=this.variable.simulation.min&&value<=this.variable.simulation.max){
         dataValue.value = value;
-        // console.log("Value for " + this.variable.name, " is ", dataValue.value);
+        console.log("Value for " + this.variable.name, " is ", dataValue.value);
         }
     }
 }
