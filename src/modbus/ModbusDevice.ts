@@ -455,14 +455,17 @@ export class ModbusDevice extends SimulationDevice {
         this.responseFrame.address=requestFrame.address;
         this.responseFrame.quantity=requestFrame.quantity;
         if(dataItem.dataType==DataType.INT16){
+            console.log("Data To be Override.........");
             let val=requestFrame.data.readUInt16BE(0);
             this.holdingRegistersMap[this.responseFrame.address].value=val;
             this.responseFrame.val=this.holdingRegistersMap[this.responseFrame.address].value;
+            this.setValue(dataItem.name,val);
                 }
         else  if(dataItem.dataType==DataType.INT32){
             let val=requestFrame.data.readUInt32BE(0);
             this.holdingRegistersMap[this.responseFrame.address].value=val;
             this.responseFrame.val=this.holdingRegistersMap[this.responseFrame.address].value;
+            this.setValue(dataItem.name,val);
                 }
 
         else if(dataItem.dataType==DataType.FLOAT){
@@ -470,13 +473,14 @@ export class ModbusDevice extends SimulationDevice {
             this.holdingRegistersMap[this.responseFrame.address].value=val;
             console.log("Going to replace "+this.holdingRegistersMap[this.responseFrame.address].value+" as "+val);
             this.responseFrame.val=this.holdingRegistersMap[this.responseFrame.address].value;
-
+            this.setValue(dataItem.name,val);
         }
         else if(dataItem.dataType==DataType.STRING){
                let stringbuf=Buffer.alloc(dataItem.quantity);
                for(let i=0;i<requestFrame.quantity;i++){
                 let val=requestFrame.data.readUInt16LE(i*2);
                 stringbuf.writeInt16BE(val,i*2);
+                this.setValue(dataItem.name,val);
                }
              console.log("Going to replace "+this.holdingRegistersMap[this.responseFrame.address].value+" as "+stringbuf);
         this.holdingRegistersMap[this.responseFrame.address].value=stringbuf;
