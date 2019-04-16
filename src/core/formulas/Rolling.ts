@@ -7,24 +7,24 @@ export class Rolling extends Formula {
     timer: any;
     variablearray:number[];
 
-    constructor(variable: Variable,
-                 device: ISimulationDevice) {
-        super(variable, device);
-    }
+    constructor(simulation: Simulation,
+        device: ISimulationDevice) {
+super(simulation, device);
+}
 rollPosition=-1;
 flag=0;
     // dataValue=this.device.getDataValue(this.variable.name);
      start = () => {
-         console.log("Rolling started.................",this.variable.simulation.formatformula);
+         console.log("Rolling started.................",this.simulation.definition.formatformula);
         // start timer
         
-        let variableVal=this.variable.simulation.value;
+        let variableVal=this.simulation.definition.value;
         this.variablearray=variableVal.split(",").map(function(item){return parseInt(item)});
 
         
-        const {simulation} = this.variable;
-        if (simulation && simulation.is_scheduled) {
-            const interval = simulation.interval || 5000;
+        const {definition} = this.simulation;
+        if (definition && definition.is_scheduled) {
+            const interval = definition.interval || 5000;
             this.timer = setInterval( this.run, interval);
         }
 
@@ -34,7 +34,7 @@ flag=0;
       }
 
     run = () => {
-       const  dataValue=this.device.getDataValue(this.variable.name);
+       const  dataValue=this.device.getDataValue(this.simulation.definition.variable.name);
         if(this.variablearray.length>0){
             if(this.flag==0){
                 this.rollPosition=0;

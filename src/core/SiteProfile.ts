@@ -1,4 +1,4 @@
-import { Thing } from './Thing';
+import { FieldDevice } from './FieldDevice';
 import { Node } from './Node';
 import { NodeRef } from './NodeRef';
 import { NodeType } from './NodeType';
@@ -7,7 +7,7 @@ export class SiteProfile {
     id: string;
     name: string;
 
-    things: Thing[] = [];
+    field_devices: FieldDevice[] = [];
     nodes: Node[] = [];
 
     node_types: NodeType[] = [];
@@ -18,7 +18,7 @@ export class SiteProfile {
 
     nodeTypeMap: any = {};
 
-    thingMap: any = {};
+    fieldDeviceMap: any = {};
     
 
     constructor(jsonConf?: any) {
@@ -39,9 +39,9 @@ export class SiteProfile {
 
 
 
-    getThing(thingId: string):Thing {
-        console.log("Getting Thing " + thingId);
-        return this.thingMap[thingId];
+    getFieldDevice(FieldDeviceId: string):FieldDevice {
+        console.log("Getting Field Devices " + FieldDeviceId);
+        return this.fieldDeviceMap[FieldDeviceId];
     }
 
      getNode( nodeId: string):Node {
@@ -103,8 +103,8 @@ export class SiteProfile {
             this.nodeTypeMap[nodeType.id] = nodeType; 
         }
 
-        for (const thing of this.things) {
-            this.thingMap[thing.id] = thing;
+        for (const fieldDevice of this.field_devices) {
+            this.fieldDeviceMap[fieldDevice.id] = fieldDevice;
         }
 
 

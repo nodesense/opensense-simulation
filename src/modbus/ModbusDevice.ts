@@ -11,7 +11,7 @@ import { LocationType } from './LocationType';
 import { DataType } from './DataType';
 import { SystemContext } from '../core/SystemContext';
 import { Node } from '../core/Node';
-import { BaseThingActor } from '../core/BaseThingActor';
+import { BaseFieldDeviceActor } from '../core/BaseFieldDeviceActor';
 
 
 export class ModbusDevice extends SimulationDevice {
@@ -44,7 +44,7 @@ export class ModbusDevice extends SimulationDevice {
     loadConfig() {
  
         this.modbusDeviceProfile = this.context.configurationManager
-                    .loadModbusDeviceProfile(this.thing.site_id, this.thing.profile_id);
+                    .loadModbusDeviceProfile(this.fieldDevice.site_id, this.fieldDevice.profile_id);
 
         // console.log("modbus Device profile is ", this.modbusDeviceProfile.registers)
 

@@ -6,25 +6,26 @@ import { Counter } from './Counter';
 
 export class Average extends Formula {
     timer: any;
-    constructor(variable: Variable,
+    constructor(simulation: Simulation,
                  device: ISimulationDevice) {
-        super(variable, device);
+        super(simulation, device);
     }
 averagevalue=0.0;
 count=-1;
 
- dataValue=this.device.getDataValue(this.variable.name);;
-     start = () => {
+ dataValue=this.device.getDataValue(this.simulation.definition.variable.name);;
+   
+ start = () => {
         // start timer
-        const {simulation} = this.variable;
-        if (simulation && simulation.is_scheduled) {
-            const interval = simulation.interval || 5000;
+        const {definition} = this.simulation;
+        if (definition && definition.is_scheduled) {
+            const interval = definition.interval || 5000;
             this.timer = setInterval( this.run, interval);
         }
-        if(this.variable.simulation.monitored_variable)
+        if(this.simulation.definition.monitored_variable)
         {
-            console.log("Var monitored  is ",this.variable.simulation.monitored_variable.name);
-            const monitoredDataValue = this.device.getDataValue(this.variable.simulation.monitored_variable.name);
+            console.log("Var monitored  is ",this.simulation.definition.monitored_variable);
+            const monitoredDataValue = this.device.getDataValue(this.simulation.definition.monitored_variable);
             monitoredDataValue.changed$.subscribe( mdv => {
                 this.count++;
                 const totalvalue=mdv.value;    
@@ -42,6 +43,6 @@ count=-1;
       }
 
     run = () => {
-        console.log(" "+this.variable.name+" is ",this.dataValue.value);
+        console.log(" "+this.simulation.definition.variable.name+" is ",this.dataValue.value);
     }
 }

@@ -1,6 +1,6 @@
 import { DataValue } from './DataValue';
 import { Variable } from './Variable';
-import { BaseThingActor } from "./BaseThingActor";
+import { BaseFieldDeviceActor } from "./BaseFieldDeviceActor";
 import { SystemContext } from "./SystemContext";
 import { Node } from "./Node";
 import { Formula } from './formulas/Formula';

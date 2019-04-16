@@ -21,6 +21,7 @@ actorRegistry.registerActor("SimulationModbusTCPActor", ModbusTCP);
 actorRegistry.registerActor("SimulationModbusTCPSerialActor", ModbusTCPSerialBridge);
 actorRegistry.registerActor("SimulationModbusDeviceActor", ModbusDevice);
 actorRegistry.registerActor("PlaceHolderActor", PlaceHolderActor);
+actorRegistry.registerActor("SimulationBacnetDeviceActor", BacnetDevice);
 
 
 const json=require('jsonfile')

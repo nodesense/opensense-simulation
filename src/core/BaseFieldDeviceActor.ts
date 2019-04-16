@@ -1,4 +1,4 @@
-import { Thing } from './Thing';
+import { FieldDevice } from './FieldDevice';
 import { BaseActor } from './BaseActor';
 import { SystemContext } from "./SystemContext";
 
@@ -7,21 +7,20 @@ import { NodeType } from "./NodeType";
 import actorRegistry from "./ActorRegistry";
 import { AccessType } from "../modbus/AccessType";
 
-export class BaseThingActor extends BaseActor {
+export class BaseFieldDeviceActor extends BaseActor {
     
-    thing: Thing;
+    fieldDevice: FieldDevice;
 
     constructor(public context?: SystemContext, public node?: Node) {
          super(context, node);
     }
 
     init() {
-        console.log("BaseThingActor Init");
+        console.log("BaseFieldDeviceActor Init");
         super.init();
 
-        if (this.node.thing_id) {
-            this.thing = this.context.siteProfile.getThing(this.node.thing_id);
-           // console.log("Thing is ", this.thing);
+        if (this.node.field_device_id) {
+            this.fieldDevice = this.context.siteProfile.getFieldDevice(this.node.field_device_id);
         }
     }
 }

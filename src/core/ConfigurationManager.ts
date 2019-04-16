@@ -6,6 +6,7 @@ import { DeviceProfile } from './DeviceProfile';
 import { SiteProfile } from "./SiteProfile";
 import { GatewayConfig } from './GatewayConfig';
 import { Restful } from './Restful';
+import { BacnetDeviceProfile } from '../bacnet/BacnetDeviceProfile';
 
 const fs = require('fs');
 const path = require('path');
@@ -35,6 +36,8 @@ export class ConfigurationManager {
            fs.mkdirSync(siteDirPath, {recursive: true});
            fs.mkdirSync(path.join(...paths, 'device-profiles'), {recursive: true});
            fs.mkdirSync(path.join(...paths, 'modbus-profiles'), {recursive: true});
+           fs.mkdirSync(path.join(...paths, 'bacnet-profiles'), {recursive: true});
+
            jsonfile.writeFileSync(path.join(...paths, `${siteId}.json`), siteProfileJson, {spaces: 2, EOL: '\r\n' })
            const siteProfile = await this.loadSiteProfile(siteId)
             return siteProfile;
@@ -82,6 +85,25 @@ export class ConfigurationManager {
          }
     }
 
+    async downloadBacnetDeviceProfile(siteId: string, profileId: string) {
+        try {
+            const deviceProfileJson = await Restful.getJson(`${this.gatewayConfig.bacnetProfileApiEndPoint}/${profileId}`)
+            //console.log(siteProfileJson);
+ 
+            const paths = [this.getSitePath(), siteId, 'bacnet-profiles', `${profileId}.json`];
+ 
+            const deviceProfilePath = path.join(...paths);
+            console.log("device profile  config path 4", deviceProfilePath);
+            jsonfile.writeFileSync(deviceProfilePath, deviceProfileJson, {spaces: 2, EOL: '\r\n' })
+
+            const modbusDeviceProfile = await this.loadBacnetDeviceProfile(siteId, profileId)
+            return modbusDeviceProfile;
+         } catch(error) {
+             console.log(error);
+             throw error;
+         }
+    }
+
     loadSiteProfile(siteId: string): SiteProfile {
         const paths = [this.getSitePath(), siteId, `${siteId}.json`];
         const siteConfigPath = path.join(...paths);
@@ -117,14 +139,25 @@ export class ConfigurationManager {
         return deviceProfile;
     }
 
+    loadBacnetDeviceProfile(siteId: string, profileId: string): BacnetDeviceProfile {
+        const paths = [this.getSitePath(), siteId, 'bacnet-profiles',  `${profileId}.json`];
+
+        const configPath = path.join(...paths);
+        console.log("Device config path 4", configPath);
+       
+        const deviceProfile: BacnetDeviceProfile = jsonfile.readFileSync(configPath);
+
+        return deviceProfile;
+    }
 
 
-    async downloadThingConfiguration(siteProfile: SiteProfile) {
-        for(const thing of siteProfile.things) {
-         //    console.log("Thing is ", thing);
+
+    async downloadFieldDeviceConfiguration(siteProfile: SiteProfile) {
+        for(const fieldDevice of siteProfile.field_devices) {
             // FIXME: This download same profile multiple times
-                this.downloadDeviceProfile(thing.site_id, thing.profile_id);
-                this.downloadModbusDeviceProfile(thing.site_id, thing.profile_id);
+                this.downloadDeviceProfile(fieldDevice.site_id, fieldDevice.profile_id);
+                this.downloadModbusDeviceProfile(fieldDevice.site_id, fieldDevice.profile_id);
+                this.downloadBacnetDeviceProfile(fieldDevice.site_id, fieldDevice.profile_id);
         }
     }
 
@@ -134,7 +167,7 @@ export class ConfigurationManager {
             const siteProfile: SiteProfile =  await this.downloadSiteProfile(siteId);
             console.log('Site Profile is ', siteProfile.id)
 
-            await this.downloadThingConfiguration(siteProfile);
+            await this.downloadFieldDeviceConfiguration(siteProfile);
         }
         catch(ex) {
             console.log(ex);

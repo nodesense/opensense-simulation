@@ -66,7 +66,7 @@ send(){
     "type": "process",
     "id": 123,
     "timestamp":new Date().getTime(),
-    "thing_id": "323123123",
+    "field_device_id": "323123123",
     "payload": [
         {
             "name": "success",

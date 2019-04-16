@@ -5,6 +5,7 @@ export class GatewayConfig {
     deviceProfileApiEndPoint: string;
     siteProfileApiEndPoint: string;
     modbusProfileApiEndPoint: string;
-     
+    bacnetProfileApiEndPoint: string;
+    
     sites: SiteRef[] = [];
 }

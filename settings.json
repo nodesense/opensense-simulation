@@ -3,11 +3,11 @@
      "deviceProfileApiEndPoint": "http://cloud.nodesense.ai:7777/live-device-profiles",
      "siteProfileApiEndPoint": "http://cloud.nodesense.ai:7777/live-site-profiles",
      "modbusProfileApiEndPoint": "http://cloud.nodesense.ai:7777/live-modbus-profiles",
-  
+     "bacnetProfileApiEndPoint": "http://cloud.nodesense.ai:7777/live-bacnet-profiles",
     "sites": [
       {
-        "id": "2019698485346960780",
-        "name": "2019698485346960780"
+        "id": "2023256468584662500",
+        "name": "2023256468584662500"
         }
     ]
   }

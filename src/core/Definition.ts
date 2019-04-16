@@ -1,6 +1,5 @@
 import { VariableRef } from './VariableRef';
-export  class Simulation {
-    definition:any;
+export  class Definition {
     value: any;
     min: number;
     max: number;
@@ -10,7 +9,7 @@ export  class Simulation {
     interval?: number;
     is_scheduled?: boolean; // enable timer
     monitored_variable?: VariableRef;
-    variables:any;
+    variable:any;
     reportType:number;
     connectors:[];
 }
