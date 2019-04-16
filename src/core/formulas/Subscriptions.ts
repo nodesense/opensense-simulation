@@ -6,30 +6,31 @@ import { MqttConnect } from '../MqttConnect';
 
 export class Subscriptions extends Formula {
     timer: any;
-    constructor(variable: Variable,
-                 device: ISimulationDevice) {
-        super(variable, device);
-    }
+    constructor(simulation: Simulation,
+        device: ISimulationDevice) {
+super(simulation, device);
+}
 reminderval=0.0;
- dataValue=this.device.getDataValue(this.variable.name);
+dataValue=this.device.getDataValue(this.simulation.definition.variable.name);;
+ 
      start = () => {
          console.log("Subscription started........");
         // start timer
-        const {simulation} = this.variable;
-        if (simulation && simulation.is_scheduled) {
-            const interval = simulation.interval || 5000;
+        const {definition} = this.simulation;
+        if (definition && definition.is_scheduled) {
+            const interval = definition.interval || 5000;
             this.timer = setInterval( this.run, interval);
         }
-        if(this.variable.simulation.variables.length>0)
+        if(this.simulation.definition.variables.length>0)
         {
             // let mc=new MqttConnect();
-            for(let i=0;i<this.variable.simulation.variables.length;i++){
+            for(let i=0;i<this.simulation.definition.variables.length;i++){
                 // console.log("Var monitored  is ",this.variable.simulation.variables[i]);
-                const monitoredDataValue = this.device.getDataValue(this.variable.simulation.variables[i]);
+                const monitoredDataValue = this.device.getDataValue(this.simulation.definition.variables[i]);
                 monitoredDataValue.changed$.subscribe( mdv => {
-                    console.log("Value of ",this.variable.simulation.variables[i],"is ",mdv.value); 
+                    console.log("Value of ",this.simulation.definition.variables[i],"is ",mdv.value); 
                     let mc=new MqttConnect();
-                    mc.send("sendit",{"name":this.variable.simulation.variables[i],"value":mdv.value});
+                    mc.send("sendit",{"name":this.simulation.definition.variables[i],"value":mdv.value});
 
                     //  this.dataValue = this.device.getDataValue(this.variable.name);
                     //   this.dataValue.value = this.reminderval;

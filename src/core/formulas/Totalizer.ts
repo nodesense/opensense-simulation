@@ -5,25 +5,26 @@ import { ISimulationDevice } from '../ISimulationDevice';
 
 export class Totalizer extends Formula {
     timer: any;
-    constructor(variable: Variable,
-                 device: ISimulationDevice) {
-        super(variable, device);
-    }
+    constructor(simulation: Simulation,
+        device: ISimulationDevice) {
+super(simulation, device);
+}
 reminderval=0.0;
- dataValue=this.device.getDataValue(this.variable.name);
+dataValue=this.device.getDataValue(this.simulation.definition.variable.name);;
+   
      start = () => {
         // start timer
-        const {simulation} = this.variable;
-        if (simulation && simulation.is_scheduled) {
-            const interval = simulation.interval || 5000;
+        const {definition} = this.simulation;
+        if (definition && definition.is_scheduled) {
+            const interval = definition.interval || 5000;
             this.timer = setInterval( this.run, interval);
         }
-        if(this.variable.simulation.monitored_variable)
-        {
-            console.log("Var monitored  is ",this.variable.simulation.monitored_variable.name);
 
-            const monitoredDataValue = this.device.getDataValue(this.variable.simulation.monitored_variable.name);
-            monitoredDataValue.changed$.subscribe( mdv => {
+        if(this.simulation.definition.monitored_variable)
+        {
+
+            const monitoredDataValue = this.device.getDataValue(this.simulation.definition.monitored_variable.name);
+         monitoredDataValue.changed$.subscribe( mdv => {
                 this.reminderval = this.reminderval + mdv.value;    
                 //  this.dataValue = this.device.getDataValue(this.variable.name);
                   this.dataValue.value = this.reminderval;
@@ -37,7 +38,7 @@ reminderval=0.0;
       }
 
     run = () => {
-        console.log(" Total "+this.variable.name+" is ",this.dataValue.value);
+        console.log(" Total "+this.simulation.definition.variable.name+" is ",this.dataValue.value);
 
     }
 }

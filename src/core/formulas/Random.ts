@@ -5,16 +5,18 @@ import { ISimulationDevice } from '../ISimulationDevice';
 
 export class Random extends Formula {
     timer: any;
-    constructor(variable: Variable,
-                 device: ISimulationDevice) {
-        super(variable, device);
-    }
+    constructor(simulation: Simulation,
+        device: ISimulationDevice) {
+super(simulation, device);
+}
 
      start = () => {
         // start timer
-        const {simulation} = this.variable;
-        if (simulation && simulation.is_scheduled) {
-            const interval = simulation.interval || 5000;
+        const {definition} = this.simulation;
+        console.log("Random Log is ",definition);
+        if (definition && definition.is_scheduled) {
+            console.log("Yes its.........................");
+            const interval = definition.interval || 5000;
             this.timer = setInterval( this.run, interval);
         }
      }
@@ -25,11 +27,11 @@ export class Random extends Formula {
     run = () => {
         // console.log("Random simulator running");
         // // check min, max range
-        const dataValue = this.device.getDataValue(this.variable.name);
-        let value= Math.ceil(Math.random() * this.variable.simulation.max)
-        if(value>=this.variable.simulation.min&&value<=this.variable.simulation.max){
+        const dataValue = this.device.getDataValue(this.simulation.definition.variable.name);
+        let value= Math.ceil(Math.random() * this.simulation.definition.max)
+        if(value>=this.simulation.definition.min&&value<=this.simulation.definition.max){
         dataValue.value = value;
-        console.log("Value for " + this.variable.name, " is ", dataValue.value);
+        console.log("Value for " + this.simulation.definition.variable.name, " is ", dataValue.value);
         }
     }
 }

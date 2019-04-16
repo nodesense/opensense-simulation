@@ -5,18 +5,19 @@ import { ISimulationDevice } from '../ISimulationDevice';
 
 export class Failure extends Formula {
     timer: any;
-    constructor(variable: Variable,
-                 device: ISimulationDevice) {
-        super(variable, device);
-    }
-    dataValue=this.device.getDataValue(this.variable.name);
-     start = () => {
+    constructor(simulation: Simulation,
+        device: ISimulationDevice) {
+super(simulation, device);
+}
+dataValue=this.device.getDataValue(this.simulation.definition.variable.name);;
+start = () => {
         // start timer
-        const {simulation} = this.variable;
-        if (simulation && simulation.is_scheduled) {
-            const interval = simulation.interval || 5000;
+        const {definition} = this.simulation;
+        if (definition && definition.is_scheduled) {
+            const interval = definition.interval || 5000;
             this.timer = setInterval( this.run, interval);
         }
+
      }
       stop = () => {
         // to stop timer,
@@ -26,15 +27,15 @@ export class Failure extends Formula {
         // console.log("Random simulator running");
         // // check min, max range
         // const dataValue = this.device.getDataValue(this.variable.name);
-        let value= Math.ceil(Math.random() * this.variable.simulation.max)
-        if(value>=this.variable.simulation.min&&value<=this.variable.simulation.max){
-            this.variable.simulation.value.value=value;
-            this.dataValue.value=this.variable.simulation.value;
+        let value= Math.ceil(Math.random() * this.simulation.definition.max)
+        if(value>=this.simulation.definition.min&&value<=this.simulation.definition.max){
+            this.simulation.definition.value.value=value;
+            this.dataValue.value=this.simulation.definition.value;
         // console.log("Value for " + this.variable.name, " is ", dataValue.value);
         }
         else{
-            this.variable.simulation.value.value=1;
-            this.dataValue.value=this.variable.simulation.value;
+            this.simulation.definition.value.value=1;
+            this.dataValue.value=this.simulation.definition.value;
         }
     }
 }

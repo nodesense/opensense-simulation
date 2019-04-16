@@ -1,6 +1,6 @@
 import { DataValue } from './DataValue';
 import { Variable } from './Variable';
-import { BaseThingActor } from "./BaseThingActor";
+import { BaseFieldDeviceActor } from "./BaseFieldDeviceActor";
 import { SystemContext } from "./SystemContext";
 import { Node } from "./Node";
 import { Formula } from './formulas/Formula';
@@ -21,8 +21,10 @@ import { Subscriptions } from './formulas/Subscriptions';
 import { Success } from './formulas/Success';
 import { Failure } from './formulas/Failure';
 import { Status } from './formulas/Status';
+import { Definition } from './Definition';
 
-export class SimulationDevice  extends BaseThingActor implements ISimulationDevice {
+export class SimulationDevice  extends BaseFieldDeviceActor implements ISimulationDevice {
+    simulations:{[name:string]:Simulation}={};
     variables: { [name: string]: Variable} = {};
     dataValues: { [name: string]: DataValue} = {};
     formulas:  { [name: string]: Formula} = {};
@@ -55,50 +57,48 @@ export class SimulationDevice  extends BaseThingActor implements ISimulationDevi
 
         // device profile contains variables, enumeration, metrics
         this.deviceProfile = this.context.configurationManager
-        .loadDeviceProfile(this.thing.site_id, this.thing.profile_id);
-        console.log('Var length', this.deviceProfile.variables.length);
-        for (const variable of this.deviceProfile.variables) {
-            console.log('----Variable', variable.name);
-            // FIXME: should be coming from backend/db
-            let simulation: Simulation;
-            // if (variable.name == 'LineTemperature') {
-            //    simulation = {
-            //         value: "Hello",
-            //         min: 1,
-            //         max: 10,
-            //         formula: 'Random',
-            //         interval: 2000,
-            //         is_scheduled: true
-                // };
-                
-                simulation=variable.simulation;
-            // } else{
-        
-                // simulation = {
-                //     value: 1,
-                //     min: 1,
-                //     max: 10,
-                //     formula: 'Fixed',
-                //     interval: 2000,
-                //     is_scheduled: true
-                // }
-            // }
-
-            variable.simulation = simulation;
-             this.variables[variable.name] = variable;
-             this.dataValues[variable.name] = new DataValue(variable);
-             let formula: Formula;
-             if (variable.simulation && variable.simulation.formula) {
-                // Fixed Random
-                 const FormulaClass = this.formulaRegistry[variable.simulation.formula];
+        .loadDeviceProfile(this.fieldDevice.site_id, this.fieldDevice.profile_id);
+        console.log('Simulation Var length', this.deviceProfile.simulations.length);
+        // for(const simul of this.deviceProfile.simulations){
+        //     console.log("Simulations are ",simul);
+        // }
+        for (const simulation of this.deviceProfile.simulations){
+            console.log("****** Simulated Variable  Name is",simulation.definition.variable.name);
+            let definition:Definition;
+            definition=simulation.definition;
+            simulation.definition=definition;
+            this.variables[definition.variable.name];
+            this.dataValues[definition.variable.name] = new DataValue(simulation);
+            if (simulation.definition && simulation.definition.formula) {
+                 const FormulaClass = this.formulaRegistry[simulation.definition.formula];
                  if (FormulaClass) {
-                     const formula = new FormulaClass(variable, this)
-                     this.formulas[variable.name] = formula;
+                     const formula = new FormulaClass(simulation, this)
+                     this.formulas[simulation.definition.variable.name] = formula;
                  }
 
              }
 
         }
+        // for (const variable of this.deviceProfile.variables) {
+        //     console.log('----Variable', variable.name);
+        //     // FIXME: should be coming from backend/db
+        //     let simulation: Simulation;
+        //         simulation=variable.simulation;
+        //     variable.simulation = simulation;
+        //      this.variables[variable.name] = variable;
+        //      this.dataValues[variable.name] = new DataValue(variable);
+        //      let formula: Formula;
+        //      if (variable.simulation && variable.simulation.formula) {
+        //         // Fixed Random
+        //          const FormulaClass = this.formulaRegistry[variable.simulation.formula];
+        //          if (FormulaClass) {
+        //              const formula = new FormulaClass(variable, this)
+        //              this.formulas[variable.name] = formula;
+        //          }
+
+        //      }
+
+        // }
 
         for(const key in this.formulas) {
             this.formulas[key].start();
@@ -117,7 +117,7 @@ export class SimulationDevice  extends BaseThingActor implements ISimulationDevi
     getValue(name: string) {
         const dataValue = this.getDataValue(name);
         if (dataValue) {
-            return dataValue.value
+            return dataValue.value;
         }
     }
 

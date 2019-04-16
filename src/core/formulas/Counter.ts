@@ -5,16 +5,16 @@ import { ISimulationDevice } from '../ISimulationDevice';
 
 export class Counter extends Formula {
     timer: any;
-    constructor(variable: Variable,
-                 device: ISimulationDevice) {
-        super(variable, device);
-    }
+    constructor(simulation: Simulation,
+        device: ISimulationDevice) {
+        super(simulation, device);
+}
 reminderval=0;
      start = () => {
         // start timer
-        const {simulation} = this.variable;
-        if (simulation && simulation.is_scheduled) {
-            const interval = simulation.interval || 5000;
+        const {definition} = this.simulation;
+        if (definition && definition.is_scheduled) {
+            const interval = definition.interval || 5000;
             this.timer = setInterval( this.run, interval);
         }
 
@@ -35,13 +35,13 @@ reminderval=0;
         // console.log("Value for " + this.variable.name, " is ", dataValue.value);
         // }
         console.log("Counter Simulator running");
-        const dataValue=this.device.getDataValue(this.variable.name);
-        this.reminderval=this.reminderval+this.variable.simulation.step;
-        if(this.reminderval>this.variable.simulation.max){
-            this.reminderval=this.variable.simulation.min;
+        const dataValue=this.device.getDataValue(this.simulation.definition.variable.name);
+        this.reminderval=this.reminderval+this.simulation.definition.step;
+        if(this.reminderval>this.simulation.definition.max){
+            this.reminderval=this.simulation.definition.min;
         }
         dataValue.value=this.reminderval;
-        console.log("Value for "+this.variable.name+" is ",dataValue.value);
+        console.log("Value for "+this.simulation.definition.variable.name+" is ",dataValue.value);
 
     }
 }

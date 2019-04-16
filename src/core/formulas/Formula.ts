@@ -1,8 +1,9 @@
 import { Variable } from "../Variable";
 import { ISimulationDevice } from "../ISimulationDevice";
+import { Simulation } from "../Simulation";
 
 export abstract class Formula {
-    constructor(public variable: Variable, 
+    constructor(public simulation: Simulation, 
                 public device: ISimulationDevice) {
     }
     abstract start();

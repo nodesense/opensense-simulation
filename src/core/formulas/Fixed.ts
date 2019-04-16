@@ -5,10 +5,10 @@ import { ISimulationDevice } from '../ISimulationDevice';
 
 export class Fixed extends Formula {
     
-    constructor(variable: Variable,
-                 device: ISimulationDevice) {
-        super(variable, device);
-    }
+    constructor(simulation: Simulation,
+        device: ISimulationDevice) {
+super(simulation, device);
+}
 
      start = () => {
          

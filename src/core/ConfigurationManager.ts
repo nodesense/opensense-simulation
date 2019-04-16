@@ -119,12 +119,11 @@ export class ConfigurationManager {
 
 
 
-    async downloadThingConfiguration(siteProfile: SiteProfile) {
-        for(const thing of siteProfile.things) {
-         //    console.log("Thing is ", thing);
+    async downloadFieldDeviceConfiguration(siteProfile: SiteProfile) {
+        for(const fieldDevice of siteProfile.field_devices) {
             // FIXME: This download same profile multiple times
-                this.downloadDeviceProfile(thing.site_id, thing.profile_id);
-                this.downloadModbusDeviceProfile(thing.site_id, thing.profile_id);
+                this.downloadDeviceProfile(fieldDevice.site_id, fieldDevice.profile_id);
+                this.downloadModbusDeviceProfile(fieldDevice.site_id, fieldDevice.profile_id);
         }
     }
 
@@ -134,7 +133,7 @@ export class ConfigurationManager {
             const siteProfile: SiteProfile =  await this.downloadSiteProfile(siteId);
             console.log('Site Profile is ', siteProfile.id)
 
-            await this.downloadThingConfiguration(siteProfile);
+            await this.downloadFieldDeviceConfiguration(siteProfile);
         }
         catch(ex) {
             console.log(ex);
