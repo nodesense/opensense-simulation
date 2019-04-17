@@ -31,7 +31,7 @@ super(simulation, device);
         let value= Math.ceil(Math.random() * this.simulation.definition.max)
         if(value>=this.simulation.definition.min&&value<=this.simulation.definition.max){
         dataValue.value = value;
-        console.log("Value for " + this.simulation.definition.variable.name, " is ", dataValue.value);
+        // console.log("Value for " + this.simulation.definition.variable.name, " is ", dataValue.value);
         }
     }
 }

@@ -228,9 +228,11 @@ export class BacnetDevice extends SimulationDevice {
         debug('object', object);
         // if object not found
         if (!object) return this.client.errorResponse(data.address, bacnet.enum.ConfirmedServices.SERVICE_CONFIRMED_READ_PROPERTY, data.invokeId, bacnet.enum.ErrorClasses.ERROR_CLASS_OBJECT, bacnet.enum.ErrorCodes.ERROR_CODE_UNKNOWN_OBJECT);
-        
+        console.log("Read Object is",object);
+        console.log("Read Object Name Property ",object['77']);
         const property = object[data.request.property.id];
         debug('object', property);
+        console.log("Read Object Property",property);
         // if property not found
         if (!property) return this.client.errorResponse(data.address, bacnet.enum.ConfirmedServices.SERVICE_CONFIRMED_READ_PROPERTY, data.invokeId, bacnet.enum.ErrorClasses.ERROR_CLASS_PROPERTY, bacnet.enum.ErrorCodes.ERROR_CODE_UNKNOWN_PROPERTY);
         
@@ -247,13 +249,22 @@ export class BacnetDevice extends SimulationDevice {
         console.log('write data property ', data);
         
       const object = this.dataStore[data.request.objectId.type + ':' + data.request.objectId.instance];
+
+      console.log("Write Req Object ",object);
       if (!object) return this.client.errorResponse(data.address, data.service, data.invokeId, bacnet.enum.ErrorClasses.ERROR_CLASS_OBJECT, bacnet.enum.ErrorCodes.ERROR_CODE_UNKNOWN_OBJECT);
       let property = object[data.request.value.property.id];
+      let nameProperty=data.request.value.property;
+      console.log("Name Property is ",nameProperty)
       if (!property) return this.client.errorResponse(data.address, data.service, data.invokeId, bacnet.enum.ErrorClasses.ERROR_CLASS_PROPERTY, bacnet.enum.ErrorCodes.ERROR_CODE_UNKNOWN_PROPERTY);
       if (data.request.value.property.index === 0xFFFFFFFF) {
           console.log('INDEX FfFFFF')
-        property = data.request.value.value;
-        console.log('property is ', property)
+          let nameProperty=object[PropertyIds.PROP_OBJECT_NAME][0].value;
+          console.log("Name is ",nameProperty);
+         let  valProperty = data.request.value.value;
+          let valueToWrite=valProperty[0].value;
+          console.log("New Value to write is ",valueToWrite);
+          console.log('Pre Val property is ', property)
+          this.setValue(nameProperty,valueToWrite);
         this.client.simpleAckResponse(data.address, data.service, data.invokeId);
       } else {
         console.log('INDEX Slot')
