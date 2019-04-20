@@ -1,4 +1,5 @@
 export enum DataType {
+    BIT="Bit",
     BOOLEAN = "Boolean",
     BYTE = "Byte",
     INT16 = "Int16",
