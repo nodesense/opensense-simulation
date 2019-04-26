@@ -57,7 +57,7 @@ export class SimulationDevice  extends BaseFieldDeviceActor implements ISimulati
 
         // device profile contains variables, enumeration, metrics
         this.deviceProfile = this.context.configurationManager
-        .loadDeviceProfile(this.fieldDevice.site_id, this.fieldDevice.profile_id);
+        .loadDeviceProfile(this.fieldDevice.gateway_id, this.fieldDevice.profile_id);
         console.log('Simulation Var length', this.deviceProfile.simulations.length);
         // for(const simul of this.deviceProfile.simulations){
         //     console.log("Simulations are ",simul);

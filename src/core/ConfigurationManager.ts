@@ -121,7 +121,7 @@ export class ConfigurationManager {
         const paths = [this.getSitePath(), siteId, 'device-profiles',  `${profileId}.json`];
 
         const configPath = path.join(...paths);
-        console.log("Device config path 4", configPath);
+        console.log("Device config path to load", configPath);
        
         const deviceProfile: DeviceProfile = jsonfile.readFileSync(configPath);
 
@@ -132,7 +132,7 @@ export class ConfigurationManager {
         const paths = [this.getSitePath(), siteId, 'modbus-profiles',  `${profileId}.json`];
 
         const configPath = path.join(...paths);
-        console.log("Device config path 4", configPath);
+        console.log("Device config path 42", configPath);
        
         const deviceProfile: ModbusDeviceProfile = jsonfile.readFileSync(configPath);
 
@@ -155,9 +155,9 @@ export class ConfigurationManager {
     async downloadFieldDeviceConfiguration(siteProfile: SiteProfile) {
         for(const fieldDevice of siteProfile.field_devices) {
             // FIXME: This download same profile multiple times
-                this.downloadDeviceProfile(fieldDevice.site_id, fieldDevice.profile_id);
-                this.downloadModbusDeviceProfile(fieldDevice.site_id, fieldDevice.profile_id);
-                this.downloadBacnetDeviceProfile(fieldDevice.site_id, fieldDevice.profile_id);
+                this.downloadDeviceProfile(fieldDevice.gateway_id, fieldDevice.profile_id);
+                this.downloadModbusDeviceProfile(fieldDevice.gateway_id, fieldDevice.profile_id);
+                this.downloadBacnetDeviceProfile(fieldDevice.gateway_id, fieldDevice.profile_id);
         }
     }
 

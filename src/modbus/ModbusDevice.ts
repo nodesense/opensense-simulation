@@ -44,7 +44,7 @@ export class ModbusDevice extends SimulationDevice {
     loadConfig() {
  
         this.modbusDeviceProfile = this.context.configurationManager
-                    .loadModbusDeviceProfile(this.fieldDevice.site_id, this.fieldDevice.profile_id);
+                    .loadModbusDeviceProfile(this.fieldDevice.gateway_id, this.fieldDevice.profile_id);
 
         // console.log("modbus Device profile is ", this.modbusDeviceProfile.registers)
 
@@ -279,15 +279,15 @@ export class ModbusDevice extends SimulationDevice {
             registerIndex += dataItem.quantity;
 
             switch(dataItem.dataType) {
-                case DataType.BIT: {
-                    //FIXME: take value from dataValue
-                    const value = this.getValue(dataItem.name);
+                // case DataType.BIT: {
+                //     //FIXME: take value from dataValue
+                //     const value = this.getValue(dataItem.name);
 
-                    // const value = dataItem.value;
+                //     // const value = dataItem.value;
                      
-                    console.log("Value BIT is " +value)
-                    this.responseFrame.writeUInt16(value);
-                } break;
+                //     console.log("Value BIT is " +value)
+                //     this.responseFrame.writeUInt16(value);
+                // } break;
 
                 case DataType.INT16: {
                     //FIXME: take value from dataValue
@@ -463,16 +463,17 @@ export class ModbusDevice extends SimulationDevice {
         const dataItem = this.holdingRegistersMap[requestFrame.address];
         this.responseFrame.address=requestFrame.address;
         this.responseFrame.quantity=requestFrame.quantity;
-        if(dataItem.dataType==DataType.BIT){
-            let val=requestFrame.data.readUInt16BE(0);
-            console.log("BIT Data To be Override.........",val);
-            this.holdingRegistersMap[this.responseFrame.address].value=val;
-            this.responseFrame.val=this.holdingRegistersMap[this.responseFrame.address].value;
-            var oldVal=this.getDataValue(dataItem.name);
-            var newVal=oldVal||val;
-            this.setValue(dataItem.name,val);
-                }
-       else if(dataItem.dataType==DataType.INT16){
+    //     if(dataItem.dataType==DataType.BIT){
+    //         let val=requestFrame.data.readUInt16BE(0);
+    //         console.log("BIT Data To be Override.........",val);
+    //         this.holdingRegistersMap[this.responseFrame.address].value=val;
+    //         this.responseFrame.val=this.holdingRegistersMap[this.responseFrame.address].value;
+    //         var oldVal=this.getDataValue(dataItem.name);
+    //         var newVal=oldVal||val;
+    //         this.setValue(dataItem.name,val);
+    //             }
+    //    else 
+        if(dataItem.dataType==DataType.INT16){
             console.log("Data To be Override.........");
             let val=requestFrame.data.readUInt16BE(0);
             this.holdingRegistersMap[this.responseFrame.address].value=val;

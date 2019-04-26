@@ -14,7 +14,7 @@ let system =new System();
 
 system.loadNew();
 
-const PORT = 3002;
+const PORT = 3001;
 server.listen(PORT, () => console.log(`Example app2 listening on port ${PORT}!`))
 
 
