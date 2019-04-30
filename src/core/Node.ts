@@ -9,7 +9,7 @@ export class Node {
     nodetype_id: string;
 
     is_field_device: boolean;
-    field_device_id: string;
+    device_id: string;
 
     children: NodeRef[] = [];
 

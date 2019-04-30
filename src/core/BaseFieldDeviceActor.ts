@@ -19,8 +19,8 @@ export class BaseFieldDeviceActor extends BaseActor {
         console.log("BaseFieldDeviceActor Init");
         super.init();
 
-        if (this.node.field_device_id) {
-            this.fieldDevice = this.context.siteProfile.getFieldDevice(this.node.field_device_id);
+        if (this.node.device_id) {
+            this.fieldDevice = this.context.siteProfile.getFieldDevice(this.node.device_id);
         }
     }
 }

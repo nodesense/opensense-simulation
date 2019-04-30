@@ -7,7 +7,7 @@ export class SiteProfile {
     id: string;
     name: string;
 
-    field_devices: FieldDevice[] = [];
+    devices: FieldDevice[] = [];
     nodes: Node[] = [];
 
     node_types: NodeType[] = [];
@@ -103,7 +103,7 @@ export class SiteProfile {
             this.nodeTypeMap[nodeType.id] = nodeType; 
         }
 
-        for (const fieldDevice of this.field_devices) {
+        for (const fieldDevice of this.devices) {
             this.fieldDeviceMap[fieldDevice.id] = fieldDevice;
         }
 

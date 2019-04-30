@@ -153,7 +153,7 @@ export class ConfigurationManager {
 
 
     async downloadFieldDeviceConfiguration(siteProfile: SiteProfile) {
-        for(const fieldDevice of siteProfile.field_devices) {
+        for(const fieldDevice of siteProfile.devices) {
             // FIXME: This download same profile multiple times
                 this.downloadDeviceProfile(fieldDevice.gateway_id, fieldDevice.profile_id);
                 this.downloadModbusDeviceProfile(fieldDevice.gateway_id, fieldDevice.profile_id);
