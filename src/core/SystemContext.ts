@@ -1,7 +1,7 @@
 import { ConfigurationManager } from './ConfigurationManager';
-import { SiteProfile } from './SiteProfile';
+import { GatewayProfile } from './GatewayProfile';
 export class SystemContext {
-    constructor(public configurationManager: ConfigurationManager, public siteProfile: SiteProfile) {
+    constructor(public configurationManager: ConfigurationManager, public gatewayProfile: GatewayProfile) {
 
     }
 }

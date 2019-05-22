@@ -1,14 +1,9 @@
 {
     "name": "gateway2",
-     "deviceProfileApiEndPoint": "http://localhost:7777/live-device-profiles",
-     "siteProfileApiEndPoint": "http://localhost:7777/live-gateway-profiles",
-     "modbusProfileApiEndPoint": "http://localhost:7777/live-modbus-profiles",
-     "bacnetProfileApiEndPoint": "http://localhost:7777/live-bacnet-profiles",
-    "sites": [
-      {
-
-        "id": "2026756553314403913",
-        "name": "2026756553314403913"
-        }
-    ]
+    "id": "2046297451853251692",
+     "deviceProfileApiEndPoint": "http://cloud2.nodesense.ai:7777/live-device-profiles",
+     "siteProfileApiEndPoint": "http://cloud2.nodesense.ai:7777/live-gateway-profiles",
+     "modbusProfileApiEndPoint": "http://cloud2.nodesense.ai:7777/live-modbus-profiles",
+     "bacnetProfileApiEndPoint": "http://cloud2.nodesense.ai:7777/live-bacnet-profiles"
+     
   }

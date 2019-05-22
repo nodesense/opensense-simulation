@@ -1,7 +1,7 @@
 import { BaseActor } from './core/BaseActor';
 import { AccessType } from './modbus/AccessType';
 import { NodeType } from './core/NodeType';
-import { SiteProfile } from './core/SiteProfile';
+import { GatewayProfile } from './core/GatewayProfile';
 import { BacnetDevice } from './bacnet/BacnetDevice';
 import { ModbusTCP } from "./modbus/ModbusTCP";
 import { ModbusTCPSerialBridge } from "./modbus/ModbusTCPSerialBridge";
@@ -169,21 +169,21 @@ export class System extends BaseActor {
    
 
     configurationManager: ConfigurationManager;
-    siteProfile: SiteProfile;
+    gatewayProfile: GatewayProfile;
     context: SystemContext;
 
     async loadNew() {
         this.configurationManager = new ConfigurationManager();
         this.configurationManager.init();
 
-        for(const siteRef of this.configurationManager.gatewayConfig.sites) {
-            console.log("Loading site ", siteRef);
+        if (this.configurationManager.gatewayConfig.id) {
+            console.log("Loading Gateway config ", this.configurationManager.gatewayConfig);
 
-            this.siteProfile = await this.configurationManager.loadSiteProfile(siteRef.id);
-            this.context = new SystemContext(this.configurationManager, this.siteProfile);
-            for (const nodeRef of this.siteProfile.configuration) {
+            this.gatewayProfile = await this.configurationManager.loadSiteProfile(this.configurationManager.gatewayConfig.id);
+            this.context = new SystemContext(this.configurationManager, this.gatewayProfile);
+            for (const nodeRef of this.gatewayProfile.configuration) {
                 console.log('***processing noderef', nodeRef);
-                const node = this.siteProfile.getNode(nodeRef.id);
+                const node = this.gatewayProfile.getNode(nodeRef.id);
                 console.log("**launch Node ",node);
                 this.launchActor(node);
             }

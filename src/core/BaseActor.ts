@@ -18,7 +18,7 @@ export class BaseActor {
         if (this.node && this.node.children) {
             for (const nodeRef of this.node.children) {
                 console.log('processing noderef', nodeRef);
-                const node = this.context.siteProfile.getNode(nodeRef.id);
+                const node = this.context.gatewayProfile.getNode(nodeRef.id);
                 this.launchActor(node);
             }
         }
@@ -27,9 +27,9 @@ export class BaseActor {
 
     
     launchActor(node: Node) {
-        // console.log("Total context is ",this.context.siteProfile)
+        // console.log("Total context is ",this.context.gatewayProfile)
     //    console.log("Loading node", node);
-        const nodeType: NodeType = this.context.siteProfile.getNodeType(node.nodetype_id);
+        const nodeType: NodeType = this.context.gatewayProfile.getNodeType(node.nodetype_id);
         if (!nodeType) {
             console.log('could not find node type');
             return;

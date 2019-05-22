@@ -3,7 +3,7 @@ const fetch = require('node-fetch');
 import { SiteRef } from './SiteRef';
 import { ModbusDeviceProfile } from './../modbus/ModbusDeviceProfile';
 import { DeviceProfile } from './DeviceProfile';
-import { SiteProfile } from "./SiteProfile";
+import { GatewayProfile } from "./GatewayProfile";
 import { GatewayConfig } from './GatewayConfig';
 import { Restful } from './Restful';
 import { BacnetDeviceProfile } from '../bacnet/BacnetDeviceProfile';
@@ -25,12 +25,12 @@ export class ConfigurationManager {
         return path.join(this.getAppPath(),  'configuration');
     }
 
-    async downloadSiteProfile(siteId: string) {
-        console.log("Downloading site id", siteId);
+    async downloadGatewayProfile(gatewayId: string) {
+        console.log("Downloading site id", gatewayId);
         try {
-           const siteProfileJson = await Restful.getJson(`${this.gatewayConfig.siteProfileApiEndPoint}/${siteId}`)
+           const siteProfileJson = await Restful.getJson(`${this.gatewayConfig.siteProfileApiEndPoint}/${gatewayId}`)
            //console.log(siteProfileJson);
-           const paths = [this.getSitePath(), siteId];
+           const paths = [this.getSitePath(), gatewayId];
            const siteDirPath = path.join(...paths);
            console.log("Site config path 4", siteDirPath);
            fs.mkdirSync(siteDirPath, {recursive: true});
@@ -38,27 +38,29 @@ export class ConfigurationManager {
            fs.mkdirSync(path.join(...paths, 'modbus-profiles'), {recursive: true});
            fs.mkdirSync(path.join(...paths, 'bacnet-profiles'), {recursive: true});
 
-           jsonfile.writeFileSync(path.join(...paths, `${siteId}.json`), siteProfileJson, {spaces: 2, EOL: '\r\n' })
-           const siteProfile = await this.loadSiteProfile(siteId)
-            return siteProfile;
+           jsonfile.writeFileSync(path.join(...paths, `${gatewayId}.json`), siteProfileJson, {spaces: 2, EOL: '\r\n' })
+           const gatewayProfile = await this.loadSiteProfile(gatewayId)
+            return gatewayProfile;
         } catch(error) {
             console.log(error);
             throw error;
         }
     }
 
-    async downloadDeviceProfile(siteId: string, profileId: string) {
+    async downloadDeviceProfile(gatewayId: string, profileId: string) {
         try {
             const deviceProfileJson = await Restful.getJson(`${this.gatewayConfig.deviceProfileApiEndPoint}/${profileId}`)
             //console.log(siteProfileJson);
 
-            const paths = [this.getSitePath(), siteId, 'device-profiles', `${profileId}.json`];
+            const paths = [this.getSitePath(), gatewayId, 'device-profiles', `${profileId}.json`];
  
+            console.log('path is ', paths);
+
             const deviceProfilePath = path.join(...paths);
             console.log("device profile  config path 4", deviceProfilePath);
             jsonfile.writeFileSync(deviceProfilePath, deviceProfileJson, {spaces: 2, EOL: '\r\n' })
 
-            const deviceProfile = await this.loadDeviceProfile(siteId, profileId)
+            const deviceProfile = await this.loadDeviceProfile(gatewayId, profileId)
             return deviceProfile;
          } catch(error) {
              console.log(error);
@@ -66,18 +68,18 @@ export class ConfigurationManager {
          }
     }
 
-    async downloadModbusDeviceProfile(siteId: string, profileId: string) {
+    async downloadModbusDeviceProfile(gatewayId: string, profileId: string) {
         try {
             const deviceProfileJson = await Restful.getJson(`${this.gatewayConfig.modbusProfileApiEndPoint}/${profileId}`)
             //console.log(siteProfileJson);
  
-            const paths = [this.getSitePath(), siteId, 'modbus-profiles', `${profileId}.json`];
+            const paths = [this.getSitePath(), gatewayId, 'modbus-profiles', `${profileId}.json`];
  
             const deviceProfilePath = path.join(...paths);
             console.log("device profile  config path 4", deviceProfilePath);
             jsonfile.writeFileSync(deviceProfilePath, deviceProfileJson, {spaces: 2, EOL: '\r\n' })
 
-            const modbusDeviceProfile = await this.loadModbusDeviceProfile(siteId, profileId)
+            const modbusDeviceProfile = await this.loadModbusDeviceProfile(gatewayId, profileId)
             return modbusDeviceProfile;
          } catch(error) {
              console.log(error);
@@ -85,18 +87,18 @@ export class ConfigurationManager {
          }
     }
 
-    async downloadBacnetDeviceProfile(siteId: string, profileId: string) {
+    async downloadBacnetDeviceProfile(gatewayId: string, profileId: string) {
         try {
             const deviceProfileJson = await Restful.getJson(`${this.gatewayConfig.bacnetProfileApiEndPoint}/${profileId}`)
             //console.log(siteProfileJson);
  
-            const paths = [this.getSitePath(), siteId, 'bacnet-profiles', `${profileId}.json`];
+            const paths = [this.getSitePath(), gatewayId, 'bacnet-profiles', `${profileId}.json`];
  
             const deviceProfilePath = path.join(...paths);
             console.log("device profile  config path 4", deviceProfilePath);
             jsonfile.writeFileSync(deviceProfilePath, deviceProfileJson, {spaces: 2, EOL: '\r\n' })
 
-            const modbusDeviceProfile = await this.loadBacnetDeviceProfile(siteId, profileId)
+            const modbusDeviceProfile = await this.loadBacnetDeviceProfile(gatewayId, profileId)
             return modbusDeviceProfile;
          } catch(error) {
              console.log(error);
@@ -104,21 +106,21 @@ export class ConfigurationManager {
          }
     }
 
-    loadSiteProfile(siteId: string): SiteProfile {
-        const paths = [this.getSitePath(), siteId, `${siteId}.json`];
+    loadSiteProfile(gatewayId: string): GatewayProfile {
+        const paths = [this.getSitePath(), gatewayId, `${gatewayId}.json`];
         const siteConfigPath = path.join(...paths);
         console.log("Site config path 4", siteConfigPath);
        
         const siteProfileJson: any = jsonfile.readFileSync(siteConfigPath);
 
-        const siteProfile: SiteProfile = new SiteProfile(siteProfileJson);
-        siteProfile.initialize();
-        siteProfile.show();
-        return siteProfile;
+        const gatewayProfile: GatewayProfile = new GatewayProfile(siteProfileJson);
+        gatewayProfile.initialize();
+        gatewayProfile.show();
+        return gatewayProfile;
     }
 
-    loadDeviceProfile(siteId: string, profileId: string): DeviceProfile {
-        const paths = [this.getSitePath(), siteId, 'device-profiles',  `${profileId}.json`];
+    loadDeviceProfile(gatewayId: string, profileId: string): DeviceProfile {
+        const paths = [this.getSitePath(), gatewayId, 'device-profiles',  `${profileId}.json`];
 
         const configPath = path.join(...paths);
         console.log("Device config path to load", configPath);
@@ -128,8 +130,8 @@ export class ConfigurationManager {
         return deviceProfile;
     }
 
-    loadModbusDeviceProfile(siteId: string, profileId: string): ModbusDeviceProfile {
-        const paths = [this.getSitePath(), siteId, 'modbus-profiles',  `${profileId}.json`];
+    loadModbusDeviceProfile(gatewayId: string, profileId: string): ModbusDeviceProfile {
+        const paths = [this.getSitePath(), gatewayId, 'modbus-profiles',  `${profileId}.json`];
 
         const configPath = path.join(...paths);
         console.log("Device config path 42", configPath);
@@ -139,8 +141,8 @@ export class ConfigurationManager {
         return deviceProfile;
     }
 
-    loadBacnetDeviceProfile(siteId: string, profileId: string): BacnetDeviceProfile {
-        const paths = [this.getSitePath(), siteId, 'bacnet-profiles',  `${profileId}.json`];
+    loadBacnetDeviceProfile(gatewayId: string, profileId: string): BacnetDeviceProfile {
+        const paths = [this.getSitePath(), gatewayId, 'bacnet-profiles',  `${profileId}.json`];
 
         const configPath = path.join(...paths);
         console.log("Device config path 4", configPath);
@@ -152,22 +154,22 @@ export class ConfigurationManager {
 
 
 
-    async downloadFieldDeviceConfiguration(siteProfile: SiteProfile) {
-        for(const fieldDevice of siteProfile.devices) {
+    async downloadFieldDeviceConfiguration(gatewayProfile: GatewayProfile) {
+        for(const fieldDevice of gatewayProfile.devices) {
             // FIXME: This download same profile multiple times
-                this.downloadDeviceProfile(fieldDevice.gateway_id, fieldDevice.profile_id);
-                this.downloadModbusDeviceProfile(fieldDevice.gateway_id, fieldDevice.profile_id);
-                this.downloadBacnetDeviceProfile(fieldDevice.gateway_id, fieldDevice.profile_id);
+                this.downloadDeviceProfile(gatewayProfile.id, fieldDevice.profile_id);
+                this.downloadModbusDeviceProfile(gatewayProfile.id, fieldDevice.profile_id);
+                this.downloadBacnetDeviceProfile(gatewayProfile.id, fieldDevice.profile_id);
         }
     }
 
-    async syncSite(siteId: string) {
-        console.log('syncing site ', siteId);
+    async syncSite(gatewayId: string) {
+        console.log('syncing site ', gatewayId);
         try {
-            const siteProfile: SiteProfile =  await this.downloadSiteProfile(siteId);
-            console.log('Site Profile is ', siteProfile.id)
+            const gatewayProfile: GatewayProfile =  await this.downloadGatewayProfile(gatewayId);
+            console.log('Site Profile is ', gatewayProfile.id)
 
-            await this.downloadFieldDeviceConfiguration(siteProfile);
+            await this.downloadFieldDeviceConfiguration(gatewayProfile);
         }
         catch(ex) {
             console.log(ex);
@@ -196,8 +198,8 @@ export class ConfigurationManager {
 
     sync() {
         console.log("Syning gateway config", this.gatewayConfig);
-        for (let siteRef of this.gatewayConfig.sites) {
-            this.syncSite(siteRef.id);
+        if  (this.gatewayConfig.id) {
+            this.syncSite(this.gatewayConfig.id);
         }
     }
 }

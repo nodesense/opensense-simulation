@@ -44,7 +44,7 @@ export class ModbusDevice extends SimulationDevice {
     loadConfig() {
  
         this.modbusDeviceProfile = this.context.configurationManager
-                    .loadModbusDeviceProfile(this.fieldDevice.gateway_id, this.fieldDevice.profile_id);
+                    .loadModbusDeviceProfile(this.context.configurationManager.gatewayConfig.id, this.fieldDevice.profile_id);
 
         // console.log("modbus Device profile is ", this.modbusDeviceProfile.registers)
 

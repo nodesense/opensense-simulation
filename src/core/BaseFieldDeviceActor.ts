@@ -20,7 +20,7 @@ export class BaseFieldDeviceActor extends BaseActor {
         super.init();
 
         if (this.node.device_id) {
-            this.fieldDevice = this.context.siteProfile.getFieldDevice(this.node.device_id);
+            this.fieldDevice = this.context.gatewayProfile.getFieldDevice(this.node.device_id);
         }
     }
 }

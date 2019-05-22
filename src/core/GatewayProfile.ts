@@ -3,7 +3,7 @@ import { Node } from './Node';
 import { NodeRef } from './NodeRef';
 import { NodeType } from './NodeType';
 
-export class SiteProfile {
+export class GatewayProfile {
     id: string;
     name: string;
 
